@@ -1,0 +1,15 @@
+# 使用台湾节点访问加密货币网站
+DOMAIN-KEYWORD,privy
+DOMAIN-KEYWORD,aspecta
+DOMAIN-KEYWORD,mempool
+DOMAIN-KEYWORD,rootdata
+DOMAIN-SUFFIX,g42.ai,extended-matching
+DOMAIN-KEYWORD,lighter,extended-matching
+DOMAIN-KEYWORD,bybit,extended-matching
+DOMAIN-KEYWORD,bitget,extended-matching
+DOMAIN-KEYWORD,okx,extended-matching
+DOMAIN-KEYWORD,binance,extended-matching
+DOMAIN-KEYWORD,bnbstatic,extended-matching
+DOMAIN-KEYWORD,bntrace,extended-matching
+DOMAIN-KEYWORD,saasexch,extended-matching
+DOMAIN-KEYWORD,onetrust,extended-matching
