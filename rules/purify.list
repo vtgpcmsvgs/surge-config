@@ -1,0 +1,9 @@
+# Windows 更新（禁用）
+DOMAIN-WILDCARD,*.windowsupdate.microsoft.com
+DOMAIN-WILDCARD,*.update.microsoft.com
+DOMAIN-WILDCARD,*.windowsupdate.com
+
+# 金山/WPS 广告（禁用）
+DOMAIN-SUFFIX,ksord.com,extended-matching
+DOMAIN-SUFFIX,wpscdn.cn,extended-matching
+DOMAIN-SUFFIX,wps.cn,extended-matching
