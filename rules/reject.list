@@ -1,1 +1,3 @@
-
+# === 禁止明文 HTTP 出站 ===
+DEST-PORT,80,REJECT,pre-matching
+PROTOCOL,HTTP,REJECT
