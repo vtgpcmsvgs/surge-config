@@ -1,0 +1,6 @@
+# 使用台湾节点访问AI平台
+DOMAIN-SUFFIX,arc.net
+DOMAIN-KEYWORD,chatgpt
+DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,openai
+DOMAIN-KEYWORD,gemini

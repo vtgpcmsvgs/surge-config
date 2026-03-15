@@ -1,6 +1,0 @@
-# 使用台湾节点访问AI平台
-DOMAIN-SUFFIX,arc.net
-DOMAIN-KEYWORD,chatgpt,extended-matching
-DOMAIN-KEYWORD,claude,extended-matching
-DOMAIN-KEYWORD,openai,extended-matching
-DOMAIN-KEYWORD,gemini
