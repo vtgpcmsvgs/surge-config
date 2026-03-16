@@ -1,4 +1,4 @@
-﻿# Generated from rules/proxy/gfw.list
+# Generated from rules/proxy/gfw.list
 # behavior: classical
 payload:
   - "DOMAIN-SUFFIX,facebook.com"

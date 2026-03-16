@@ -1,4 +1,4 @@
-﻿# Generated from rules/device/srcip_manual_switch.list
+# Generated from rules/device/srcip_manual_switch.list
 # behavior: classical
 payload:
   - "SRC-IP-CIDR,192.168.25.203/32"

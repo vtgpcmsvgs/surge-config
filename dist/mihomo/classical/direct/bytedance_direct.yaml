@@ -1,4 +1,4 @@
-﻿# Generated from rules/direct/bytedance_direct.list
+# Generated from rules/direct/bytedance_direct.list
 # behavior: classical
 payload:
   - "DOMAIN-KEYWORD,amemv"

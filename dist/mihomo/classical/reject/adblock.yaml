@@ -1,4 +1,4 @@
-﻿# Generated from rules/reject/adblock.list
+# Generated from rules/reject/adblock.list
 # behavior: classical
 payload:
   - "DOMAIN-SUFFIX,admob.com"

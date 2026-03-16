@@ -1,4 +1,4 @@
-﻿# Generated from rules/proxy/proxy.list
+# Generated from rules/proxy/proxy.list
 # behavior: classical
 payload:
   - "DOMAIN-KEYWORD,adspower"

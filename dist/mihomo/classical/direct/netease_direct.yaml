@@ -1,4 +1,4 @@
-﻿# Generated from rules/direct/netease_direct.list
+# Generated from rules/direct/netease_direct.list
 # behavior: classical
 payload:
   - "DOMAIN-KEYWORD,netease"

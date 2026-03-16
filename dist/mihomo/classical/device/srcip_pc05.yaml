@@ -1,4 +1,4 @@
-﻿# Generated from rules/device/srcip_pc05.list
+# Generated from rules/device/srcip_pc05.list
 # behavior: classical
 payload:
   - "SRC-IP-CIDR,192.168.25.25/32"
