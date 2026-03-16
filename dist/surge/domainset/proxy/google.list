@@ -1,0 +1,7 @@
+﻿# Generated from rules/proxy/google.list
+# kind: domainset
+# Do not edit dist directly.
+
+.google.com
+.youtu.be
+.youtube.com

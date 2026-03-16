@@ -1,0 +1,9 @@
+﻿# 最小可用广告拦截规则
+# 当前只放常见广告与统计域名，后续可按 rules/upstream/merge.yaml 扩充。
+DOMAIN-SUFFIX,admob.com
+DOMAIN-SUFFIX,ads-twitter.com
+DOMAIN-SUFFIX,app-measurement.com
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,google-analytics.com
+DOMAIN-SUFFIX,googleadservices.com
+DOMAIN-SUFFIX,googlesyndication.com

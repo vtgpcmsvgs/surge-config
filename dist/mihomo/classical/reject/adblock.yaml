@@ -1,0 +1,10 @@
+﻿# Generated from rules/reject/adblock.list
+# behavior: classical
+payload:
+  - "DOMAIN-SUFFIX,admob.com"
+  - "DOMAIN-SUFFIX,ads-twitter.com"
+  - "DOMAIN-SUFFIX,app-measurement.com"
+  - "DOMAIN-SUFFIX,doubleclick.net"
+  - "DOMAIN-SUFFIX,google-analytics.com"
+  - "DOMAIN-SUFFIX,googleadservices.com"
+  - "DOMAIN-SUFFIX,googlesyndication.com"

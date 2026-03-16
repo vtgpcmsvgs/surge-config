@@ -1,0 +1,10 @@
+﻿# Generated from rules/proxy/telegram.list
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,telegram"
+  - "DOMAIN-SUFFIX,t.me"
+  - "DOMAIN-SUFFIX,tdesktop.com"
+  - "DOMAIN-SUFFIX,telegram.me"
+  - "DOMAIN-SUFFIX,telegram.org"
+  - "DOMAIN-SUFFIX,telesco.pe"
+  - "DOMAIN-SUFFIX,tlgrm.app"

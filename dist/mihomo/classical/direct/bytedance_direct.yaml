@@ -1,0 +1,9 @@
+﻿# Generated from rules/direct/bytedance_direct.list
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,amemv"
+  - "DOMAIN-KEYWORD,ecombdapi"
+  - "DOMAIN-KEYWORD,zijie"
+  - "DOMAIN-KEYWORD,bytegecko"
+  - "DOMAIN-KEYWORD,bytedance"
+  - "DOMAIN-KEYWORD,douyin"

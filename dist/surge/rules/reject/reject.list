@@ -1,0 +1,12 @@
+﻿# Generated from rules/reject/reject.list
+# kind: rules
+# Do not edit dist directly.
+
+DEST-PORT,80
+PROTOCOL,HTTP
+DOMAIN-WILDCARD,*.windowsupdate.microsoft.com
+DOMAIN-WILDCARD,*.update.microsoft.com
+DOMAIN-WILDCARD,*.windowsupdate.com
+DOMAIN-SUFFIX,ksord.com,extended-matching
+DOMAIN-SUFFIX,wpscdn.cn,extended-matching
+DOMAIN-SUFFIX,wps.cn,extended-matching

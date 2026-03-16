@@ -1,0 +1,4 @@
+﻿# Generated from rules/region/jp/domains_to_jp.list
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,opinion"

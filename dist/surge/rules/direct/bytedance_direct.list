@@ -1,0 +1,10 @@
+﻿# Generated from rules/direct/bytedance_direct.list
+# kind: rules
+# Do not edit dist directly.
+
+DOMAIN-KEYWORD,amemv
+DOMAIN-KEYWORD,ecombdapi
+DOMAIN-KEYWORD,zijie
+DOMAIN-KEYWORD,bytegecko
+DOMAIN-KEYWORD,bytedance
+DOMAIN-KEYWORD,douyin

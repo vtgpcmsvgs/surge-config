@@ -1,0 +1,12 @@
+﻿# Generated from rules/proxy/gfw.list
+# kind: rules
+# Do not edit dist directly.
+
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,twitter.com
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,x.com

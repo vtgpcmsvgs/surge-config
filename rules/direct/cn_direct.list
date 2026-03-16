@@ -1,0 +1,4 @@
+﻿# 中国大陆基础直连兜底
+# 这里先保持最小可用集合，后续再通过 upstream 元数据逐步补强。
+DOMAIN-SUFFIX,cn
+GEOIP,CN

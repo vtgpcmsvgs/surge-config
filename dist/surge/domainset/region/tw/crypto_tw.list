@@ -1,0 +1,15 @@
+﻿# Generated from rules/region/tw/crypto_tw.list
+# kind: domainset
+# Do not edit dist directly.
+
+.g42.ai
+.polymarket.com
+.kalshi.com
+.coinmarketcap.com
+.coingecko.com
+.dune.com
+.defillama.com
+.etherscan.io
+.arbiscan.io
+.basescan.org
+.solscan.io

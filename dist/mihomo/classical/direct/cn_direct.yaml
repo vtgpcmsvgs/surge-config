@@ -1,0 +1,5 @@
+﻿# Generated from rules/direct/cn_direct.list
+# behavior: classical
+payload:
+  - "DOMAIN-SUFFIX,cn"
+  - "GEOIP,CN"

@@ -1,0 +1,8 @@
+﻿# Generated from rules/direct/bilibili_direct.list
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,bilibili"
+  - "DOMAIN-SUFFIX,bilibili.com"
+  - "DOMAIN-SUFFIX,bilivideo.com"
+  - "DOMAIN-SUFFIX,biligame.com"
+  - "DOMAIN-SUFFIX,hdslb.com"

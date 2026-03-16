@@ -1,0 +1,9 @@
+﻿# Telegram 代理基础规则
+# 先放域名入口，CIDR 可在后续按 merge.yaml 补齐。
+DOMAIN-KEYWORD,telegram
+DOMAIN-SUFFIX,t.me
+DOMAIN-SUFFIX,tdesktop.com
+DOMAIN-SUFFIX,telegram.me
+DOMAIN-SUFFIX,telegram.org
+DOMAIN-SUFFIX,telesco.pe
+DOMAIN-SUFFIX,tlgrm.app

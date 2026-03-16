@@ -1,0 +1,28 @@
+﻿# Generated from rules/region/tw/crypto_tw.list
+# kind: rules
+# Do not edit dist directly.
+
+DOMAIN-KEYWORD,privy
+DOMAIN-KEYWORD,aspecta
+DOMAIN-KEYWORD,mempool
+DOMAIN-KEYWORD,rootdata
+DOMAIN-KEYWORD,lighter
+DOMAIN-KEYWORD,bybit
+DOMAIN-KEYWORD,bitget
+DOMAIN-KEYWORD,okx
+DOMAIN-KEYWORD,binance
+DOMAIN-KEYWORD,bnbstatic
+DOMAIN-KEYWORD,bntrace
+DOMAIN-KEYWORD,saasexch
+DOMAIN-KEYWORD,onetrust
+DOMAIN-SUFFIX,g42.ai
+DOMAIN-SUFFIX,polymarket.com
+DOMAIN-SUFFIX,kalshi.com
+DOMAIN-SUFFIX,coinmarketcap.com
+DOMAIN-SUFFIX,coingecko.com
+DOMAIN-SUFFIX,dune.com
+DOMAIN-SUFFIX,defillama.com
+DOMAIN-SUFFIX,etherscan.io
+DOMAIN-SUFFIX,arbiscan.io
+DOMAIN-SUFFIX,basescan.org
+DOMAIN-SUFFIX,solscan.io

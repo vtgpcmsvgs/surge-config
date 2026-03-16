@@ -1,0 +1,8 @@
+﻿# Generated from rules/region/tw/google_tw
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,google"
+  - "DOMAIN-KEYWORD,googlevideo"
+  - "DOMAIN-KEYWORD,gstatic"
+  - "DOMAIN-KEYWORD,googleapis"
+  - "DOMAIN-KEYWORD,youtube"

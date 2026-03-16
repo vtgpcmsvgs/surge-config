@@ -1,0 +1,92 @@
+﻿# 上游合并模板
+# 目标：记录“以后如果要把上游素材并回 rules/ 源规则，应该怎么做”。
+# 当前版本只做模板，不强制脚本解析。
+
+defaults:
+  dedupe: true
+  keep_comments: false
+  normalize:
+    trim_whitespace: true
+    drop_blank_lines: true
+  output_policy:
+    source_layer_only: true
+    client_layer_via_dist: true
+
+merge_plan:
+  - id: cn-direct
+    target: rules/direct/cn_direct.list
+    purpose: 中国大陆基础直连兜底
+    strategy:
+      - append_manual_entries_first
+      - merge_upstream_domain_and_ip_material
+      - keep_geoip_rules_in_source
+    upstream_inputs:
+      - rules/upstream/loyalsoldier/cncidr.txt
+      - ACL4SSR ChinaDomain / ChinaMedia / Download / UnBan
+    notes:
+      - 如果未来引入大体量上游素材，优先在源规则层完成筛选，再进入 dist 构建
+
+  - id: microsoft-direct
+    target: rules/direct/microsoft_direct.list
+    purpose: Microsoft / OneDrive 直连
+    strategy:
+      - merge_rules
+      - dedupe_keep_first
+    upstream_inputs:
+      - rules/upstream/acl4ssr/microsoft.list
+      - rules/upstream/acl4ssr/onedrive.list
+    notes:
+      - 当前仓库已落一份快照，后续可以用这两份上游文件更新源规则
+
+  - id: telegram-proxy
+    target: rules/proxy/telegram.list
+    purpose: Telegram 代理
+    strategy:
+      - keep_manual_domain_entries
+      - append_upstream_cidr_when_available
+    upstream_inputs:
+      - Loyalsoldier telegramcidr
+      - ACL4SSR Telegram.list
+    notes:
+      - 构建时会自动拆成 Mihomo domain / ipcidr / classical，以及 Surge rules
+
+  - id: gfw-proxy
+    target: rules/proxy/gfw.list
+    purpose: GFW 代理兜底
+    strategy:
+      - manual_core_first
+      - append_upstream_domain_material
+    upstream_inputs:
+      - Loyalsoldier gfw
+      - Loyalsoldier tld-not-cn
+      - Loyalsoldier proxy
+      - ACL4SSR ProxyGFWlist.list
+
+  - id: global-media
+    target: rules/proxy/global_media.list
+    purpose: 国际流媒体代理
+    strategy:
+      - merge_domain_material
+      - keep_service_specific_lists_separable
+    upstream_inputs:
+      - ACL4SSR ProxyMedia.list
+      - ACL4SSR Netflix.list
+
+  - id: adblock
+    target: rules/reject/adblock.list
+    purpose: 广告拦截
+    strategy:
+      - keep_small_and_readable
+      - avoid_unreviewed_bulk_imports
+    upstream_inputs:
+      - blackmatrix7 ad-related categories
+
+  - id: device-srcip
+    target: rules/device/srcip_pc01.list ~ rules/device/srcip_pc06.list
+    purpose: 局域网设备源地址绑定
+    strategy:
+      - manual_single_source_of_truth
+      - one_device_one_file
+    upstream_inputs: []
+    notes:
+      - 不建议从第三方拉取，直接维护本地源地址即可

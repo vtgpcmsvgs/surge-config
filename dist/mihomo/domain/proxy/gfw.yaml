@@ -1,0 +1,11 @@
+﻿# Generated from rules/proxy/gfw.list
+# behavior: domain
+payload:
+  - ".facebook.com"
+  - ".fbcdn.net"
+  - ".instagram.com"
+  - ".threads.net"
+  - ".twitter.com"
+  - ".whatsapp.com"
+  - ".whatsapp.net"
+  - ".x.com"

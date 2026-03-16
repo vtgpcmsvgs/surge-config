@@ -1,0 +1,5 @@
+﻿# Generated from rules/region/tw/domains_to_tw.list
+# behavior: classical
+payload:
+  - "DOMAIN-KEYWORD,linkedin"
+  - "DOMAIN-SUFFIX,lnkd.demdex.net"

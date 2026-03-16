@@ -1,0 +1,16 @@
+﻿# Generated from rules/proxy/global_media.list
+# kind: domainset
+# Do not edit dist directly.
+
+.disneyplus.com
+.dssott.com
+.hbomax.com
+.hulu.com
+.max.com
+.netflix.com
+.netflix.net
+.nflximg.net
+.nflxso.net
+.nflxvideo.net
+.spotify.com
+.spotifycdn.com

@@ -1,0 +1,3 @@
+﻿# Generated from rules/proxy/gfw.list
+# behavior: ipcidr
+payload: []

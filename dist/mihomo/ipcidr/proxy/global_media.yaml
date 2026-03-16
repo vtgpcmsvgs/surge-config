@@ -1,0 +1,3 @@
+﻿# Generated from rules/proxy/global_media.list
+# behavior: ipcidr
+payload: []

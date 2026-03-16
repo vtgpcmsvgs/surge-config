@@ -1,0 +1,6 @@
+﻿# Generated from rules/proxy/google.list
+# behavior: domain
+payload:
+  - ".google.com"
+  - ".youtu.be"
+  - ".youtube.com"

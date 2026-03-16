@@ -1,0 +1,10 @@
+﻿# 最小可用 GFW 代理规则
+# 这里只保留少量高频站点，完整扩充建议走上游合并。
+DOMAIN-SUFFIX,facebook.com
+DOMAIN-SUFFIX,fbcdn.net
+DOMAIN-SUFFIX,instagram.com
+DOMAIN-SUFFIX,threads.net
+DOMAIN-SUFFIX,twitter.com
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
+DOMAIN-SUFFIX,x.com

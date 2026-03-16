@@ -1,0 +1,4 @@
+﻿# Generated from rules/direct/cn_direct.list
+# behavior: domain
+payload:
+  - ".cn"

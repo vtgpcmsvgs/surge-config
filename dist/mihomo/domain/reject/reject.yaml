@@ -1,0 +1,9 @@
+﻿# Generated from rules/reject/reject.list
+# behavior: domain
+payload:
+  - "*.windowsupdate.microsoft.com"
+  - "*.update.microsoft.com"
+  - "*.windowsupdate.com"
+  - ".ksord.com"
+  - ".wpscdn.cn"
+  - ".wps.cn"

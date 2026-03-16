@@ -1,0 +1,9 @@
+﻿# Generated from rules/proxy/telegram.list
+# behavior: domain
+payload:
+  - ".t.me"
+  - ".tdesktop.com"
+  - ".telegram.me"
+  - ".telegram.org"
+  - ".telesco.pe"
+  - ".tlgrm.app"

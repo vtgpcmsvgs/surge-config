@@ -1,0 +1,9 @@
+﻿# Generated from rules/region/tw/ai_tw.list
+# kind: rules
+# Do not edit dist directly.
+
+DOMAIN-SUFFIX,arc.net
+DOMAIN-KEYWORD,chatgpt
+DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,openai
+DOMAIN-KEYWORD,gemini

@@ -1,0 +1,11 @@
+﻿# Generated from rules/reject/adblock.list
+# kind: domainset
+# Do not edit dist directly.
+
+.admob.com
+.ads-twitter.com
+.app-measurement.com
+.doubleclick.net
+.google-analytics.com
+.googleadservices.com
+.googlesyndication.com

@@ -1,0 +1,12 @@
+﻿# Generated from rules/proxy/google.list
+# kind: rules
+# Do not edit dist directly.
+
+DOMAIN-KEYWORD,google
+DOMAIN-KEYWORD,googleapis
+DOMAIN-KEYWORD,googlevideo
+DOMAIN-KEYWORD,gstatic
+DOMAIN-KEYWORD,youtube
+DOMAIN-SUFFIX,google.com
+DOMAIN-SUFFIX,youtu.be
+DOMAIN-SUFFIX,youtube.com

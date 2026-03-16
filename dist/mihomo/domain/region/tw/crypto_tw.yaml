@@ -1,0 +1,14 @@
+﻿# Generated from rules/region/tw/crypto_tw.list
+# behavior: domain
+payload:
+  - ".g42.ai"
+  - ".polymarket.com"
+  - ".kalshi.com"
+  - ".coinmarketcap.com"
+  - ".coingecko.com"
+  - ".dune.com"
+  - ".defillama.com"
+  - ".etherscan.io"
+  - ".arbiscan.io"
+  - ".basescan.org"
+  - ".solscan.io"

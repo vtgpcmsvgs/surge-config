@@ -1,0 +1,10 @@
+﻿# Generated from rules/reject/adblock.list
+# behavior: domain
+payload:
+  - ".admob.com"
+  - ".ads-twitter.com"
+  - ".app-measurement.com"
+  - ".doubleclick.net"
+  - ".google-analytics.com"
+  - ".googleadservices.com"
+  - ".googlesyndication.com"

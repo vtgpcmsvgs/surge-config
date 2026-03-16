@@ -1,0 +1,524 @@
+﻿{
+    "summary":  {
+                    "domain-only":  3,
+                    "ipcidr-only":  1,
+                    "classical/mixed":  24,
+                    "empty":  0,
+                    "total_sources":  28,
+                    "total_warnings":  1
+                },
+    "sources":  [
+                    {
+                        "source":  "rules/device/srcip_hk_wifi.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_hk_wifi.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_hk_wifi.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_manual_switch.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_manual_switch.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_manual_switch.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc01.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc01.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc01.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc02.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc02.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc02.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc03.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc03.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc03.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc04.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc04.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc04.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc05.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc05.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc05.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/device/srcip_pc06.list",
+                        "category":  "device",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "mihomo_classical":  "dist/mihomo/classical/device/srcip_pc06.yaml",
+                                     "surge_rules":  "dist/surge/rules/device/srcip_pc06.list"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/bilibili_direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  5,
+                                       "surge_domainset":  4,
+                                       "mihomo_classical":  5,
+                                       "mihomo_domain":  4,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/bilibili_direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/bilibili_direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/bilibili_direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/bilibili_direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/bilibili_direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/bytedance_direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  6,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  6,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/bytedance_direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/bytedance_direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/bytedance_direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/bytedance_direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/bytedance_direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/cn_direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  2,
+                                       "surge_domainset":  1,
+                                       "mihomo_classical":  2,
+                                       "mihomo_domain":  1,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/cn_direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/cn_direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/cn_direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/cn_direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/cn_direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  8,
+                                       "surge_domainset":  2,
+                                       "mihomo_classical":  8,
+                                       "mihomo_domain":  2,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/microsoft_direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  92,
+                                       "surge_domainset":  86,
+                                       "mihomo_classical":  92,
+                                       "mihomo_domain":  86,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/microsoft_direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/microsoft_direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/microsoft_direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/microsoft_direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/microsoft_direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/direct/netease_direct.list",
+                        "category":  "direct",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  4,
+                                       "surge_domainset":  3,
+                                       "mihomo_classical":  4,
+                                       "mihomo_domain":  3,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/direct/netease_direct.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/direct/netease_direct.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/direct/netease_direct.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/direct/netease_direct.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/direct/netease_direct.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/proxy/gfw.list",
+                        "category":  "proxy",
+                        "classification":  "domain-only",
+                        "counts":  {
+                                       "surge_rules":  8,
+                                       "surge_domainset":  8,
+                                       "mihomo_classical":  8,
+                                       "mihomo_domain":  8,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/proxy/gfw.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/proxy/gfw.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/proxy/gfw.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/proxy/gfw.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/proxy/gfw.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/proxy/global_media.list",
+                        "category":  "proxy",
+                        "classification":  "domain-only",
+                        "counts":  {
+                                       "surge_rules":  12,
+                                       "surge_domainset":  12,
+                                       "mihomo_classical":  12,
+                                       "mihomo_domain":  12,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/proxy/global_media.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/proxy/global_media.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/proxy/global_media.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/proxy/global_media.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/proxy/global_media.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/proxy/google.list",
+                        "category":  "proxy",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  8,
+                                       "surge_domainset":  3,
+                                       "mihomo_classical":  8,
+                                       "mihomo_domain":  3,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/proxy/google.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/proxy/google.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/proxy/google.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/proxy/google.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/proxy/google.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/proxy/proxy.list",
+                        "category":  "proxy",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/proxy/proxy.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/proxy/proxy.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/proxy/proxy.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/proxy/proxy.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/proxy/proxy.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/proxy/telegram.list",
+                        "category":  "proxy",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  7,
+                                       "surge_domainset":  6,
+                                       "mihomo_classical":  7,
+                                       "mihomo_domain":  6,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/proxy/telegram.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/proxy/telegram.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/proxy/telegram.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/proxy/telegram.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/proxy/telegram.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/hk/domains_to_hk.list",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  2,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  2,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/hk/domains_to_hk.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/hk/domains_to_hk.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/hk/domains_to_hk.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/hk/domains_to_hk.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/hk/domains_to_hk.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/jp/domains_to_jp.list",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  1,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  1,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/jp/domains_to_jp.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/jp/domains_to_jp.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/jp/domains_to_jp.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/jp/domains_to_jp.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/jp/domains_to_jp.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/jp/jp_socks5_ipcidr.list",
+                        "category":  "region",
+                        "classification":  "ipcidr-only",
+                        "counts":  {
+                                       "surge_rules":  135,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  135,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  135
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/jp/jp_socks5_ipcidr.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/jp/jp_socks5_ipcidr.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/jp/jp_socks5_ipcidr.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/jp/jp_socks5_ipcidr.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/tw/ai_tw.list",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  5,
+                                       "surge_domainset":  1,
+                                       "mihomo_classical":  5,
+                                       "mihomo_domain":  1,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/tw/ai_tw.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/tw/ai_tw.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/tw/ai_tw.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/tw/ai_tw.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/tw/ai_tw.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/tw/crypto_tw.list",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  24,
+                                       "surge_domainset":  11,
+                                       "mihomo_classical":  24,
+                                       "mihomo_domain":  11,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/tw/crypto_tw.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/tw/crypto_tw.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/tw/crypto_tw.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/tw/crypto_tw.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/tw/crypto_tw.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/tw/domains_to_tw.list",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  2,
+                                       "surge_domainset":  1,
+                                       "mihomo_classical":  2,
+                                       "mihomo_domain":  1,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/tw/domains_to_tw.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/tw/domains_to_tw.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/tw/domains_to_tw.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/tw/domains_to_tw.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/tw/domains_to_tw.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/region/tw/google_tw",
+                        "category":  "region",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  5,
+                                       "surge_domainset":  0,
+                                       "mihomo_classical":  5,
+                                       "mihomo_domain":  0,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/region/tw/google_tw.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/region/tw/google_tw.yaml",
+                                     "mihomo_ipcidr":  "dist/mihomo/ipcidr/region/tw/google_tw.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/region/tw/google_tw.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/region/tw/google_tw.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/reject/adblock.list",
+                        "category":  "reject",
+                        "classification":  "domain-only",
+                        "counts":  {
+                                       "surge_rules":  7,
+                                       "surge_domainset":  7,
+                                       "mihomo_classical":  7,
+                                       "mihomo_domain":  7,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/reject/adblock.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/reject/adblock.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/reject/adblock.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/reject/adblock.yaml"
+                                 }
+                    },
+                    {
+                        "source":  "rules/reject/reject.list",
+                        "category":  "reject",
+                        "classification":  "classical/mixed",
+                        "counts":  {
+                                       "surge_rules":  8,
+                                       "surge_domainset":  3,
+                                       "mihomo_classical":  7,
+                                       "mihomo_domain":  6,
+                                       "mihomo_ipcidr":  0
+                                   },
+                        "dist":  {
+                                     "surge_rules":  "dist/surge/rules/reject/reject.list",
+                                     "mihomo_domain":  "dist/mihomo/domain/reject/reject.yaml",
+                                     "surge_domainset":  "dist/surge/domainset/reject/reject.list",
+                                     "mihomo_classical":  "dist/mihomo/classical/reject/reject.yaml"
+                                 },
+                        "warnings":  [
+                                         "rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+                                     ]
+                    }
+                ],
+    "warnings":  [
+                     "rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+                 ]
+}
