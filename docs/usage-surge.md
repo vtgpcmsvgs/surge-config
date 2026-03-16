@@ -2,11 +2,11 @@
 
 ## 先看原则
 
-- 客户端以后只引用 `dist/surge/`
+- 客户端以后只引用 `dist/surge/rules/`
 - `rules/` 是源规则，不建议在 Surge 配置里直接引用
-- `domainset/` 只放纯域名或可安全降级为域名集合的内容，适合 `DOMAIN-SET`
-- `rules/` 放完整规则行，适合 `RULE-SET`
-- 如果一个源文件是 mixed，请优先引用 `dist/surge/rules/...`
+- 本仓库统一输出显式规则行，供 `RULE-SET` 使用
+- 纯域名规则也会在产物里写成 `DOMAIN` / `DOMAIN-SUFFIX`，不会再生成单独的纯域名目录
+- `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`IP-CIDR`、`SRC-IP`、`AND/OR` 这类规则同样统一走 `RULE-SET`
 
 本文示例统一使用当前仓库主分支的 raw 地址：
 
@@ -14,30 +14,18 @@
 https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main
 ```
 
-## DOMAIN-SET 示例
-
-适合放在纯域名优先匹配的位置，例如广告、微软、国际流媒体：
-
-```ini
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/reject/adblock.list,REJECT
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/direct/microsoft_direct.list,DIRECT
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/proxy/global_media.list,PROXY
-```
-
-说明：
-
-- `DOMAIN-SET` 只适合 `dist/surge/domainset/...`
-- 不要把 `dist/surge/rules/...` 误当成 `DOMAIN-SET`
-
 ## RULE-SET 示例
 
-适合 mixed 规则、IP 规则、设备源地址规则：
+无论是纯域名、关键词、IP 规则，还是 mixed 规则、设备源地址规则，都统一接这里：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/adblock.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/reject.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/cn_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/global_media.list,PROXY
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/telegram.list,PROXY
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
 ```
@@ -49,7 +37,7 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/sur
 1. 设备规则
 2. reject
 3. region
-4. direct / proxy 的 domain 规则
+4. direct / proxy 规则
 5. IP 规则
 6. `FINAL`
 
@@ -63,8 +51,8 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/sur
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
 
 # 2. reject
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/adblock.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/reject.list,REJECT
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/reject/adblock.list,REJECT
 
 # 3. region
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/domains_to_hk.list,HK-AUTO
@@ -73,13 +61,13 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/sur
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/domains_to_tw.list,TW-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/domains_to_jp.list,JP-AUTO
 
-# 4. domain-first direct / proxy
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/direct/microsoft_direct.list,DIRECT
+# 4. direct / proxy
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/cn_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/google.list,PROXY
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/telegram.list,PROXY
-DOMAIN-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/domainset/proxy/global_media.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/global_media.list,PROXY
 
 # 5. ip rules
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
@@ -88,14 +76,15 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/sur
 FINAL,PROXY
 ```
 
-## 什么时候用 domainset，什么时候用 rules
+## 源规则与产物的关系
 
-- 文件里大部分是 `DOMAIN` / `DOMAIN-SUFFIX` 时，可以优先用 `domainset`
-- 文件里出现 `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`AND/OR`、`SRC-IP`、`GEOIP`、`IP-CIDR` 时，请用 `rules`
-- mixed 文件就算构建出了 `domainset`，也通常应该保留 `rules` 作为完整兜底
+- 如果源文件里写的是 `.g42.ai`、`.polymarket.com` 这类纯域名写法，构建后会规范化成 `DOMAIN-SUFFIX,g42.ai` 这类显式规则行
+- 如果源文件里写的是 `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`AND/OR`、`SRC-IP`、`GEOIP`、`IP-CIDR`，构建后会原样或按 Surge 兼容形式保留在 `RULE-SET` 产物中
+- `rules/region/tw/google_tw` 这类历史无扩展名源文件，客户端引用时要写成 `dist/surge/rules/region/tw/google_tw.list`
 
 ## 常见误区
 
 - 不要继续引用 `rules/reject/reject.list` 这类源文件路径
+- 不要再找旧的纯域名产物目录；仓库已经统一走 `RULE-SET`
 - 不要继续在客户端里直接引用 ACL4SSR / Loyalsoldier / blackmatrix7 的原始 URL
 - `region/tw/google_tw` 这类历史源文件，在 `dist/` 里会变成带扩展名的产物路径

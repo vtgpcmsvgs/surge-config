@@ -8,13 +8,12 @@
 
 ## 先看原则
 
-- 客户端以后只引用 `dist/mihomo/`
+- 客户端以后只引用 `dist/mihomo/classical/`
 - `rules/` 是源规则，不建议客户端直接引用
-- 同一份源规则可能会被拆成：
-  - `behavior: domain`
-  - `behavior: ipcidr`
-  - `behavior: classical`
-- mixed 源文件如果不能安全拆分，至少会落到 `classical`
+- 本仓库统一输出 `behavior: classical`
+- 纯域名规则会写成 `DOMAIN` / `DOMAIN-SUFFIX`
+- CIDR 规则会写成 `IP-CIDR` / `IP-CIDR6`
+- mixed、关键词、设备源地址、组合规则也统一落到 `classical`
 
 本文示例统一使用当前仓库主分支的 raw 地址：
 
@@ -24,9 +23,7 @@ https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main
 
 ## rule-providers 写法
 
-### behavior: classical
-
-适合设备规则、mixed 规则、复杂域名规则、组合规则：
+统一使用 `behavior: classical`：
 
 ```yaml
 rule-providers:
@@ -47,44 +44,6 @@ rule-providers:
     interval: 86400
 ```
 
-### behavior: domain
-
-适合纯域名或可安全转换成域名集的规则：
-
-```yaml
-rule-providers:
-  adblock-domain:
-    type: http
-    behavior: domain
-    format: yaml
-    path: ./rule-providers/reject/adblock.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/domain/reject/adblock.yaml
-    interval: 86400
-
-  global-media-domain:
-    type: http
-    behavior: domain
-    format: yaml
-    path: ./rule-providers/proxy/global_media.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/domain/proxy/global_media.yaml
-    interval: 86400
-```
-
-### behavior: ipcidr
-
-适合纯 CIDR 规则：
-
-```yaml
-rule-providers:
-  jp-socks5-ipcidr:
-    type: http
-    behavior: ipcidr
-    format: yaml
-    path: ./rule-providers/region/jp_socks5_ipcidr.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/ipcidr/region/jp/jp_socks5_ipcidr.yaml
-    interval: 86400
-```
-
 ## 推荐顺序
 
 建议顺序：
@@ -92,9 +51,8 @@ rule-providers:
 1. 设备规则
 2. reject
 3. region
-4. domain
-5. ipcidr
-6. `MATCH`
+4. direct / proxy
+5. `MATCH`
 
 一个最小可用示例：
 
@@ -124,12 +82,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/reject/reject.yaml
     interval: 86400
 
-  adblock-domain:
+  adblock-classical:
     type: http
-    behavior: domain
+    behavior: classical
     format: yaml
     path: ./rule-providers/reject/adblock.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/domain/reject/adblock.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/reject/adblock.yaml
     interval: 86400
 
   tw-ai-classical:
@@ -140,12 +98,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/tw/ai_tw.yaml
     interval: 86400
 
-  microsoft-domain:
+  microsoft-classical:
     type: http
-    behavior: domain
+    behavior: classical
     format: yaml
     path: ./rule-providers/direct/microsoft_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/domain/direct/microsoft_direct.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/direct/microsoft_direct.yaml
     interval: 86400
 
   cn-direct-classical:
@@ -156,12 +114,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/direct/cn_direct.yaml
     interval: 86400
 
-  global-media-domain:
+  global-media-classical:
     type: http
-    behavior: domain
+    behavior: classical
     format: yaml
     path: ./rule-providers/proxy/global_media.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/domain/proxy/global_media.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/proxy/global_media.yaml
     interval: 86400
 
   telegram-classical:
@@ -172,12 +130,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/proxy/telegram.yaml
     interval: 86400
 
-  jp-socks5-ipcidr:
+  jp-socks5-classical:
     type: http
-    behavior: ipcidr
+    behavior: classical
     format: yaml
     path: ./rule-providers/region/jp_socks5_ipcidr.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/ipcidr/region/jp/jp_socks5_ipcidr.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml
     interval: 86400
 
 rules:
@@ -185,32 +143,28 @@ rules:
   - RULE-SET,device-hk-wifi,HK-AUTO
 
   - RULE-SET,reject-classical,REJECT
-  - RULE-SET,adblock-domain,REJECT
+  - RULE-SET,adblock-classical,REJECT
 
   - RULE-SET,tw-ai-classical,TW-AUTO
 
-  - RULE-SET,microsoft-domain,DIRECT
+  - RULE-SET,microsoft-classical,DIRECT
   - RULE-SET,cn-direct-classical,DIRECT
 
-  - RULE-SET,global-media-domain,PROXY
+  - RULE-SET,global-media-classical,PROXY
   - RULE-SET,telegram-classical,PROXY
 
-  - RULE-SET,jp-socks5-ipcidr,JP-AUTO,no-resolve
+  - RULE-SET,jp-socks5-classical,JP-AUTO,no-resolve
 
   - MATCH,PROXY
 ```
 
-## domain / ipcidr / classical 怎么选
+## 源规则与产物的关系
 
-- `behavior: domain`
-  - 只接 `dist/mihomo/domain/...`
-  - 适合纯域名匹配
-- `behavior: ipcidr`
-  - 只接 `dist/mihomo/ipcidr/...`
-  - 适合 CIDR 规则
-- `behavior: classical`
-  - 只接 `dist/mihomo/classical/...`
-  - 适合 mixed、复杂域名、设备源地址、组合规则
+- 如果源文件里写的是 `.example.com`，构建后会规范化成 `DOMAIN-SUFFIX,example.com` 并写进 `classical` 产物
+- `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`AND/OR/NOT` 会保留在 `classical` 产物中
+- `IP-CIDR` / `IP-CIDR6` 会保留在 `classical` 产物中
+- `SRC-IP` 会为 Mihomo 规范化成 `SRC-IP-CIDR`
+- `rules/region/tw/google_tw` 这类历史无扩展名源文件，客户端引用时要写成 `dist/mihomo/classical/region/tw/google_tw.yaml`
 
 ## Clash Verge Rev / Clash Meta for Android 的差异
 
@@ -222,11 +176,12 @@ rules:
 如果你只是想保证通用性，优先保留：
 
 - `type: http`
+- `behavior: classical`
 - `format: yaml`
 - `interval: 86400`
 
 ## 常见误区
 
-- 不要把 `classical` 产物误配成 `behavior: domain`
+- 不要把 `classical` 产物误配成别的 `behavior`
 - 不要继续引用 `rules/` 源规则路径
-- mixed 文件如果只接了 `domain`，复杂规则不会生效；这时请同时接 `classical`
+- 不要再找旧的纯域名或纯 CIDR 产物目录；仓库已经统一走 `classical`

@@ -1,6 +1,0 @@
-# Generated from rules/direct/netease_direct.list
-# behavior: domain
-payload:
-  - ".126.net"
-  - ".126.com"
-  - ".163.com"

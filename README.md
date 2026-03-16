@@ -4,8 +4,8 @@
 
 - `rules/` 是源规则层，只放你自己审阅后的规则素材与维护元数据
 - `dist/` 是构建产物层，客户端只引用这里
-- `Surge` 使用 `dist/surge/`
-- `Clash Verge Rev` 与 `Clash Meta for Android` 使用 `dist/mihomo/`
+- `Surge` 使用 `dist/surge/rules/`
+- `Clash Verge Rev` 与 `Clash Meta for Android` 使用 `dist/mihomo/classical/`
 
 这样做的目标是把“怎么维护规则”与“客户端怎么接入规则”分开，避免客户端继续直接引用第三方上游仓库，也避免源规则和客户端格式绑死。
 
@@ -23,12 +23,9 @@ rules/
 
 dist/
   surge/
-    domainset/ # 适合 Surge DOMAIN-SET 的纯域名产物
-    rules/     # 适合 Surge RULE-SET 的完整规则产物
+    rules/     # Surge RULE-SET 使用的显式规则产物
   mihomo/
-    domain/    # behavior: domain
-    ipcidr/    # behavior: ipcidr
-    classical/ # behavior: classical
+    classical/ # Mihomo behavior: classical 使用的显式规则产物
 
 tools/
   build_rules.py
@@ -38,10 +35,17 @@ tools/
 
 - `rules/region/tw/google_tw` 这类历史文件名会在 `dist/` 里规范化为 `.list` / `.yaml`
 - `dist/build-report.json` 会记录每个源文件被识别为 `domain-only`、`ipcidr-only` 或 `classical/mixed`，以及构建 warning
+- 这些 classification 只用于维护诊断，不再对应额外的 `domainset` / `domain` / `ipcidr` 产物目录
 
 ## 如何构建
 
 推荐使用 Python 3.11+：
+
+```bash
+powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1
+```
+
+如果你已经确认本机 `python` 可用，也可以直接执行：
 
 ```bash
 python tools/build_rules.py
@@ -50,7 +54,8 @@ python tools/build_rules.py
 构建脚本会：
 
 - 从 `rules/` 读取源规则
-- 自动生成 `dist/surge/` 与 `dist/mihomo/`
+- 自动生成 `dist/surge/rules/` 与 `dist/mihomo/classical/`
+- 将纯域名规则规范化成显式规则行，例如 `.example.com` 会输出成 `DOMAIN-SUFFIX,example.com`
 - 尝试识别 `domain-only`、`ipcidr-only`、`classical/mixed`
 - 对不能安全转换到目标客户端格式的行输出 warning，而不是静默吞掉
 - 保证重复执行结果一致
@@ -69,6 +74,7 @@ python tools/build_rules.py
 - push 到 `main` 时自动构建 `dist/`
 - 支持手动触发
 - 若 `dist/` 有差异，会自动提交构建产物
+- 这个自动回写行为定义在 [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml)，网页端直接编辑并提交到 `main` 也会触发同一个 workflow
 
 ## 客户端如何使用
 
@@ -87,8 +93,8 @@ python tools/build_rules.py
 
 - 源规则尽量保持小而清晰，优先你自己的审阅结果
 - 上游来源只作为参考素材，不直接暴露给客户端
-- 能安全拆成 `domain` / `ipcidr` 的就拆
-- 不能安全拆的，保守落到 `RULE-SET` / `classical`
+- 统一输出显式规则行，不再生成额外的客户端专用精简产物
+- 域名规则、CIDR 规则、关键词规则都通过 `RULE-SET` / `behavior: classical` 接入
 - 设备源地址规则统一走 `rules/device/`
 
 ## 上游维护方式

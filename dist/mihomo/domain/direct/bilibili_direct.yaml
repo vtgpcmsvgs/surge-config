@@ -1,7 +1,0 @@
-# Generated from rules/direct/bilibili_direct.list
-# behavior: domain
-payload:
-  - ".bilibili.com"
-  - ".bilivideo.com"
-  - ".biligame.com"
-  - ".hdslb.com"

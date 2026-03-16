@@ -1,5 +1,0 @@
-# Generated from rules/direct/direct.list
-# behavior: domain
-payload:
-  - ".sfdown.360safe.com"
-  - ".qq.com"

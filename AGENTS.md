@@ -1,0 +1,54 @@
+# AGENTS.md
+
+## Repo Focus
+
+- 源规则只维护在 `rules/`
+- 构建产物只发布两条线：
+  - `dist/surge/rules/`
+  - `dist/mihomo/classical/`
+- 不要重新引入这些已废弃目录：
+  - `dist/surge/domainset/`
+  - `dist/mihomo/domain/`
+  - `dist/mihomo/ipcidr/`
+
+## Build Entry
+
+- Windows 本地与 Codex 会话统一优先使用 `tools/build_rules.ps1`
+- 不要默认直接跑 `python tools/build_rules.py`
+- 这个包装脚本会优先探测：
+  - `$env:SURGE_CONFIG_PYTHON`
+  - 仓库内 `.venv\Scripts\python.exe`
+  - `C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe`
+  - `python`
+  - `py -3`
+
+## Codex Notes
+
+- 在 Codex Windows 沙箱里，`python` / `py -3` 可能不可用，即使 Python 已安装
+- 当前机器已确认存在的解释器路径是：
+  - `C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe`
+- 如果直接执行该解释器出现 `Access is denied`，这是沙箱限制，不是仓库问题；需要申请提升权限后再运行
+
+## Verification
+
+- 修改 `rules/`、`tools/build_rules.py`、文档或产物结构后，运行：
+  - `powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1`
+- 提交前检查：
+  - `dist/` 目录树是否仍然只有 `surge/rules` 与 `mihomo/classical`
+  - `dist/build-report.json`
+  - `git status`
+
+## Warnings
+
+- 当前已知且允许保留的 warning 只有一条：
+  - `rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules`
+- 如果构建 warning 数量增加，先检查是否引入了：
+  - BOM 字符
+  - 不受支持的 Mihomo 规则
+  - 被误判为普通文本的注释行
+
+## File Hygiene
+
+- 规则与文档统一使用 UTF-8 无 BOM
+- 如果看到首行注释被构建脚本误报为 `unrecognized plain rule`，先检查 BOM
+- 不要手改 `dist/`；一律改 `rules/` 或构建脚本后重建

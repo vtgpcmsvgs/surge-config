@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build Surge and Mihomo artifacts from the rules/ source layer."""
+"""Build explicit Surge and Mihomo artifacts from the rules/ source layer."""
 
 from __future__ import annotations
 
@@ -18,9 +18,6 @@ ROOT = Path(__file__).resolve().parents[1]
 RULES_ROOT = ROOT / "rules"
 DIST_ROOT = ROOT / "dist"
 SOURCE_GROUPS = ("reject", "direct", "proxy", "region", "device")
-SURGE_DOMAIN_GROUPS = {"reject", "direct", "proxy", "region"}
-MIHOMO_DOMAIN_GROUPS = {"reject", "direct", "proxy", "region"}
-MIHOMO_IP_GROUPS = {"direct", "proxy", "region"}
 DOMAIN_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._")
 DOMAIN_WILDCARD_CHARS = DOMAIN_CHARS | set("*?+")
 SUPPORTED_CLASSICAL_TOKENS = {
@@ -58,10 +55,7 @@ SUPPORTED_CLASSICAL_TOKENS = {
 class ParsedLine:
     source_type: str | None = None
     surge_rule: str | None = None
-    surge_domain: str | None = None
     mihomo_classical: str | None = None
-    mihomo_domain: str | None = None
-    mihomo_ipcidr: str | None = None
     warnings: list[str] = field(default_factory=list)
 
 
@@ -181,9 +175,7 @@ def parse_plain_value(text: str) -> ParsedLine:
             payload = normalize_domain_suffix(text)
             parsed.source_type = "domain"
             parsed.surge_rule = f"DOMAIN-SUFFIX,{payload[1:]}"
-            parsed.surge_domain = payload
             parsed.mihomo_classical = f"DOMAIN-SUFFIX,{payload[1:]}"
-            parsed.mihomo_domain = payload
             return parsed
         if not is_domain_literal(text):
             parsed.warnings.append(f"unrecognized plain rule: {text}")
@@ -191,15 +183,12 @@ def parse_plain_value(text: str) -> ParsedLine:
         payload = normalize_domain_exact(text)
         parsed.source_type = "domain"
         parsed.surge_rule = f"DOMAIN,{payload}"
-        parsed.surge_domain = payload
         parsed.mihomo_classical = f"DOMAIN,{payload}"
-        parsed.mihomo_domain = payload
         return parsed
 
     parsed.source_type = "ipcidr"
     parsed.surge_rule = f"{token},{network}"
     parsed.mihomo_classical = f"{token},{network}"
-    parsed.mihomo_ipcidr = network
     return parsed
 
 
@@ -222,9 +211,7 @@ def parse_simple_rule(token: str, rest: str) -> ParsedLine:
         payload = normalize_domain_exact(value)
         parsed.source_type = "domain"
         parsed.surge_rule = normalized
-        parsed.surge_domain = payload
         parsed.mihomo_classical = f"DOMAIN,{payload}"
-        parsed.mihomo_domain = payload
         return parsed
 
     if token == "DOMAIN-SUFFIX":
@@ -234,9 +221,7 @@ def parse_simple_rule(token: str, rest: str) -> ParsedLine:
         payload = normalize_domain_suffix(value)
         parsed.source_type = "domain"
         parsed.surge_rule = normalized
-        parsed.surge_domain = payload
         parsed.mihomo_classical = f"DOMAIN-SUFFIX,{payload[1:]}"
-        parsed.mihomo_domain = payload
         return parsed
 
     if token == "DOMAIN-WILDCARD":
@@ -246,7 +231,6 @@ def parse_simple_rule(token: str, rest: str) -> ParsedLine:
         parsed.source_type = "classical"
         parsed.surge_rule = normalized
         parsed.mihomo_classical = f"DOMAIN-WILDCARD,{value}"
-        parsed.mihomo_domain = value
         return parsed
 
     if token == "DOMAIN-KEYWORD":
@@ -278,7 +262,6 @@ def parse_simple_rule(token: str, rest: str) -> ParsedLine:
         parsed.source_type = "ipcidr"
         parsed.surge_rule = ",".join([network_token, network, *option_fields])
         parsed.mihomo_classical = ",".join([network_token, network, *option_fields])
-        parsed.mihomo_ipcidr = network
         return parsed
 
     if token == "SRC-IP":
@@ -433,10 +416,7 @@ def build_source(path: Path) -> SourceBuildResult:
     warnings: list[str] = []
 
     surge_rules: list[str] = []
-    surge_domains: list[str] = []
     mihomo_classical: list[str] = []
-    mihomo_domains: list[str] = []
-    mihomo_ipcidr: list[str] = []
 
     for line_no, raw in enumerate(read_text(path).splitlines(), start=1):
         parsed = parse_line(raw)
@@ -444,23 +424,14 @@ def build_source(path: Path) -> SourceBuildResult:
             source_types.append(parsed.source_type)
         if parsed.surge_rule:
             surge_rules.append(parsed.surge_rule)
-        if parsed.surge_domain:
-            surge_domains.append(parsed.surge_domain)
         if parsed.mihomo_classical:
             mihomo_classical.append(parsed.mihomo_classical)
-        if parsed.mihomo_domain:
-            mihomo_domains.append(parsed.mihomo_domain)
-        if parsed.mihomo_ipcidr:
-            mihomo_ipcidr.append(parsed.mihomo_ipcidr)
         for message in parsed.warnings:
             warnings.append(f"{source_label.as_posix()}:{line_no} {message}")
 
     outputs = {
         "surge_rules": ordered_unique(surge_rules),
-        "surge_domainset": ordered_unique(surge_domains) if category in SURGE_DOMAIN_GROUPS else [],
         "mihomo_classical": ordered_unique(mihomo_classical),
-        "mihomo_domain": ordered_unique(mihomo_domains) if category in MIHOMO_DOMAIN_GROUPS else [],
-        "mihomo_ipcidr": ordered_unique(mihomo_ipcidr) if category in MIHOMO_IP_GROUPS else [],
     }
 
     return SourceBuildResult(
@@ -479,20 +450,11 @@ def write_outputs(result: SourceBuildResult) -> dict[str, str]:
 
     output_paths = {
         "surge_rules": DIST_ROOT / "surge" / "rules" / surge_rel,
-        "surge_domainset": DIST_ROOT / "surge" / "domainset" / surge_rel,
         "mihomo_classical": DIST_ROOT / "mihomo" / "classical" / mihomo_rel,
-        "mihomo_domain": DIST_ROOT / "mihomo" / "domain" / mihomo_rel,
-        "mihomo_ipcidr": DIST_ROOT / "mihomo" / "ipcidr" / mihomo_rel,
     }
 
     write_surge_file(output_paths["surge_rules"], source_label, result.outputs["surge_rules"], "rules")
-    if result.category in SURGE_DOMAIN_GROUPS:
-        write_surge_file(output_paths["surge_domainset"], source_label, result.outputs["surge_domainset"], "domainset")
     write_mihomo_file(output_paths["mihomo_classical"], source_label, result.outputs["mihomo_classical"], "classical")
-    if result.category in MIHOMO_DOMAIN_GROUPS:
-        write_mihomo_file(output_paths["mihomo_domain"], source_label, result.outputs["mihomo_domain"], "domain")
-    if result.category in MIHOMO_IP_GROUPS:
-        write_mihomo_file(output_paths["mihomo_ipcidr"], source_label, result.outputs["mihomo_ipcidr"], "ipcidr")
 
     labels: dict[str, str] = {}
     for key, output_path in output_paths.items():
@@ -547,10 +509,7 @@ def run_build() -> int:
             "[BUILD] "
             f"rules/{relative_key} -> {result.classification} "
             f"(surge rules={len(counts['surge_rules'])}, "
-            f"surge domainset={len(counts['surge_domainset'])}, "
-            f"mihomo classical={len(counts['mihomo_classical'])}, "
-            f"mihomo domain={len(counts['mihomo_domain'])}, "
-            f"mihomo ipcidr={len(counts['mihomo_ipcidr'])})"
+            f"mihomo classical={len(counts['mihomo_classical'])})"
         )
         for message in result.warnings:
             print(f"[WARN] {message}")
@@ -573,7 +532,19 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def configure_stdio() -> None:
+    for stream_name in ("stdout", "stderr"):
+        stream = getattr(sys, stream_name, None)
+        if stream is None or not hasattr(stream, "reconfigure"):
+            continue
+        try:
+            stream.reconfigure(encoding="utf-8", errors="replace")
+        except ValueError:
+            continue
+
+
 def main() -> int:
+    configure_stdio()
     parse_args()
     return run_build()
 

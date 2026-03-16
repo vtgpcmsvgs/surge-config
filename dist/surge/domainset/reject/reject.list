@@ -1,7 +1,0 @@
-# Generated from rules/reject/reject.list
-# kind: domainset
-# Do not edit dist directly.
-
-.ksord.com
-.wpscdn.cn
-.wps.cn

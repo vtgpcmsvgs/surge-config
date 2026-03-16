@@ -1,4 +1,0 @@
-# Generated from rules/region/tw/domains_to_tw.list
-# behavior: domain
-payload:
-  - ".lnkd.demdex.net"

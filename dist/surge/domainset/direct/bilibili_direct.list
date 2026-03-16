@@ -1,8 +1,0 @@
-# Generated from rules/direct/bilibili_direct.list
-# kind: domainset
-# Do not edit dist directly.
-
-.bilibili.com
-.bilivideo.com
-.biligame.com
-.hdslb.com
