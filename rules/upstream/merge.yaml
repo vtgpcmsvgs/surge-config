@@ -48,7 +48,7 @@ merge_plan:
       - Loyalsoldier telegramcidr
       - ACL4SSR Telegram.list
     notes:
-      - 构建时会自动拆成 Mihomo domain / ipcidr / classical，以及 Surge rules
+      - 构建时会统一产出 Surge rules 与 Mihomo classical
 
   - id: gfw-proxy
     target: rules/proxy/gfw.list

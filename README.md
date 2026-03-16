@@ -19,7 +19,6 @@ rules/
   region/      # 区域策略类源规则
   device/      # 局域网设备源地址规则
   upstream/    # 上游来源登记与未来合并模板
-  fragments/   # 旧片段配置，保留参考，不建议客户端继续直接引用
 
 dist/
   surge/
@@ -28,24 +27,26 @@ dist/
     classical/ # Mihomo behavior: classical 使用的显式规则产物
 
 tools/
+  build_rules.ps1
   build_rules.py
 ```
 
 说明：
 
-- `rules/region/tw/google_tw` 这类历史文件名会在 `dist/` 里规范化为 `.list` / `.yaml`
+- `rules/` 下参与构建的源规则文件统一使用 `.list` 命名；不再接受无扩展名历史写法
+- 例如 `rules/region/tw/google_tw.list` 会生成 `dist/surge/rules/region/tw/google_tw.list` 与 `dist/mihomo/classical/region/tw/google_tw.yaml`
 - `dist/build-report.json` 会记录每个源文件被识别为 `domain-only`、`ipcidr-only` 或 `classical/mixed`，以及构建 warning
 - 这些 classification 只用于维护诊断，不再对应额外的 `domainset` / `domain` / `ipcidr` 产物目录
 
 ## 如何构建
 
-推荐使用 Python 3.11+：
+Windows 本地与 Codex 会话统一优先使用包装脚本：
 
 ```bash
 powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1
 ```
 
-如果你已经确认本机 `python` 可用，也可以直接执行：
+CI 或其他非 Windows 环境如果已经确认本机 `python` 可用，也可以直接执行：
 
 ```bash
 python tools/build_rules.py
@@ -65,7 +66,7 @@ python tools/build_rules.py
 最小发布流程：
 
 1. 修改 `rules/` 源规则
-2. 运行 `python tools/build_rules.py`
+2. 运行 `powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1`
 3. 检查 `dist/` 与 `dist/build-report.json`
 4. 提交 `rules/`、`dist/`、文档与 CI 改动
 

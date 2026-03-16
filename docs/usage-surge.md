@@ -80,11 +80,11 @@ FINAL,PROXY
 
 - 如果源文件里写的是 `.g42.ai`、`.polymarket.com` 这类纯域名写法，构建后会规范化成 `DOMAIN-SUFFIX,g42.ai` 这类显式规则行
 - 如果源文件里写的是 `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`AND/OR`、`SRC-IP`、`GEOIP`、`IP-CIDR`，构建后会原样或按 Surge 兼容形式保留在 `RULE-SET` 产物中
-- `rules/region/tw/google_tw` 这类历史无扩展名源文件，客户端引用时要写成 `dist/surge/rules/region/tw/google_tw.list`
+- `rules/` 下参与构建的源规则文件统一使用 `.list` 命名，例如 `rules/region/tw/google_tw.list`
 
 ## 常见误区
 
 - 不要继续引用 `rules/reject/reject.list` 这类源文件路径
 - 不要再找旧的纯域名产物目录；仓库已经统一走 `RULE-SET`
 - 不要继续在客户端里直接引用 ACL4SSR / Loyalsoldier / blackmatrix7 的原始 URL
-- `region/tw/google_tw` 这类历史源文件，在 `dist/` 里会变成带扩展名的产物路径
+- 不要再引入无扩展名源文件；构建脚本会直接拒绝这种历史写法

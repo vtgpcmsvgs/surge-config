@@ -164,7 +164,7 @@ rules:
 - `DOMAIN-KEYWORD`、`DOMAIN-WILDCARD`、`AND/OR/NOT` 会保留在 `classical` 产物中
 - `IP-CIDR` / `IP-CIDR6` 会保留在 `classical` 产物中
 - `SRC-IP` 会为 Mihomo 规范化成 `SRC-IP-CIDR`
-- `rules/region/tw/google_tw` 这类历史无扩展名源文件，客户端引用时要写成 `dist/mihomo/classical/region/tw/google_tw.yaml`
+- `rules/` 下参与构建的源规则文件统一使用 `.list` 命名，例如 `rules/region/tw/google_tw.list`
 
 ## Clash Verge Rev / Clash Meta for Android 的差异
 
@@ -185,3 +185,4 @@ rules:
 - 不要把 `classical` 产物误配成别的 `behavior`
 - 不要继续引用 `rules/` 源规则路径
 - 不要再找旧的纯域名或纯 CIDR 产物目录；仓库已经统一走 `classical`
+- 不要再引入无扩展名源文件；构建脚本会直接拒绝这种历史写法

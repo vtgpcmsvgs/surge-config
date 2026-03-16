@@ -68,6 +68,10 @@ class SourceBuildResult:
     warnings: list[str]
 
 
+class BuildError(Exception):
+    """Raised when the rule source layout violates repo conventions."""
+
+
 def read_text(path: Path) -> str:
     for encoding in ("utf-8-sig", "utf-8", "gb18030"):
         try:
@@ -89,10 +93,18 @@ def iter_source_files() -> list[Path]:
     return sorted(files, key=lambda item: item.relative_to(RULES_ROOT).as_posix())
 
 
-def normalize_output_name(source: Path, suffix: str) -> Path:
-    if source.suffix:
-        return source.with_suffix(suffix)
-    return source.with_name(source.name + suffix)
+def validate_source_files(files: Iterable[Path]) -> None:
+    invalid = [
+        path.relative_to(RULES_ROOT).as_posix()
+        for path in files
+        if path.suffix.lower() != ".list"
+    ]
+    if invalid:
+        joined = ", ".join(f"rules/{item}" for item in invalid)
+        raise BuildError(
+            "All source files under rules/{reject,direct,proxy,region,device} "
+            f"must use the .list extension: {joined}"
+        )
 
 
 def ordered_unique(items: Iterable[str]) -> list[str]:
@@ -445,8 +457,8 @@ def build_source(path: Path) -> SourceBuildResult:
 
 def write_outputs(result: SourceBuildResult) -> dict[str, str]:
     source_label = Path("rules") / result.relative_path
-    surge_rel = normalize_output_name(result.relative_path, ".list")
-    mihomo_rel = normalize_output_name(result.relative_path, ".yaml")
+    surge_rel = result.relative_path.with_suffix(".list")
+    mihomo_rel = result.relative_path.with_suffix(".yaml")
 
     output_paths = {
         "surge_rules": DIST_ROOT / "surge" / "rules" / surge_rel,
@@ -495,11 +507,14 @@ def build_report(results: list[SourceBuildResult], path_map: dict[str, dict[str,
 
 
 def run_build() -> int:
+    source_files = iter_source_files()
+    validate_source_files(source_files)
+
     reset_output_roots()
     results: list[SourceBuildResult] = []
     path_map: dict[str, dict[str, str]] = {}
 
-    for source_file in iter_source_files():
+    for source_file in source_files:
         result = build_source(source_file)
         relative_key = result.relative_path.as_posix()
         path_map[relative_key] = write_outputs(result)
@@ -546,7 +561,11 @@ def configure_stdio() -> None:
 def main() -> int:
     configure_stdio()
     parse_args()
-    return run_build()
+    try:
+        return run_build()
+    except BuildError as exc:
+        print(f"[ERROR] {exc}", file=sys.stderr)
+        return 1
 
 
 if __name__ == "__main__":

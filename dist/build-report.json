@@ -334,7 +334,7 @@
       }
     },
     {
-      "source": "rules/region/tw/google_tw",
+      "source": "rules/region/tw/google_tw.list",
       "category": "region",
       "classification": "classical/mixed",
       "counts": {
