@@ -4,7 +4,3 @@ DOMAIN-SUFFIX,cn
 GEOIP,CN
 INCLUDE,upstream/loyalsoldier/direct.txt
 INCLUDE,upstream/loyalsoldier/cncidr.txt
-INCLUDE,upstream/acl4ssr/china_domain.list
-INCLUDE,upstream/acl4ssr/china_media.list
-INCLUDE,upstream/acl4ssr/download.list
-INCLUDE,upstream/acl4ssr/unban.list

@@ -22,35 +22,34 @@ merge_plan:
     strategy:
       - keep_manual_cn_overrides_first
       - include_loyalsoldier_direct_and_cncidr
-      - include_acl4ssr_cn_supplements
 
   - id: microsoft-direct
     target: rules/direct/microsoft_direct.list
     purpose: Microsoft / OneDrive 直连
     strategy:
       - keep_process_rules_first
-      - include_acl4ssr_onedrive_and_microsoft
+      - include_blackmatrix7_onedrive_and_microsoft
 
   - id: bilibili-direct
     target: rules/direct/bilibili_direct.list
     purpose: 哔哩哔哩直连
     strategy:
       - keep_manual_domain_entries
-      - include_acl4ssr_bilibili_variants
+      - include_blackmatrix7_bilibili
 
   - id: netease-direct
     target: rules/direct/netease_direct.list
     purpose: 网易直连
     strategy:
       - keep_manual_domain_entries
-      - include_acl4ssr_netease_music
+      - include_blackmatrix7_netease_music
 
   - id: google-proxy
     target: rules/proxy/google.list
     purpose: Google / YouTube 代理
     strategy:
       - keep_manual_keyword_entries
-      - include_acl4ssr_google_and_youtube
+      - include_blackmatrix7_google_and_youtube
 
   - id: telegram-proxy
     target: rules/proxy/telegram.list
@@ -65,21 +64,20 @@ merge_plan:
     strategy:
       - keep_manual_core_entries
       - include_loyalsoldier_gfw_and_tld_not_cn
-      - include_acl4ssr_proxy_gfwlist
 
   - id: global-media
     target: rules/proxy/global_media.list
     purpose: 国际流媒体代理
     strategy:
       - keep_manual_core_entries
-      - include_acl4ssr_proxy_media_and_netflix
+      - include_blackmatrix7_global_media
 
   - id: tw-ai
     target: rules/region/tw/ai_tw.list
     purpose: AI 平台走台湾策略
     strategy:
       - keep_manual_keyword_entries
-      - include_acl4ssr_openai
+      - include_blackmatrix7_openai
 
   - id: reject
     target: rules/reject/reject.list

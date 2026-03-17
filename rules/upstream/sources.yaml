@@ -22,13 +22,11 @@ sources:
           note: 保留 DOMAIN-SUFFIX,cn 与 GEOIP,CN 等高优先级兜底
         - repo: Loyalsoldier/surge-rules
           note: 负责 direct.txt 与 cncidr.txt，尽量保证国内站点直连
-        - repo: ACL4SSR/ACL4SSR
-          note: 负责 ChinaDomain、ChinaMedia、Download、UnBan 作为补充
     microsoft_direct.list:
       preferred:
         - repo: self
           note: 保留 OneDrive 进程规则在最前面
-        - repo: ACL4SSR/ACL4SSR
+        - repo: blackmatrix7/ios_rule_script
           note: 负责 Microsoft.list 与 OneDrive.list 主体
     bytedance_direct.list:
       preferred:
@@ -38,14 +36,14 @@ sources:
       preferred:
         - repo: self
           note: 保留少量高频兜底
-        - repo: ACL4SSR/ACL4SSR
+        - repo: blackmatrix7/ios_rule_script
           note: 负责 NetEaseMusic.list 补充
     bilibili_direct.list:
       preferred:
         - repo: self
           note: 保留少量高频兜底
-        - repo: ACL4SSR/ACL4SSR
-          note: 负责 Bilibili.list 与 BilibiliHMT.list 补充
+        - repo: blackmatrix7/ios_rule_script
+          note: 负责 Bilibili.list 补充
     direct.list:
       preferred:
         - repo: self
@@ -60,7 +58,7 @@ sources:
       preferred:
         - repo: self
           note: 保留少量关键词兜底
-        - repo: ACL4SSR/ACL4SSR
+        - repo: blackmatrix7/ios_rule_script
           note: 负责 GoogleFCM.list 与 YouTube.list 补充
     telegram.list:
       preferred:
@@ -74,14 +72,12 @@ sources:
           note: 保留少量高频站点在高优先级
         - repo: Loyalsoldier/surge-rules
           note: 负责 gfw.txt 与 tld-not-cn.txt 主体
-        - repo: ACL4SSR/ACL4SSR
-          note: 负责 ProxyGFWlist.list 作为额外补充
     global_media.list:
       preferred:
         - repo: self
           note: 保留少量常用流媒体入口
-        - repo: ACL4SSR/ACL4SSR
-          note: 负责 ProxyMedia.list 与 Netflix.list 主体
+        - repo: blackmatrix7/ios_rule_script
+          note: 负责 GlobalMedia.list 主体
 
   region:
     hk/domains_to_hk.list:
@@ -92,8 +88,8 @@ sources:
       preferred:
         - repo: self
           note: 保留少量关键词兜底
-        - repo: ACL4SSR/ACL4SSR
-          note: 负责 OpenAi.list 补充
+        - repo: blackmatrix7/ios_rule_script
+          note: 负责 OpenAI.list 补充
     tw/crypto_tw.list:
       preferred:
         - repo: self

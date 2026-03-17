@@ -4,5 +4,4 @@ DOMAIN-SUFFIX,bilibili.com
 DOMAIN-SUFFIX,bilivideo.com
 DOMAIN-SUFFIX,biligame.com
 DOMAIN-SUFFIX,hdslb.com
-INCLUDE,upstream/acl4ssr/bilibili.list
-INCLUDE,upstream/acl4ssr/bilibili_hmt.list
+INCLUDE,upstream/blackmatrix7/bilibili.list

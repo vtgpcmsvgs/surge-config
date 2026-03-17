@@ -10,4 +10,3 @@ DOMAIN-SUFFIX,whatsapp.net
 DOMAIN-SUFFIX,x.com
 INCLUDE,upstream/loyalsoldier/gfw.txt
 INCLUDE,upstream/loyalsoldier/tld-not-cn.txt
-INCLUDE,upstream/acl4ssr/proxy_gfwlist.list

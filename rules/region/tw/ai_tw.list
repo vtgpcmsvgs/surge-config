@@ -4,4 +4,4 @@ DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,claude
 DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,gemini
-INCLUDE,upstream/acl4ssr/openai.list
+INCLUDE,upstream/blackmatrix7/openai.list
