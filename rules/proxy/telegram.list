@@ -1,5 +1,5 @@
-﻿# Telegram 代理基础规则
-# 先放域名入口，CIDR 可在后续按 merge.yaml 补齐。
+# Telegram 代理基础规则
+# 手写域名入口放前面，CIDR 由 Loyalsoldier 每日同步补齐。
 DOMAIN-KEYWORD,telegram
 DOMAIN-SUFFIX,t.me
 DOMAIN-SUFFIX,tdesktop.com
@@ -7,3 +7,4 @@ DOMAIN-SUFFIX,telegram.me
 DOMAIN-SUFFIX,telegram.org
 DOMAIN-SUFFIX,telesco.pe
 DOMAIN-SUFFIX,tlgrm.app
+INCLUDE,upstream/loyalsoldier/telegramcidr.txt

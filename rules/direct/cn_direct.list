@@ -1,4 +1,10 @@
-﻿# 中国大陆基础直连兜底
-# 这里先保持最小可用集合，后续再通过 upstream 元数据逐步补强。
+# 中国大陆基础直连兜底
+# 手写规则永远放在前面，后面的 INCLUDE 由每日同步补强。
 DOMAIN-SUFFIX,cn
 GEOIP,CN
+INCLUDE,upstream/loyalsoldier/direct.txt
+INCLUDE,upstream/loyalsoldier/cncidr.txt
+INCLUDE,upstream/acl4ssr/china_domain.list
+INCLUDE,upstream/acl4ssr/china_media.list
+INCLUDE,upstream/acl4ssr/download.list
+INCLUDE,upstream/acl4ssr/unban.list

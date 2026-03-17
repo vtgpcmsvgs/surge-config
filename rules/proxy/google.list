@@ -1,4 +1,4 @@
-﻿# Google / YouTube 通用代理规则
+# Google / YouTube 通用代理规则
 DOMAIN-KEYWORD,google
 DOMAIN-KEYWORD,googleapis
 DOMAIN-KEYWORD,googlevideo
@@ -7,3 +7,5 @@ DOMAIN-KEYWORD,youtube
 DOMAIN-SUFFIX,google.com
 DOMAIN-SUFFIX,youtu.be
 DOMAIN-SUFFIX,youtube.com
+INCLUDE,upstream/acl4ssr/google_fcm.list
+INCLUDE,upstream/acl4ssr/youtube.list

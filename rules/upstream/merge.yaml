@@ -1,6 +1,5 @@
-﻿# 上游合并模板
-# 目标：记录“以后如果要把上游素材并回 rules/ 源规则，应该怎么做”。
-# 当前版本只做模板，不强制脚本解析。
+# 上游合并模板
+# 当前实现已经从“手工拷贝合并”切换为“手写规则 + INCLUDE 上游快照”。
 
 defaults:
   dedupe: true
@@ -11,75 +10,91 @@ defaults:
   output_policy:
     source_layer_only: true
     client_layer_via_dist: true
+  sync_policy:
+    fetch_to_rules_upstream: true
+    source_files_use_include: true
+    manual_entries_first: true
 
 merge_plan:
   - id: cn-direct
     target: rules/direct/cn_direct.list
-    purpose: 中国大陆基础直连兜底
+    purpose: 中国大陆基础直连兜底，尽量避免国内站点误走代理
     strategy:
-      - append_manual_entries_first
-      - merge_upstream_domain_and_ip_material
-      - keep_geoip_rules_in_source
-    upstream_inputs:
-      - rules/upstream/loyalsoldier/cncidr.txt
-      - ACL4SSR ChinaDomain / ChinaMedia / Download / UnBan
-    notes:
-      - 如果未来引入大体量上游素材，优先在源规则层完成筛选，再进入 dist 构建
+      - keep_manual_cn_overrides_first
+      - include_loyalsoldier_direct_and_cncidr
+      - include_acl4ssr_cn_supplements
 
   - id: microsoft-direct
     target: rules/direct/microsoft_direct.list
     purpose: Microsoft / OneDrive 直连
     strategy:
-      - merge_rules
-      - dedupe_keep_first
-    upstream_inputs:
-      - rules/upstream/acl4ssr/microsoft.list
-      - rules/upstream/acl4ssr/onedrive.list
-    notes:
-      - 当前仓库已落一份快照，后续可以用这两份上游文件更新源规则
+      - keep_process_rules_first
+      - include_acl4ssr_onedrive_and_microsoft
+
+  - id: bilibili-direct
+    target: rules/direct/bilibili_direct.list
+    purpose: 哔哩哔哩直连
+    strategy:
+      - keep_manual_domain_entries
+      - include_acl4ssr_bilibili_variants
+
+  - id: netease-direct
+    target: rules/direct/netease_direct.list
+    purpose: 网易直连
+    strategy:
+      - keep_manual_domain_entries
+      - include_acl4ssr_netease_music
+
+  - id: google-proxy
+    target: rules/proxy/google.list
+    purpose: Google / YouTube 代理
+    strategy:
+      - keep_manual_keyword_entries
+      - include_acl4ssr_google_and_youtube
 
   - id: telegram-proxy
     target: rules/proxy/telegram.list
     purpose: Telegram 代理
     strategy:
       - keep_manual_domain_entries
-      - append_upstream_cidr_when_available
-    upstream_inputs:
-      - Loyalsoldier telegramcidr
-      - ACL4SSR Telegram.list
-    notes:
-      - 构建时会统一产出 Surge rules 与 Mihomo classical
+      - include_loyalsoldier_telegram_cidr
 
   - id: gfw-proxy
     target: rules/proxy/gfw.list
     purpose: GFW 代理兜底
     strategy:
-      - manual_core_first
-      - append_upstream_domain_material
-    upstream_inputs:
-      - Loyalsoldier gfw
-      - Loyalsoldier tld-not-cn
-      - Loyalsoldier proxy
-      - ACL4SSR ProxyGFWlist.list
+      - keep_manual_core_entries
+      - include_loyalsoldier_gfw_and_tld_not_cn
+      - include_acl4ssr_proxy_gfwlist
 
   - id: global-media
     target: rules/proxy/global_media.list
     purpose: 国际流媒体代理
     strategy:
-      - merge_domain_material
-      - keep_service_specific_lists_separable
-    upstream_inputs:
-      - ACL4SSR ProxyMedia.list
-      - ACL4SSR Netflix.list
+      - keep_manual_core_entries
+      - include_acl4ssr_proxy_media_and_netflix
+
+  - id: tw-ai
+    target: rules/region/tw/ai_tw.list
+    purpose: AI 平台走台湾策略
+    strategy:
+      - keep_manual_keyword_entries
+      - include_acl4ssr_openai
+
+  - id: reject
+    target: rules/reject/reject.list
+    purpose: 强主观的拦截与限制规则
+    strategy:
+      - manual_only
+    notes:
+      - 这类规则与客户端兼容性耦合更强，继续只做本地维护
 
   - id: adblock
     target: rules/reject/adblock.list
-    purpose: 广告拦截
+    purpose: 轻量广告拦截
     strategy:
       - keep_small_and_readable
-      - avoid_unreviewed_bulk_imports
-    upstream_inputs:
-      - blackmatrix7 ad-related categories
+      - manual_only
 
   - id: device-srcip
     target: rules/device/srcip_pc01.list ~ rules/device/srcip_pc06.list
@@ -87,6 +102,5 @@ merge_plan:
     strategy:
       - manual_single_source_of_truth
       - one_device_one_file
-    upstream_inputs: []
     notes:
       - 不建议从第三方拉取，直接维护本地源地址即可

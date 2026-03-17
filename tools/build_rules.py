@@ -60,6 +60,13 @@ class ParsedLine:
 
 
 @dataclass
+class SourceLine:
+    path: Path
+    line_no: int
+    raw: str
+
+
+@dataclass
 class SourceBuildResult:
     relative_path: Path
     category: str
@@ -118,6 +125,72 @@ def strip_inline_comment(raw: str) -> str:
         if index != -1:
             return line[:index].rstrip()
     return line
+
+
+def repo_relative_path(path: Path) -> str:
+    return path.resolve().relative_to(ROOT.resolve()).as_posix()
+
+
+def parse_include_directive(raw: str) -> str | None:
+    if is_comment_or_blank(raw):
+        return None
+
+    line = strip_inline_comment(raw).strip()
+    if not line or "," not in line:
+        return None
+
+    token, _, rest = line.partition(",")
+    if token.strip().upper() != "INCLUDE":
+        return None
+    return rest.strip()
+
+
+def resolve_include_path(source_path: Path, line_no: int, target: str) -> Path:
+    if not target:
+        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE is missing a path")
+
+    candidate = Path(target.replace("\\", "/"))
+    if candidate.is_absolute():
+        raise BuildError(
+            f"{repo_relative_path(source_path)}:{line_no} INCLUDE must use a path under rules/: {target}"
+        )
+
+    if candidate.parts and candidate.parts[0] == "rules":
+        candidate = Path(*candidate.parts[1:])
+
+    if candidate.parts and candidate.parts[0] in {".", ".."}:
+        resolved = (source_path.parent / candidate).resolve()
+    else:
+        resolved = (RULES_ROOT / candidate).resolve()
+
+    try:
+        resolved.relative_to(RULES_ROOT.resolve())
+    except ValueError as exc:
+        raise BuildError(
+            f"{repo_relative_path(source_path)}:{line_no} INCLUDE must stay within rules/: {target}"
+        ) from exc
+
+    if not resolved.exists() or not resolved.is_file():
+        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE target not found: {target}")
+    return resolved
+
+
+def expand_source_lines(path: Path, stack: tuple[Path, ...] = ()) -> list[SourceLine]:
+    resolved_path = path.resolve()
+    if resolved_path in stack:
+        chain = " -> ".join(repo_relative_path(item) for item in (*stack, resolved_path))
+        raise BuildError(f"Include cycle detected: {chain}")
+
+    lines: list[SourceLine] = []
+    for line_no, raw in enumerate(read_text(path).splitlines(), start=1):
+        include_target = parse_include_directive(raw)
+        if include_target is None:
+            lines.append(SourceLine(path=path, line_no=line_no, raw=raw))
+            continue
+
+        include_path = resolve_include_path(path, line_no, include_target)
+        lines.extend(expand_source_lines(include_path, (*stack, resolved_path)))
+    return lines
 
 
 def is_comment_or_blank(raw: str) -> bool:
@@ -430,8 +503,8 @@ def build_source(path: Path) -> SourceBuildResult:
     surge_rules: list[str] = []
     mihomo_classical: list[str] = []
 
-    for line_no, raw in enumerate(read_text(path).splitlines(), start=1):
-        parsed = parse_line(raw)
+    for source_line in expand_source_lines(path):
+        parsed = parse_line(source_line.raw)
         if parsed.source_type:
             source_types.append(parsed.source_type)
         if parsed.surge_rule:
@@ -439,7 +512,7 @@ def build_source(path: Path) -> SourceBuildResult:
         if parsed.mihomo_classical:
             mihomo_classical.append(parsed.mihomo_classical)
         for message in parsed.warnings:
-            warnings.append(f"{source_label.as_posix()}:{line_no} {message}")
+            warnings.append(f"{repo_relative_path(source_line.path)}:{source_line.line_no} {message}")
 
     outputs = {
         "surge_rules": ordered_unique(surge_rules),

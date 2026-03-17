@@ -1,7 +1,8 @@
-
 # 哔哩哔哩直连基础规则
 DOMAIN-KEYWORD,bilibili
 DOMAIN-SUFFIX,bilibili.com
 DOMAIN-SUFFIX,bilivideo.com
 DOMAIN-SUFFIX,biligame.com
 DOMAIN-SUFFIX,hdslb.com
+INCLUDE,upstream/acl4ssr/bilibili.list
+INCLUDE,upstream/acl4ssr/bilibili_hmt.list

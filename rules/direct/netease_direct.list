@@ -1,4 +1,6 @@
+# 网易直连基础规则
 DOMAIN-KEYWORD,netease
 DOMAIN-SUFFIX,126.net
 DOMAIN-SUFFIX,126.com
 DOMAIN-SUFFIX,163.com
+INCLUDE,upstream/acl4ssr/netease_music.list

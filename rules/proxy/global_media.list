@@ -1,4 +1,4 @@
-﻿# 国际流媒体代理规则
+# 国际流媒体代理规则
 DOMAIN-SUFFIX,disneyplus.com
 DOMAIN-SUFFIX,dssott.com
 DOMAIN-SUFFIX,hbomax.com
@@ -11,3 +11,5 @@ DOMAIN-SUFFIX,nflxso.net
 DOMAIN-SUFFIX,nflxvideo.net
 DOMAIN-SUFFIX,spotify.com
 DOMAIN-SUFFIX,spotifycdn.com
+INCLUDE,upstream/acl4ssr/proxy_media.list
+INCLUDE,upstream/acl4ssr/netflix.list

@@ -1,17 +1,20 @@
-name: build-dist
+name: sync-upstream-rules
 
 on:
-  push:
-    branches:
-      - main
+  schedule:
+    # 每天 UTC 01:30（北京时间 09:30）同步上游快照并重建 dist
+    - cron: "30 1 * * *"
   workflow_dispatch: {}
 
 permissions:
   contents: write
 
+concurrency:
+  group: sync-upstream-rules
+  cancel-in-progress: false
+
 jobs:
-  build:
-    if: github.actor != 'github-actions[bot]'
+  sync:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,21 +29,14 @@ jobs:
       - name: Build dist
         run: python tools/build_rules.py
 
-      - name: Upload dist artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: dist
-          path: dist
-
-      - name: Commit dist if changed
-        if: github.ref == 'refs/heads/main'
+      - name: Commit & push if changed
         run: |
-          if git diff --quiet -- rules/upstream dist; then
-            echo "No upstream/dist changes"
+          if git diff --quiet; then
+            echo "No changes"
             exit 0
           fi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add rules/upstream dist
-          git commit -m "chore: sync upstream rules and rebuild dist"
+          git commit -m "sync: upstream rules and rebuild dist"
           git push

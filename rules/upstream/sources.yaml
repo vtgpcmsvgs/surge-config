@@ -1,50 +1,51 @@
-﻿# 上游来源登记
+# 上游来源登记
 # 说明：
-# 1. 这里只记录“建议参考哪里”，不在当前脚本里自动拉取。
+# 1. 第三方只作为 rules/upstream/ 快照来源，由 GitHub Actions 每日同步。
 # 2. 真正给客户端使用的内容，请始终走 dist/。
+# 3. rules/ 源文件中的手写规则优先，后续通过 INCLUDE 追加第三方快照。
 
 sources:
   reject:
     reject.list:
       preferred:
         - repo: self
-          note: 保留当前仓库自维护的禁用 HTTP、Windows 更新、WPS 广告规则
-        - repo: blackmatrix7/ios_rule_script
-          note: 可作为更大体量 reject / ad block 素材参考
+          note: 保留本仓库自维护的禁用 HTTP、Windows 更新、WPS 广告等强主观规则
     adblock.list:
       preferred:
-        - repo: blackmatrix7/ios_rule_script
-          note: 广告域名类素材较全，适合补充域名级拦截
-        - repo: Loyalsoldier/surge-rules
-          note: 可参考 reject / private 相关规则集的维护方式
+        - repo: self
+          note: 广告拦截继续保持小而可读，不引入额外大体量上游
 
   direct:
     cn_direct.list:
       preferred:
+        - repo: self
+          note: 保留 DOMAIN-SUFFIX,cn 与 GEOIP,CN 等高优先级兜底
         - repo: Loyalsoldier/surge-rules
-          note: 适合参考 cncidr、direct、apple、icloud 等基础直连素材
+          note: 负责 direct.txt 与 cncidr.txt，尽量保证国内站点直连
         - repo: ACL4SSR/ACL4SSR
-          note: 适合参考 ChinaDomain、ChinaMedia、Download、UnBan 等补充
+          note: 负责 ChinaDomain、ChinaMedia、Download、UnBan 作为补充
     microsoft_direct.list:
       preferred:
+        - repo: self
+          note: 保留 OneDrive 进程规则在最前面
         - repo: ACL4SSR/ACL4SSR
-          note: 当前初版来源快照主要参考 Microsoft.list 与 OneDrive.list
-        - repo: blackmatrix7/ios_rule_script
-          note: 可用于校对 Microsoft / OneDrive 相关分流
+          note: 负责 Microsoft.list 与 OneDrive.list 主体
     bytedance_direct.list:
       preferred:
         - repo: self
-          note: 当前以本仓库小范围关键词为主
-        - repo: blackmatrix7/ios_rule_script
-          note: 可参考 ByteDance 分类素材
+          note: 当前继续以本仓库小范围关键词为主
     netease_direct.list:
       preferred:
+        - repo: self
+          note: 保留少量高频兜底
         - repo: ACL4SSR/ACL4SSR
-          note: 可参考 NetEaseMusic.list
+          note: 负责 NetEaseMusic.list 补充
     bilibili_direct.list:
       preferred:
+        - repo: self
+          note: 保留少量高频兜底
         - repo: ACL4SSR/ACL4SSR
-          note: 可参考 Bilibili.list 与 BilibiliHMT.list
+          note: 负责 Bilibili.list 与 BilibiliHMT.list 补充
     direct.list:
       preferred:
         - repo: self
@@ -57,24 +58,30 @@ sources:
           note: 放需要走默认代理组的小范围自定义规则
     google.list:
       preferred:
+        - repo: self
+          note: 保留少量关键词兜底
         - repo: ACL4SSR/ACL4SSR
-          note: 可参考 GoogleFCM、YouTube 等规则集
+          note: 负责 GoogleFCM.list 与 YouTube.list 补充
     telegram.list:
       preferred:
+        - repo: self
+          note: 保留域名入口在高优先级
         - repo: Loyalsoldier/surge-rules
-          note: 适合参考 telegramcidr
-        - repo: ACL4SSR/ACL4SSR
-          note: 适合参考 Telegram.list
+          note: 负责 telegramcidr.txt 补充
     gfw.list:
       preferred:
+        - repo: self
+          note: 保留少量高频站点在高优先级
         - repo: Loyalsoldier/surge-rules
-          note: 适合参考 gfw、tld-not-cn、proxy
+          note: 负责 gfw.txt 与 tld-not-cn.txt 主体
         - repo: ACL4SSR/ACL4SSR
-          note: 适合参考 ProxyGFWlist.list
+          note: 负责 ProxyGFWlist.list 作为额外补充
     global_media.list:
       preferred:
+        - repo: self
+          note: 保留少量常用流媒体入口
         - repo: ACL4SSR/ACL4SSR
-          note: 适合参考 ProxyMedia.list、Netflix.list 等流媒体素材
+          note: 负责 ProxyMedia.list 与 Netflix.list 主体
 
   region:
     hk/domains_to_hk.list:
@@ -84,9 +91,9 @@ sources:
     tw/ai_tw.list:
       preferred:
         - repo: self
-          note: 当前是你自己的台湾策略入口
+          note: 保留少量关键词兜底
         - repo: ACL4SSR/ACL4SSR
-          note: 可参考 OpenAi.list 等 AI 平台素材
+          note: 负责 OpenAi.list 补充
     tw/crypto_tw.list:
       preferred:
         - repo: self
