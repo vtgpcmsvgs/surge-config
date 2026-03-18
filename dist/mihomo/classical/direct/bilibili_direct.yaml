@@ -1,7 +1,6 @@
 # Generated from rules/direct/bilibili_direct.list
 # behavior: classical
 payload:
-  - "DOMAIN-KEYWORD,bilibili"
   - "DOMAIN,0gr4uqmtt8y41hcjsgrzdrc31.ourdvsss.com"
   - "DOMAIN,0gr4uqmtt8y41hcjsgrzdrc3s.ourdvsss.com"
   - "DOMAIN,0gr4uqmtt8y41hcjsgrzdrc3z.ourdvsss.com"
@@ -131,3 +130,4 @@ payload:
   - "PROCESS-NAME,com.bilibili.comic.intl"
   - "PROCESS-NAME,tv.danmaku.bili"
   - "PROCESS-NAME,tv.danmaku.bilibilihd"
+  - "DOMAIN-KEYWORD,bilibili"

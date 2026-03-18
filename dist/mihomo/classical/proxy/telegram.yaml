@@ -1,13 +1,6 @@
 # Generated from rules/proxy/telegram.list
 # behavior: classical
 payload:
-  - "DOMAIN-KEYWORD,telegram"
-  - "DOMAIN-SUFFIX,t.me"
-  - "DOMAIN-SUFFIX,tdesktop.com"
-  - "DOMAIN-SUFFIX,telegram.me"
-  - "DOMAIN-SUFFIX,telegram.org"
-  - "DOMAIN-SUFFIX,telesco.pe"
-  - "DOMAIN-SUFFIX,tlgrm.app"
   - "IP-CIDR,91.105.192.0/23"
   - "IP-CIDR,91.108.4.0/22"
   - "IP-CIDR,91.108.8.0/21"
@@ -20,3 +13,10 @@ payload:
   - "IP-CIDR6,2001:b28:f23c::/47"
   - "IP-CIDR6,2001:b28:f23f::/48"
   - "IP-CIDR6,2a0a:f280::/32"
+  - "DOMAIN-KEYWORD,telegram"
+  - "DOMAIN-SUFFIX,t.me"
+  - "DOMAIN-SUFFIX,tdesktop.com"
+  - "DOMAIN-SUFFIX,telegram.me"
+  - "DOMAIN-SUFFIX,telegram.org"
+  - "DOMAIN-SUFFIX,telesco.pe"
+  - "DOMAIN-SUFFIX,tlgrm.app"

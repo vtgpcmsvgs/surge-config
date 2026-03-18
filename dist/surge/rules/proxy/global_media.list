@@ -2,18 +2,6 @@
 # kind: rules
 # Do not edit dist directly.
 
-DOMAIN-SUFFIX,disneyplus.com
-DOMAIN-SUFFIX,dssott.com
-DOMAIN-SUFFIX,hbomax.com
-DOMAIN-SUFFIX,hulu.com
-DOMAIN-SUFFIX,max.com
-DOMAIN-SUFFIX,netflix.com
-DOMAIN-SUFFIX,netflix.net
-DOMAIN-SUFFIX,nflximg.net
-DOMAIN-SUFFIX,nflxso.net
-DOMAIN-SUFFIX,nflxvideo.net
-DOMAIN-SUFFIX,spotify.com
-DOMAIN-SUFFIX,spotifycdn.com
 DOMAIN,ai.google.dev
 DOMAIN,aistudio.google.com
 DOMAIN,akmcdnoversea-tw.inter.ptqy.gitv.tv
@@ -324,6 +312,7 @@ DOMAIN-SUFFIX,disneynewseries.com
 DOMAIN-SUFFIX,disneynow.com
 DOMAIN-SUFFIX,disneypeoplesurveys.com
 DOMAIN-SUFFIX,disneyplus.bn5x.net
+DOMAIN-SUFFIX,disneyplus.com
 DOMAIN-SUFFIX,disneyplus.com.ssl.sc.omtrdc.net
 DOMAIN-SUFFIX,disneyredirects.com
 DOMAIN-SUFFIX,disneysrivieraresort.com
@@ -345,6 +334,7 @@ DOMAIN-SUFFIX,dmxleo.com
 DOMAIN-SUFFIX,dnitv.com
 DOMAIN-SUFFIX,dogatch.jp
 DOMAIN-SUFFIX,dokusho-ojikan.jp
+DOMAIN-SUFFIX,dssott.com
 DOMAIN-SUFFIX,dtci.co
 DOMAIN-SUFFIX,dtci.technology
 DOMAIN-SUFFIX,dtvce.com
@@ -598,6 +588,7 @@ DOMAIN-SUFFIX,hbogoasia.hk
 DOMAIN-SUFFIX,hbogoasia.id
 DOMAIN-SUFFIX,hbogoasia.ph
 DOMAIN-SUFFIX,hbolb.onwardsmg.com
+DOMAIN-SUFFIX,hbomax.com
 DOMAIN-SUFFIX,hbomaxcdn.com
 DOMAIN-SUFFIX,hbonow.com
 DOMAIN-SUFFIX,hbounify-prod.evergent.com
@@ -629,6 +620,7 @@ DOMAIN-SUFFIX,huffpostbrasil.com
 DOMAIN-SUFFIX,huffpostmaghreb.com
 DOMAIN-SUFFIX,huloo.cc
 DOMAIN-SUFFIX,huloo.tv
+DOMAIN-SUFFIX,hulu.com
 DOMAIN-SUFFIX,hulu.hb.omtrdc.net
 DOMAIN-SUFFIX,hulu.jp
 DOMAIN-SUFFIX,hulu.sc.omtrdc.net
@@ -737,6 +729,7 @@ DOMAIN-SUFFIX,marvelspotlightplays.com
 DOMAIN-SUFFIX,marvelsuperheroseptember.com
 DOMAIN-SUFFIX,marvelsuperwar.com
 DOMAIN-SUFFIX,maskedsingerfox.com
+DOMAIN-SUFFIX,max.com
 DOMAIN-SUFFIX,maxgo.com
 DOMAIN-SUFFIX,media-amazon.com
 DOMAIN-SUFFIX,meridian.net
@@ -805,8 +798,10 @@ DOMAIN-SUFFIX,nbys1.tv
 DOMAIN-SUFFIX,nbyy.tv
 DOMAIN-SUFFIX,nebula.app
 DOMAIN-SUFFIX,netflix.ca
+DOMAIN-SUFFIX,netflix.com
 DOMAIN-SUFFIX,netflix.com.au
 DOMAIN-SUFFIX,netflix.com.edgesuite.net
+DOMAIN-SUFFIX,netflix.net
 DOMAIN-SUFFIX,netflixdnstest0.com
 DOMAIN-SUFFIX,netflixdnstest1.com
 DOMAIN-SUFFIX,netflixdnstest2.com
@@ -825,7 +820,10 @@ DOMAIN-SUFFIX,newpppp.com
 DOMAIN-SUFFIX,newsnowfox.com
 DOMAIN-SUFFIX,nflxext.com
 DOMAIN-SUFFIX,nflximg.com
+DOMAIN-SUFFIX,nflximg.net
 DOMAIN-SUFFIX,nflxsearch.net
+DOMAIN-SUFFIX,nflxso.net
+DOMAIN-SUFFIX,nflxvideo.net
 DOMAIN-SUFFIX,ngeo.com
 DOMAIN-SUFFIX,nicodic.jp
 DOMAIN-SUFFIX,nicomanga.jp
@@ -977,7 +975,9 @@ DOMAIN-SUFFIX,speedracegear.com
 DOMAIN-SUFFIX,speedxtra.com
 DOMAIN-SUFFIX,spoti.fi
 DOMAIN-SUFFIX,spotify-everywhere.com
+DOMAIN-SUFFIX,spotify.com
 DOMAIN-SUFFIX,spotify.design
+DOMAIN-SUFFIX,spotifycdn.com
 DOMAIN-SUFFIX,spotifycdn.net
 DOMAIN-SUFFIX,spotifycharts.com
 DOMAIN-SUFFIX,spotifycodes.com

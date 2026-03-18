@@ -2,14 +2,6 @@
 # kind: rules
 # Do not edit dist directly.
 
-DOMAIN-SUFFIX,facebook.com
-DOMAIN-SUFFIX,fbcdn.net
-DOMAIN-SUFFIX,instagram.com
-DOMAIN-SUFFIX,threads.net
-DOMAIN-SUFFIX,twitter.com
-DOMAIN-SUFFIX,whatsapp.com
-DOMAIN-SUFFIX,whatsapp.net
-DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,000webhost.com
 DOMAIN-SUFFIX,0rz.tw
 DOMAIN-SUFFIX,1-apple.com.tw
@@ -1148,6 +1140,7 @@ DOMAIN-SUFFIX,eyny.com
 DOMAIN-SUFFIX,f-droid.org
 DOMAIN-SUFFIX,f2pool.com
 DOMAIN-SUFFIX,f8.com
+DOMAIN-SUFFIX,facebook.com
 DOMAIN-SUFFIX,facebook.de
 DOMAIN-SUFFIX,facebook.design
 DOMAIN-SUFFIX,facebook.hu
@@ -1198,6 +1191,7 @@ DOMAIN-SUFFIX,fb.com
 DOMAIN-SUFFIX,fb.me
 DOMAIN-SUFFIX,fb.watch
 DOMAIN-SUFFIX,fbaddins.com
+DOMAIN-SUFFIX,fbcdn.net
 DOMAIN-SUFFIX,fbsbx.com
 DOMAIN-SUFFIX,fbworkmail.com
 DOMAIN-SUFFIX,fc2cn.com
@@ -1980,6 +1974,7 @@ DOMAIN-SUFFIX,inote.tw
 DOMAIN-SUFFIX,insecam.org
 DOMAIN-SUFFIX,inside.com.tw
 DOMAIN-SUFFIX,insidevoa.com
+DOMAIN-SUFFIX,instagram.com
 DOMAIN-SUFFIX,institut-tibetain.org
 DOMAIN-SUFFIX,interactivebrokers.com
 DOMAIN-SUFFIX,internet.org
@@ -3424,6 +3419,7 @@ DOMAIN-SUFFIX,thisav.com
 DOMAIN-SUFFIX,thomasbernhard.org
 DOMAIN-SUFFIX,threadreaderapp.com
 DOMAIN-SUFFIX,threads.com
+DOMAIN-SUFFIX,threads.net
 DOMAIN-SUFFIX,throughnightsfire.com
 DOMAIN-SUFFIX,thuhole.com
 DOMAIN-SUFFIX,thywords.com
@@ -3629,6 +3625,7 @@ DOMAIN-SUFFIX,twitoaster.com
 DOMAIN-SUFFIX,twitonmsn.com
 DOMAIN-SUFFIX,twitpic.com
 DOMAIN-SUFFIX,twitstat.com
+DOMAIN-SUFFIX,twitter.com
 DOMAIN-SUFFIX,twitter.jp
 DOMAIN-SUFFIX,twitter4j.org
 DOMAIN-SUFFIX,twittercounter.com
@@ -3893,6 +3890,8 @@ DOMAIN-SUFFIX,wforum.com
 DOMAIN-SUFFIX,whatblocked.com
 DOMAIN-SUFFIX,whatbrowser.org
 DOMAIN-SUFFIX,whats.new
+DOMAIN-SUFFIX,whatsapp.com
+DOMAIN-SUFFIX,whatsapp.net
 DOMAIN-SUFFIX,whatsonweibo.com
 DOMAIN-SUFFIX,wheelockslatin.com
 DOMAIN-SUFFIX,whereiswerner.com
@@ -4017,6 +4016,7 @@ DOMAIN-SUFFIX,x-berry.com
 DOMAIN-SUFFIX,x-wall.org
 DOMAIN-SUFFIX,x.ai
 DOMAIN-SUFFIX,x.co
+DOMAIN-SUFFIX,x.com
 DOMAIN-SUFFIX,x.company
 DOMAIN-SUFFIX,x3guide.com
 DOMAIN-SUFFIX,xbabe.com
