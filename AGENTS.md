@@ -16,7 +16,7 @@
 - Windows 本地与 Codex 会话统一优先使用 `tools/build_rules.ps1`
 - 不要默认直接跑 `python tools/build_rules.py`
 - 这个包装脚本会优先探测：
-  - `$env:SURGE_CONFIG_PYTHON`
+  - `$env:RULEMESH_PYTHON`
   - 仓库内 `.venv\Scripts\python.exe`
   - `C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe`
   - `python`

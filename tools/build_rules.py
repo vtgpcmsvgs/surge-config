@@ -665,6 +665,7 @@ def main() -> int:
     try:
         should_sync_upstream = (
             args.sync_upstream
+            or os.environ.get("RULEMESH_SYNC_UPSTREAM") == "1"
             or os.environ.get("SURGE_CONFIG_SYNC_UPSTREAM") == "1"
             or aws_snapshots_need_sync()
         )

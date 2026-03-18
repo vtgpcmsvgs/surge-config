@@ -18,7 +18,7 @@
 本文示例统一使用当前仓库主分支的 raw 地址：
 
 ```text
-https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main
+https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
 ```
 
 ## rule-providers 写法
@@ -32,7 +32,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/device/srcip_pc01.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/device/srcip_pc01.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/device/srcip_pc01.yaml
     interval: 86400
 
   reject-classical:
@@ -40,7 +40,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/reject/reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/reject/reject.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject.yaml
     interval: 86400
 ```
 
@@ -63,7 +63,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/device/srcip_pc01.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/device/srcip_pc01.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/device/srcip_pc01.yaml
     interval: 86400
 
   device-hk-wifi:
@@ -71,7 +71,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/device/srcip_hk_wifi.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/device/srcip_hk_wifi.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/device/srcip_hk_wifi.yaml
     interval: 86400
 
   reject-classical:
@@ -79,7 +79,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/reject/reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/reject/reject.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject.yaml
     interval: 86400
 
   adblock-classical:
@@ -87,7 +87,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/reject/adblock.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/reject/adblock.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/adblock.yaml
     interval: 86400
 
   tw-ai-classical:
@@ -95,7 +95,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/ai_tw.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/tw/ai_tw.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/ai_tw.yaml
     interval: 86400
 
   microsoft-classical:
@@ -103,7 +103,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/direct/microsoft_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/direct/microsoft_direct.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/microsoft_direct.yaml
     interval: 86400
 
   cn-direct-classical:
@@ -111,7 +111,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/direct/cn_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/direct/cn_direct.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/cn_direct.yaml
     interval: 86400
 
   global-media-classical:
@@ -119,7 +119,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/proxy/global_media.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/proxy/global_media.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/global_media.yaml
     interval: 86400
 
   telegram-classical:
@@ -127,7 +127,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/proxy/telegram.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/proxy/telegram.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/telegram.yaml
     interval: 86400
 
   aws-hk-classical:
@@ -135,7 +135,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_hk_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml
     interval: 86400
 
   aws-tokyo-classical:
@@ -143,7 +143,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_tokyo_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml
     interval: 86400
 
   aws-osaka-classical:
@@ -151,7 +151,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_osaka_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml
     interval: 86400
 
   aws-seoul-classical:
@@ -159,7 +159,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_seoul_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
     interval: 86400
 
   aws-tw-classical:
@@ -167,7 +167,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_tw_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
     interval: 86400
 
   jp-socks5-classical:
@@ -175,7 +175,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/jp_socks5_ipcidr.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml
     interval: 86400
 
 rules:

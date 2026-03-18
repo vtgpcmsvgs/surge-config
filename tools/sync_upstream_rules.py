@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 UPSTREAM_ROOT = ROOT / "rules" / "upstream"
-USER_AGENT = "surge-config-upstream-sync/1.0"
+USER_AGENT = "rulemesh-upstream-sync/1.0"
 AWS_IP_RANGES_URL = "https://ip-ranges.amazonaws.com/ip-ranges.json"
 
 

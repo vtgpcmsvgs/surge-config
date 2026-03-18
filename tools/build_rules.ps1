@@ -13,11 +13,19 @@ $pythonScript = Join-Path $PSScriptRoot "build_rules.py"
 function Resolve-PythonCommand {
     $candidates = @()
 
+    if ($env:RULEMESH_PYTHON) {
+        $candidates += [pscustomobject]@{
+            Kind = "Path"
+            Value = $env:RULEMESH_PYTHON
+            Label = "RULEMESH_PYTHON"
+        }
+    }
+
     if ($env:SURGE_CONFIG_PYTHON) {
         $candidates += [pscustomobject]@{
             Kind = "Path"
             Value = $env:SURGE_CONFIG_PYTHON
-            Label = "SURGE_CONFIG_PYTHON"
+            Label = "SURGE_CONFIG_PYTHON (legacy)"
         }
     }
 
@@ -62,7 +70,7 @@ function Resolve-PythonCommand {
     throw @"
 No usable Python interpreter was found.
 Try one of these:
-1. Set SURGE_CONFIG_PYTHON to a valid python.exe path
+1. Set RULEMESH_PYTHON (or legacy SURGE_CONFIG_PYTHON) to a valid python.exe path
 2. Install Python and ensure python or py -3 works
 3. Use the known local path: C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe
 "@

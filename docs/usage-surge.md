@@ -11,7 +11,7 @@
 本文示例统一使用当前仓库主分支的 raw 地址：
 
 ```text
-https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main
+https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
 ```
 
 ## RULE-SET 示例
@@ -19,20 +19,20 @@ https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main
 无论是纯域名、关键词、IP 规则，还是 mixed 规则、设备源地址规则，都统一接这里：
 
 ```ini
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/adblock.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/cn_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/global_media.list,PROXY
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/telegram.list,PROXY
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/global_media.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/telegram.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
 ```
 
 ## 推荐顺序
@@ -51,35 +51,35 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/sur
 ```ini
 [Rule]
 # 1. device
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_pc02.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc02.list,JP-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
 
 # 2. reject
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/adblock.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/reject/reject.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
 
 # 3. region
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/domains_to_hk.list,HK-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/ai_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/crypto_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/domains_to_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/domains_to_jp.list,JP-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/domains_to_hk.list,HK-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/ai_tw.list,TW-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/crypto_tw.list,TW-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/domains_to_tw.list,TW-AUTO
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/domains_to_jp.list,JP-AUTO
 
 # 4. direct / proxy
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/direct/cn_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/google.list,PROXY
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/telegram.list,PROXY
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/proxy/global_media.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/google.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/telegram.list,PROXY
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/global_media.list,PROXY
 
 # 5. ip rules
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
 
 # 6. final
 FINAL,PROXY

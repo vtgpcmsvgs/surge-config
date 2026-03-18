@@ -24,30 +24,30 @@ Bootstrap note:
 
 Surge:
 
-- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/aws_ipv4.list`
-- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
-- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
-- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
-- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/aws_ipv4.list`
+- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list`
+- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
+- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
+- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
+- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list`
 
 Mihomo / Clash Verge Rev:
 
-- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml`
-- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
-- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
-- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
-- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml`
+- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml`
+- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
+- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
+- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
+- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml`
 
 ## Example
 
 Surge:
 
 ```ini
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
 ```
 
 Mihomo / Clash Verge Rev:
@@ -59,7 +59,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_hk_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml
     interval: 86400
 
   aws-tokyo-classical:
@@ -67,7 +67,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_tokyo_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml
     interval: 86400
 
   aws-osaka-classical:
@@ -75,7 +75,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_osaka_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml
     interval: 86400
 
   aws-seoul-classical:
@@ -83,7 +83,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_seoul_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
     interval: 86400
 
   aws-tw-classical:
@@ -91,7 +91,7 @@ rule-providers:
     behavior: classical
     format: yaml
     path: ./rule-providers/region/aws_tw_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/surge-config/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
     interval: 86400
 
 rules:
