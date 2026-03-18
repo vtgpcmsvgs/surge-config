@@ -1,5 +1,5 @@
 # China direct rules: upstream first, local fallback second.
+DOMAIN-SUFFIX,cn
 INCLUDE,upstream/loyalsoldier/direct.txt
 INCLUDE,upstream/loyalsoldier/cncidr.txt
-DOMAIN-SUFFIX,cn
 GEOIP,CN
