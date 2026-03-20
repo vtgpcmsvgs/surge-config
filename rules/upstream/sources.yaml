@@ -83,10 +83,6 @@ sources:
       preferred:
         - repo: self
           note: 当前是你自己的台湾加密货币站点入口
-    tw/domains_to_tw.list:
-      preferred:
-        - repo: self
-          note: 当前是你自己的台湾地区解锁入口
     tw/google_tw.list:
       preferred:
         - repo: self

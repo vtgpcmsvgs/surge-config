@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 2,
     "ipcidr-only": 6,
-    "classical/mixed": 22,
+    "classical/mixed": 21,
     "empty": 0,
-    "total_sources": 30,
+    "total_sources": 29,
     "total_warnings": 1
   },
   "sources": [
@@ -344,19 +344,6 @@
       "dist": {
         "surge_rules": "dist/surge/rules/region/tw/crypto_tw.list",
         "mihomo_classical": "dist/mihomo/classical/region/tw/crypto_tw.yaml"
-      }
-    },
-    {
-      "source": "rules/region/tw/domains_to_tw.list",
-      "category": "region",
-      "classification": "classical/mixed",
-      "counts": {
-        "surge_rules": 2,
-        "mihomo_classical": 2
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/region/tw/domains_to_tw.list",
-        "mihomo_classical": "dist/mihomo/classical/region/tw/domains_to_tw.yaml"
       }
     },
     {
