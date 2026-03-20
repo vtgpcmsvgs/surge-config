@@ -114,9 +114,9 @@ merge_plan:
       - keep_source_file_as_single_include
       - sync_aws_ap_northeast_2_ipv4_daily
 
-  - id: aws-taiwan-ipv4
-    target: rules/region/tw/aws_ipv4.list
-    purpose: AWS Taiwan IPv4 routing entry
+  - id: aws-taipei-ipv4
+    target: rules/region/tw/taipei_aws_ipv4.list
+    purpose: AWS Taipei IPv4 routing entry
     strategy:
       - keep_source_file_as_single_include
       - sync_aws_ap_east_2_ipv4_daily

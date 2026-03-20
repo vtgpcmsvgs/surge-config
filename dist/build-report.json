@@ -321,19 +321,6 @@
       }
     },
     {
-      "source": "rules/region/tw/aws_ipv4.list",
-      "category": "region",
-      "classification": "ipcidr-only",
-      "counts": {
-        "surge_rules": 45,
-        "mihomo_classical": 45
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/region/tw/aws_ipv4.list",
-        "mihomo_classical": "dist/mihomo/classical/region/tw/aws_ipv4.yaml"
-      }
-    },
-    {
       "source": "rules/region/tw/crypto_tw.list",
       "category": "region",
       "classification": "classical/mixed",
@@ -357,6 +344,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/region/tw/google_tw.list",
         "mihomo_classical": "dist/mihomo/classical/region/tw/google_tw.yaml"
+      }
+    },
+    {
+      "source": "rules/region/tw/taipei_aws_ipv4.list",
+      "category": "region",
+      "classification": "ipcidr-only",
+      "counts": {
+        "surge_rules": 45,
+        "mihomo_classical": 45
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/region/tw/taipei_aws_ipv4.list",
+        "mihomo_classical": "dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml"
       }
     },
     {

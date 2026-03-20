@@ -70,9 +70,9 @@ AWS_REGION_SNAPSHOTS = (
         title="AWS Seoul IPv4 (ap-northeast-2)",
     ),
     AwsRegionSnapshot(
-        path=Path("aws/taiwan_ipv4.txt"),
+        path=Path("aws/taipei_ipv4.txt"),
         regions=("ap-east-2",),
-        title="AWS Taiwan IPv4 (ap-east-2)",
+        title="AWS Taipei IPv4 (ap-east-2)",
     ),
 )
 

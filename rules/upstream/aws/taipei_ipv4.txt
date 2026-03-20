@@ -1,5 +1,5 @@
 # Generated from https://ip-ranges.amazonaws.com/ip-ranges.json
-# title: AWS Taiwan IPv4 (ap-east-2)
+# title: AWS Taipei IPv4 (ap-east-2)
 # syncToken: 1773961085
 # createDate: 2026-03-19-22-58-05
 # regions: ap-east-2

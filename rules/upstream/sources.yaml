@@ -120,12 +120,12 @@ sources:
           note: Keep a stable source-layer INCLUDE for AWS Seoul IPv4 rules.
         - repo: AWS ip-ranges.json
           note: Sync all ap-northeast-2 IPv4 prefixes daily into rules/upstream/aws/seoul_ipv4.txt
-    tw/aws_ipv4.list:
+    tw/taipei_aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Taiwan IPv4 rules.
+          note: Keep a stable source-layer INCLUDE for AWS Taipei IPv4 rules.
         - repo: AWS ip-ranges.json
-          note: Sync all ap-east-2 IPv4 prefixes daily into rules/upstream/aws/taiwan_ipv4.txt
+          note: Sync all ap-east-2 IPv4 prefixes daily into rules/upstream/aws/taipei_ipv4.txt
 
   device:
     srcip_pc01.list:

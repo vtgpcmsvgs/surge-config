@@ -8,12 +8,12 @@ Region mapping used by this repo:
 - `ap-northeast-1` = Tokyo
 - `ap-northeast-3` = Osaka
 - `ap-northeast-2` = Seoul
-- `ap-east-2` = Taiwan
+- `ap-east-2` = Taipei
 
 The sync path is:
 
 1. `.github/workflows/sync-upstream-rules.yml` runs every day at `01:30 UTC` (`09:30 Asia/Shanghai`) and also supports manual trigger.
-2. `tools/sync_upstream_rules.py` fetches the latest AWS JSON, stores it in `rules/upstream/aws/ip-ranges.json`, and derives IPv4 snapshots for Hong Kong, Tokyo, Osaka, Seoul, and Taiwan.
+2. `tools/sync_upstream_rules.py` fetches the latest AWS JSON, stores it in `rules/upstream/aws/ip-ranges.json`, and derives IPv4 snapshots for Hong Kong, Tokyo, Osaka, Seoul, and Taipei.
 3. `tools/build_rules.py` rebuilds the client-facing artifacts under `dist/surge/rules/` and `dist/mihomo/classical/`.
 
 Bootstrap note:
@@ -28,7 +28,7 @@ Surge:
 - Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
 - Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
 - Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
-- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list`
+- Taipei: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list`
 
 Mihomo / Clash Verge Rev:
 
@@ -36,7 +36,7 @@ Mihomo / Clash Verge Rev:
 - Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
 - Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
 - Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
-- Taiwan: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml`
+- Taipei: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml`
 
 ## Example
 
@@ -47,7 +47,7 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/aws_ipv4.list,TW-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list,TW-AUTO,no-resolve
 ```
 
 Mihomo / Clash Verge Rev:
@@ -86,12 +86,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
     interval: 86400
 
-  aws-tw-classical:
+  aws-taipei-classical:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/region/aws_tw_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
+    path: ./rule-providers/region/aws_taipei_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml
     interval: 86400
 
 rules:
@@ -99,5 +99,5 @@ rules:
   - RULE-SET,aws-tokyo-classical,TOKYO-AUTO,no-resolve
   - RULE-SET,aws-osaka-classical,OSAKA-AUTO,no-resolve
   - RULE-SET,aws-seoul-classical,SEOUL-AUTO,no-resolve
-  - RULE-SET,aws-tw-classical,TW-AUTO,no-resolve
+  - RULE-SET,aws-taipei-classical,TW-AUTO,no-resolve
 ```

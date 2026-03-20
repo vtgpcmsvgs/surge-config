@@ -162,12 +162,12 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml
     interval: 86400
 
-  aws-tw-classical:
+  aws-taipei-classical:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/region/aws_tw_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/aws_ipv4.yaml
+    path: ./rule-providers/region/aws_taipei_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml
     interval: 86400
 
   jp-socks5-classical:
@@ -197,7 +197,7 @@ rules:
   - RULE-SET,aws-tokyo-classical,TOKYO-AUTO,no-resolve
   - RULE-SET,aws-osaka-classical,OSAKA-AUTO,no-resolve
   - RULE-SET,aws-seoul-classical,SEOUL-AUTO,no-resolve
-  - RULE-SET,aws-tw-classical,TW-AUTO,no-resolve
+  - RULE-SET,aws-taipei-classical,TW-AUTO,no-resolve
   - RULE-SET,jp-socks5-classical,JP-AUTO,no-resolve
 
   - MATCH,PROXY
