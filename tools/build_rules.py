@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Build explicit Surge and Mihomo artifacts from the rules/ source layer."""
+"""从 rules/ 源规则层构建 Surge 与 Mihomo 显式产物。"""
 
 from __future__ import annotations
 
@@ -80,7 +80,7 @@ class SourceBuildResult:
 
 
 class BuildError(Exception):
-    """Raised when the rule source layout violates repo conventions."""
+    """当规则源文件布局不符合仓库约定时抛出。"""
 
 
 def read_text(path: Path) -> str:
@@ -113,8 +113,8 @@ def validate_source_files(files: Iterable[Path]) -> None:
     if invalid:
         joined = ", ".join(f"rules/{item}" for item in invalid)
         raise BuildError(
-            "All source files under rules/{reject,direct,proxy,region,device} "
-            f"must use the .list extension: {joined}"
+            "rules/{reject,direct,proxy,region,device} 下的源文件"
+            f"都必须使用 .list 扩展名：{joined}"
         )
 
 
@@ -151,12 +151,12 @@ def parse_include_directive(raw: str) -> str | None:
 
 def resolve_include_path(source_path: Path, line_no: int, target: str) -> Path:
     if not target:
-        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE is missing a path")
+        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE 缺少路径参数")
 
     candidate = Path(target.replace("\\", "/"))
     if candidate.is_absolute():
         raise BuildError(
-            f"{repo_relative_path(source_path)}:{line_no} INCLUDE must use a path under rules/: {target}"
+            f"{repo_relative_path(source_path)}:{line_no} INCLUDE 必须使用 rules/ 下的相对路径：{target}"
         )
 
     if candidate.parts and candidate.parts[0] == "rules":
@@ -171,11 +171,11 @@ def resolve_include_path(source_path: Path, line_no: int, target: str) -> Path:
         resolved.relative_to(RULES_ROOT.resolve())
     except ValueError as exc:
         raise BuildError(
-            f"{repo_relative_path(source_path)}:{line_no} INCLUDE must stay within rules/: {target}"
+            f"{repo_relative_path(source_path)}:{line_no} INCLUDE 必须位于 rules/ 目录内：{target}"
         ) from exc
 
     if not resolved.exists() or not resolved.is_file():
-        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE target not found: {target}")
+        raise BuildError(f"{repo_relative_path(source_path)}:{line_no} INCLUDE 目标不存在：{target}")
     return resolved
 
 
@@ -183,7 +183,7 @@ def expand_source_lines(path: Path, stack: tuple[Path, ...] = ()) -> list[Source
     resolved_path = path.resolve()
     if resolved_path in stack:
         chain = " -> ".join(repo_relative_path(item) for item in (*stack, resolved_path))
-        raise BuildError(f"Include cycle detected: {chain}")
+        raise BuildError(f"检测到 INCLUDE 循环引用：{chain}")
 
     lines: list[SourceLine] = []
     for line_no, raw in enumerate(read_text(path).splitlines(), start=1):
@@ -453,15 +453,15 @@ def reset_output_roots() -> None:
 def write_surge_file(path: Path, source_path: Path, payload: list[str], kind: str) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     header = [
-        f"# Generated from {source_path.as_posix()}",
-        f"# kind: {kind}",
-        "# Do not edit dist directly.",
+        f"# 生成来源：{source_path.as_posix()}",
+        f"# 类型：{kind}",
+        "# 请勿直接编辑 dist。",
         "",
     ]
     if payload:
         content = header + payload + [""]
     else:
-        content = header + ["# empty", ""]
+        content = header + ["# 空文件", ""]
     path.write_text("\n".join(content), encoding="utf-8")
 
 
@@ -470,16 +470,16 @@ def write_mihomo_file(path: Path, source_path: Path, payload: list[str], kind: s
     if payload:
         body = [f"  - {json.dumps(item, ensure_ascii=False)}" for item in payload]
         content = [
-            f"# Generated from {source_path.as_posix()}",
-            f"# behavior: {kind}",
+            f"# 生成来源：{source_path.as_posix()}",
+            f"# 行为：{kind}",
             "payload:",
             *body,
             "",
         ]
     else:
         content = [
-            f"# Generated from {source_path.as_posix()}",
-            f"# behavior: {kind}",
+            f"# 生成来源：{source_path.as_posix()}",
+            f"# 行为：{kind}",
             "payload: []",
             "",
         ]
@@ -613,18 +613,18 @@ def run_build() -> int:
     )
     print(
         "[DONE] "
-        f"{report['summary']['total_sources']} source files processed, "
-        f"{report['summary']['total_warnings']} warnings."
+        f"共处理 {report['summary']['total_sources']} 个源文件，"
+        f"{report['summary']['total_warnings']} 条 warning。"
     )
     return 0
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Build Surge and Mihomo rule artifacts.")
+    parser = argparse.ArgumentParser(description="构建 Surge 与 Mihomo 规则产物。")
     parser.add_argument(
         "--sync-upstream",
         action="store_true",
-        help="refresh rules/upstream snapshots before rebuilding dist",
+        help="在重建 dist 前先刷新 rules/upstream 快照",
     )
     return parser.parse_args()
 

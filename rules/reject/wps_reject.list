@@ -1,0 +1,46 @@
+# WPS / Kingsoft 低误伤拦截（广告、统计、付费引导）
+# 设计目标：
+# 1) 不再封禁 wps.cn / wpscdn.cn / ksord.com 整域，避免误伤在线插件下载
+# 2) 仅拦截第三方规则库中长期出现的广告/统计子域名
+#
+# 参考来源（人工筛选后落地）：
+# - https://github.com/privacy-protection-tools/anti-AD (anti-ad-surge.txt)
+# - https://github.com/blackmatrix7/ios_rule_script (AdGuard/AdvertisingLite)
+
+# 稻壳模板与商城广告
+DOMAIN,ad.docer.wps.cn
+DOMAIN,docerad.wps.cn
+DOMAIN,gou.wps.cn
+DOMAIN,img.gou.wpscdn.cn
+
+# 金山广告与付费推广
+DOMAIN,abroad-ad.kingsoft-office-service.com
+DOMAIN,bannera.kingsoft-office-service.com
+DOMAIN,cloudservice13.kingsoft-office-service.com
+DOMAIN,cloudservice27.kingsoft-office-service.com
+DOMAIN,rating6.kingsoft-office-service.com
+DOMAIN,counter.kingsoft.com
+DOMAIN,up.wps.kingsoft.com
+
+# WPS 客户端广告/追踪
+DOMAIN,adm.zookingsoft.com
+DOMAIN,adx-static.ksosoft.com
+DOMAIN,bole.shangshufang.ksosoft.com
+DOMAIN,counter.ksosoft.com
+DOMAIN,dw-collect.ksosoft.com
+DOMAIN,dw-online.ksosoft.com
+DOMAIN,pixiu.shangshufang.ksosoft.com
+
+# 金山统计
+DOMAIN,mobad.ijinshan.com
+DOMAIN,stat.ijinshan.com
+DOMAIN,tj.ijinshan.com
+DOMAIN,union.ijinshan.com
+
+# 可选增强（默认关闭）：如果仍看到云端/AI 入口，再按需打开
+# DOMAIN,api.mini.wps.cn
+# DOMAIN,dynsrv.wps.cn
+# DOMAIN,pcfg.wps.cn
+# DOMAIN,info.wps.cn
+# DOMAIN,minfo.wps.cn
+# DOMAIN,mostat.wps.cn

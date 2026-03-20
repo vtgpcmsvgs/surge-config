@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Sync selected third-party rule snapshots into rules/upstream/."""
+"""将选定的第三方规则快照同步到 rules/upstream/。"""
 
 from __future__ import annotations
 
@@ -53,27 +53,27 @@ AWS_REGION_SNAPSHOTS = (
     AwsRegionSnapshot(
         path=Path("aws/hk_ipv4.txt"),
         regions=("ap-east-1",),
-        title="AWS Hong Kong IPv4 (ap-east-1)",
+        title="AWS 香港 IPv4（ap-east-1）",
     ),
     AwsRegionSnapshot(
         path=Path("aws/tokyo_ipv4.txt"),
         regions=("ap-northeast-1",),
-        title="AWS Tokyo IPv4 (ap-northeast-1)",
+        title="AWS 东京 IPv4（ap-northeast-1）",
     ),
     AwsRegionSnapshot(
         path=Path("aws/osaka_ipv4.txt"),
         regions=("ap-northeast-3",),
-        title="AWS Osaka IPv4 (ap-northeast-3)",
+        title="AWS 大阪 IPv4（ap-northeast-3）",
     ),
     AwsRegionSnapshot(
         path=Path("aws/seoul_ipv4.txt"),
         regions=("ap-northeast-2",),
-        title="AWS Seoul IPv4 (ap-northeast-2)",
+        title="AWS 首尔 IPv4（ap-northeast-2）",
     ),
     AwsRegionSnapshot(
         path=Path("aws/taipei_ipv4.txt"),
         regions=("ap-east-2",),
-        title="AWS Taipei IPv4 (ap-east-2)",
+        title="AWS 台北 IPv4（ap-east-2）",
     ),
 )
 
@@ -139,7 +139,7 @@ def sync_one(item: UpstreamFile) -> tuple[bool, bool]:
     try:
         latest = fetch_text(item.url)
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
-        print(f"[WARN] {item.path.as_posix()} fetch failed: {exc}")
+        print(f"[WARN] {item.path.as_posix()} 拉取失败：{exc}")
         return False, True
 
     if not write_if_changed(destination, latest):
@@ -152,10 +152,10 @@ def sync_one(item: UpstreamFile) -> tuple[bool, bool]:
 
 def validate_aws_payload(data: object) -> dict[str, object]:
     if not isinstance(data, dict):
-        raise ValueError("AWS payload is not a JSON object")
+        raise ValueError("AWS 数据不是 JSON 对象")
     prefixes = data.get("prefixes")
     if not isinstance(prefixes, list):
-        raise ValueError("AWS payload is missing the prefixes array")
+        raise ValueError("AWS 数据缺少 prefixes 数组")
     return data
 
 
@@ -192,15 +192,15 @@ def build_aws_snapshot_text(payload: dict[str, object], snapshot: AwsRegionSnaps
     create_date = str(payload.get("createDate", "unknown"))
 
     lines = [
-        f"# Generated from {AWS_IP_RANGES_URL}",
-        f"# title: {snapshot.title}",
-        f"# syncToken: {sync_token}",
-        f"# createDate: {create_date}",
-        f"# regions: {', '.join(snapshot.regions)}",
-        "# services: all published IPv4 prefixes for the listed AWS regions",
-        f"# total IPv4 prefixes: {len(prefixes)}",
+        f"# 生成来源：{AWS_IP_RANGES_URL}",
+        f"# 标题：{snapshot.title}",
+        f"# 同步令牌：{sync_token}",
+        f"# 生成时间：{create_date}",
+        f"# 区域：{', '.join(snapshot.regions)}",
+        "# 服务范围：所列 AWS 区域已发布的全部 IPv4 前缀",
+        f"# IPv4 前缀总数：{len(prefixes)}",
     ]
-    lines.extend(f"# {region}: {len(region_prefixes)} prefixes" for region, region_prefixes in per_region)
+    lines.extend(f"# {region}：{len(region_prefixes)} 条前缀" for region, region_prefixes in per_region)
     lines.append("")
     lines.extend(prefixes)
     lines.append("")
@@ -211,13 +211,13 @@ def sync_aws_snapshots() -> tuple[int, int]:
     try:
         raw_text = fetch_text(AWS_IP_RANGES_URL)
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
-        print(f"[WARN] aws/ip-ranges.json fetch failed: {exc}")
+        print(f"[WARN] aws/ip-ranges.json 拉取失败：{exc}")
         return 0, 1
 
     try:
         payload = validate_aws_payload(json.loads(raw_text))
     except (json.JSONDecodeError, ValueError) as exc:
-        print(f"[WARN] aws/ip-ranges.json parse failed: {exc}")
+        print(f"[WARN] aws/ip-ranges.json 解析失败：{exc}")
         return 0, 1
 
     changed = 0
@@ -252,7 +252,7 @@ def main() -> int:
     changed += aws_changed
     failed += aws_failed
 
-    print(f"[DONE] {changed} files updated, {failed} fetch failures.")
+    print(f"[DONE] 已更新 {changed} 个文件，拉取失败 {failed} 次。")
     return 0
 
 

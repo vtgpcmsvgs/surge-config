@@ -1,18 +1,6 @@
-# 生成来源：rules/reject/reject.list
+# 生成来源：rules/reject/wps_reject.list
 # 行为：classical
 payload:
-  - "DST-PORT,80"
-  - "DOMAIN-WILDCARD,*.windowsupdate.microsoft.com"
-  - "DOMAIN-WILDCARD,*.update.microsoft.com"
-  - "DOMAIN-WILDCARD,*.windowsupdate.com"
-  - "DOMAIN,gdmf.apple.com"
-  - "DOMAIN,mesu.apple.com"
-  - "DOMAIN,swscan.apple.com"
-  - "DOMAIN,swcdn.apple.com"
-  - "DOMAIN,swdownload.apple.com"
-  - "DOMAIN,swdist.apple.com"
-  - "DOMAIN,swquery.apple.com"
-  - "DOMAIN,updates.cdn-apple.com"
   - "DOMAIN,ad.docer.wps.cn"
   - "DOMAIN,docerad.wps.cn"
   - "DOMAIN,gou.wps.cn"

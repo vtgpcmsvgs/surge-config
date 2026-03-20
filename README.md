@@ -24,7 +24,7 @@ dist/
   surge/
     rules/     # Surge RULE-SET 使用的显式规则产物
   mihomo/
-    classical/ # Mihomo behavior: classical 使用的显式规则产物
+    classical/ # Mihomo 的 behavior: classical 使用的显式规则产物
 
 tools/
   build_rules.ps1
@@ -35,8 +35,8 @@ tools/
 
 - `rules/` 下参与构建的源规则文件统一使用 `.list` 命名
 - 例如 `rules/region/tw/google_tw.list` 会生成 `dist/surge/rules/region/tw/google_tw.list` 与 `dist/mihomo/classical/region/tw/google_tw.yaml`
-- `dist/build-report.json` 会记录每个源文件被识别为 `domain-only`、`ipcidr-only` 或 `classical/mixed`，以及构建 warning
-- 这些 classification 只用于维护诊断，不再对应额外的 `domainset` / `domain` / `ipcidr` 产物目录
+- `dist/build-report.json` 会记录每个源文件被识别为 `domain-only`、`ipcidr-only` 或 `classical/mixed`，以及构建警告
+- 这些分类结果只用于维护诊断，不再对应额外的 `domainset` / `domain` / `ipcidr` 产物目录
 
 ## 如何构建
 
@@ -75,7 +75,7 @@ python tools/build_rules.py
 - push 到 `main` 时自动构建 `dist/`
 - 支持手动触发
 - 若 `dist/` 有差异，会自动提交构建产物
-- 这个自动回写行为定义在 [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml)，网页端直接编辑并提交到 `main` 也会触发同一个 workflow
+- 这个自动回写行为定义在 [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml)，网页端直接编辑并提交到 `main` 也会触发同一个工作流
 
 ## 客户端如何使用
 
@@ -124,12 +124,12 @@ python tools/build_rules.py
 - 新增规则前，先想清楚它是 `reject`、`direct`、`proxy`、`region` 还是 `device`
 - 如果一个源文件开始变得很大，优先补 `sources.yaml` 与 `merge.yaml`，再考虑引入更多上游素材
 - 提交前看一眼 `dist/build-report.json` 的 warnings，特别是 Mihomo 不支持的规则类型
-## 规则方法论：Upstream First + Fallback
+## 规则方法论：上游优先 + 本地兜底
 
 本仓库统一采用“上游优先精准匹配 + 本地规则兜底覆盖”的编排方式：
 
 - 先写 `INCLUDE,upstream/...`，优先命中第三方持续维护的精细规则。
 - 再写本地兜底规则，优先使用 `DOMAIN-KEYWORD` 与 `DOMAIN-SUFFIX` 提升覆盖韧性。
 - 兜底规则只补“高频且长期稳定”的关键词/后缀，避免把本地规则膨胀成上游镜像。
-- 当某类规则暂无可靠上游时，可先保留手写规则；一旦有稳定上游，再迁移到 upstream-first 结构。
+- 当某类规则暂无可靠上游时，可先保留手写规则；一旦有稳定上游，再迁移到“上游优先”结构。
 - 目标是同时兼顾：上游的精准全面 + 本地兜底的抗失效能力。

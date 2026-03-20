@@ -1,6 +1,6 @@
-# Generated from rules/region/jp/jp_socks5_ipcidr.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/jp/jp_socks5_ipcidr.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,46.203.52.103/32
 IP-CIDR,108.165.83.39/32

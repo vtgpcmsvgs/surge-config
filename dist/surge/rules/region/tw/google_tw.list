@@ -1,6 +1,6 @@
-# Generated from rules/region/tw/google_tw.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/tw/google_tw.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,alt1-mtalk.google.com
 DOMAIN,alt2-mtalk.google.com

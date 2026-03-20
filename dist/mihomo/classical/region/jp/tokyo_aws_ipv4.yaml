@@ -1,5 +1,5 @@
-# Generated from rules/region/jp/tokyo_aws_ipv4.list
-# behavior: classical
+# 生成来源：rules/region/jp/tokyo_aws_ipv4.list
+# 行为：classical
 payload:
   - "IP-CIDR,69.107.12.24/29"
   - "IP-CIDR,15.221.34.0/24"

@@ -21,7 +21,6 @@ https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
@@ -42,9 +41,9 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 建议顺序：
 
 1. 设备规则
-2. reject
-3. region
-4. direct / proxy 规则
+2. 拒绝规则
+3. 区域规则
+4. 直连 / 代理规则
 5. IP 规则
 6. `FINAL`
 
@@ -54,28 +53,27 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 
 ```ini
 [Rule]
-# 1. device
+# 1. 设备
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc02.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_hk_wifi.list,HK-AUTO
 
-# 2. reject
+# 2. 拒绝
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
 
-# 3. region
+# 3. 区域
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/ai_tw.list,TW-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/google_tw.list,TW-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/crypto_tw.list,TW-AUTO
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/domains_to_jp.list,JP-AUTO
 
-# 4. direct / proxy
+# 4. 直连 / 代理
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/telegram.list,PROXY
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/global_media.list,PROXY
 
-# 5. ip rules
+# 5. IP 规则
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
@@ -83,7 +81,7 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list,TW-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
 
-# 6. final
+# 6. 最终规则
 FINAL,PROXY
 ```
 

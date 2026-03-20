@@ -20,23 +20,23 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Sync upstream snapshots
+      - name: 同步上游快照
         run: python tools/sync_upstream_rules.py
 
-      - name: Build dist
+      - name: 构建 dist
         run: python tools/build_rules.py
 
-      - name: Upload dist artifact
+      - name: 上传 dist 构建产物
         uses: actions/upload-artifact@v4
         with:
           name: dist
           path: dist
 
-      - name: Commit dist if changed
+      - name: 若 dist 有变更则提交
         if: github.ref == 'refs/heads/main'
         run: |
           if git diff --quiet -- rules/upstream dist; then
-            echo "No upstream/dist changes"
+            echo "rules/upstream 与 dist 无变更"
             exit 0
           fi
           git config user.name "github-actions[bot]"

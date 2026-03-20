@@ -68,18 +68,18 @@ function Resolve-PythonCommand {
     }
 
     throw @"
-No usable Python interpreter was found.
-Try one of these:
-1. Set RULEMESH_PYTHON (or legacy SURGE_CONFIG_PYTHON) to a valid python.exe path
-2. Install Python and ensure python or py -3 works
-3. Use the known local path: C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe
+未找到可用的 Python 解释器。
+可按以下方式处理：
+1. 设置 RULEMESH_PYTHON（或历史变量 SURGE_CONFIG_PYTHON）为有效的 python.exe 路径
+2. 安装 Python，并确保 python 或 py -3 可用
+3. 使用已知本机路径：C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe
 "@
 }
 
 $python = Resolve-PythonCommand
 $env:PYTHONUTF8 = "1"
 
-Write-Host ("[build_rules.ps1] using {0}: {1}" -f $python.Label, $python.Value)
+Write-Host ("[build_rules.ps1] 使用 {0}: {1}" -f $python.Label, $python.Value)
 
 if ($python.Kind -eq "Launcher") {
     & $python.Value -3 -X utf8 $pythonScript @ScriptArgs

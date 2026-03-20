@@ -1,4 +1,4 @@
-# Telegram proxy rules: upstream first, local fallback second.
+# Telegram 代理规则：上游优先，本地兜底。
 INCLUDE,upstream/loyalsoldier/telegramcidr.txt
 DOMAIN-KEYWORD,telegram
 DOMAIN-SUFFIX,t.me

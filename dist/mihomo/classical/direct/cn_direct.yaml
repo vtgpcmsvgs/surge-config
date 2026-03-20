@@ -1,5 +1,5 @@
-# Generated from rules/direct/cn_direct.list
-# behavior: classical
+# 生成来源：rules/direct/cn_direct.list
+# 行为：classical
 payload:
   - "DOMAIN,265.com"
   - "DOMAIN,2mdn-cn.net"

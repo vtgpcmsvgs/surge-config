@@ -1,6 +1,6 @@
-# Generated from rules/region/tw/ai_tw.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/tw/ai_tw.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,browser-intake-datadoghq.com
 DOMAIN,chat.openai.com.cdn.cloudflare.net

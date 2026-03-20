@@ -1,5 +1,0 @@
-# Generated from rules/device/srcip_hk_wifi.list
-# kind: rules
-# Do not edit dist directly.
-
-SRC-IP,192.168.25.14/32

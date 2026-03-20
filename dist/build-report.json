@@ -1,39 +1,13 @@
 {
   "summary": {
-    "domain-only": 2,
+    "domain-only": 3,
     "ipcidr-only": 6,
-    "classical/mixed": 20,
+    "classical/mixed": 19,
     "empty": 0,
     "total_sources": 28,
     "total_warnings": 1
   },
   "sources": [
-    {
-      "source": "rules/device/srcip_hk_wifi.list",
-      "category": "device",
-      "classification": "classical/mixed",
-      "counts": {
-        "surge_rules": 1,
-        "mihomo_classical": 1
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/device/srcip_hk_wifi.list",
-        "mihomo_classical": "dist/mihomo/classical/device/srcip_hk_wifi.yaml"
-      }
-    },
-    {
-      "source": "rules/device/srcip_manual_switch.list",
-      "category": "device",
-      "classification": "classical/mixed",
-      "counts": {
-        "surge_rules": 1,
-        "mihomo_classical": 1
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/device/srcip_manual_switch.list",
-        "mihomo_classical": "dist/mihomo/classical/device/srcip_manual_switch.yaml"
-      }
-    },
     {
       "source": "rules/device/srcip_pc01.list",
       "category": "device",
@@ -360,12 +334,25 @@
       }
     },
     {
+      "source": "rules/reject/os_update_reject.list",
+      "category": "reject",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 11,
+        "mihomo_classical": 11
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/reject/os_update_reject.list",
+        "mihomo_classical": "dist/mihomo/classical/reject/os_update_reject.yaml"
+      }
+    },
+    {
       "source": "rules/reject/reject.list",
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 8,
-        "mihomo_classical": 7
+        "surge_rules": 35,
+        "mihomo_classical": 34
       },
       "dist": {
         "surge_rules": "dist/surge/rules/reject/reject.list",
@@ -374,6 +361,19 @@
       "warnings": [
         "rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
       ]
+    },
+    {
+      "source": "rules/reject/wps_reject.list",
+      "category": "reject",
+      "classification": "domain-only",
+      "counts": {
+        "surge_rules": 22,
+        "mihomo_classical": 22
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/reject/wps_reject.list",
+        "mihomo_classical": "dist/mihomo/classical/reject/wps_reject.yaml"
+      }
     }
   ],
   "warnings": [

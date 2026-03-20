@@ -9,7 +9,19 @@ sources:
     reject.list:
       preferred:
         - repo: self
-          note: 保留本仓库自维护的禁用 HTTP、Windows 更新、WPS 广告等强主观规则
+          note: 保留本仓库自维护的禁用 HTTP 等强主观规则；系统更新与 WPS 细则均拆分到独立文件
+    os_update_reject.list:
+      preferred:
+        - repo: self
+          note: Windows + Apple 更新禁用规则，保持小而稳定，不引入上游
+    wps_reject.list:
+      preferred:
+        - repo: self
+          note: 只保留低误伤的 WPS 广告/统计/付费提示子域名
+        - repo: privacy-protection-tools/anti-AD
+          note: 提供 WPS 广告与统计子域名候选，按低误伤原则人工筛选
+        - repo: blackmatrix7/ios_rule_script
+          note: 使用 AdGuard 相关规则作交叉验证
     adblock.list:
       preferred:
         - repo: self
@@ -97,33 +109,33 @@ sources:
     hk/aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Hong Kong IPv4 rules.
+          note: 保持源规则层 AWS 香港 IPv4 的单一 INCLUDE 入口稳定。
         - repo: AWS ip-ranges.json
-          note: Sync all ap-east-1 IPv4 prefixes daily into rules/upstream/aws/hk_ipv4.txt
+          note: 每日同步全部 ap-east-1 IPv4 前缀到 rules/upstream/aws/hk_ipv4.txt
     jp/tokyo_aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Tokyo IPv4 rules.
+          note: 保持源规则层 AWS 东京 IPv4 的单一 INCLUDE 入口稳定。
         - repo: AWS ip-ranges.json
-          note: Sync all ap-northeast-1 IPv4 prefixes daily into rules/upstream/aws/tokyo_ipv4.txt
+          note: 每日同步全部 ap-northeast-1 IPv4 前缀到 rules/upstream/aws/tokyo_ipv4.txt
     jp/osaka_aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Osaka IPv4 rules.
+          note: 保持源规则层 AWS 大阪 IPv4 的单一 INCLUDE 入口稳定。
         - repo: AWS ip-ranges.json
-          note: Sync all ap-northeast-3 IPv4 prefixes daily into rules/upstream/aws/osaka_ipv4.txt
+          note: 每日同步全部 ap-northeast-3 IPv4 前缀到 rules/upstream/aws/osaka_ipv4.txt
     kr/seoul_aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Seoul IPv4 rules.
+          note: 保持源规则层 AWS 首尔 IPv4 的单一 INCLUDE 入口稳定。
         - repo: AWS ip-ranges.json
-          note: Sync all ap-northeast-2 IPv4 prefixes daily into rules/upstream/aws/seoul_ipv4.txt
+          note: 每日同步全部 ap-northeast-2 IPv4 前缀到 rules/upstream/aws/seoul_ipv4.txt
     tw/taipei_aws_ipv4.list:
       preferred:
         - repo: self
-          note: Keep a stable source-layer INCLUDE for AWS Taipei IPv4 rules.
+          note: 保持源规则层 AWS 台北 IPv4 的单一 INCLUDE 入口稳定。
         - repo: AWS ip-ranges.json
-          note: Sync all ap-east-2 IPv4 prefixes daily into rules/upstream/aws/taipei_ipv4.txt
+          note: 每日同步全部 ap-east-2 IPv4 前缀到 rules/upstream/aws/taipei_ipv4.txt
 
   device:
     srcip_pc01.list:

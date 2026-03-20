@@ -1,5 +1,5 @@
-# Generated from rules/proxy/gfw.list
-# behavior: classical
+# 生成来源：rules/proxy/gfw.list
+# 行为：classical
 payload:
   - "DOMAIN-SUFFIX,000webhost.com"
   - "DOMAIN-SUFFIX,0rz.tw"

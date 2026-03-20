@@ -1,5 +1,5 @@
-# Generated from rules/region/jp/jp_socks5_ipcidr.list
-# behavior: classical
+# 生成来源：rules/region/jp/jp_socks5_ipcidr.list
+# 行为：classical
 payload:
   - "IP-CIDR,46.203.52.103/32"
   - "IP-CIDR,108.165.83.39/32"

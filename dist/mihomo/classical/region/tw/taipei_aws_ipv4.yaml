@@ -1,5 +1,5 @@
-# Generated from rules/region/tw/taipei_aws_ipv4.list
-# behavior: classical
+# 生成来源：rules/region/tw/taipei_aws_ipv4.list
+# 行为：classical
 payload:
   - "IP-CIDR,15.190.244.0/22"
   - "IP-CIDR,16.12.80.0/24"

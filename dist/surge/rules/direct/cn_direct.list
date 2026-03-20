@@ -1,6 +1,6 @@
-# Generated from rules/direct/cn_direct.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/direct/cn_direct.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,265.com
 DOMAIN,2mdn-cn.net

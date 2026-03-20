@@ -1,5 +1,5 @@
-# AI platform rules routed to Taiwan: upstream plus local supplement.
-# Google-family AI (for example Gemini) is intentionally maintained in tw/google_tw.list.
+# AI 平台台湾分流规则：上游为主，本地补充。
+# Google 系 AI（例如 Gemini）有意集中维护在 tw/google_tw.list。
 INCLUDE,upstream/blackmatrix7/openai.list
 DOMAIN-SUFFIX,arc.net
 DOMAIN-KEYWORD,chatgpt

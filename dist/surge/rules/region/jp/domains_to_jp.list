@@ -1,5 +1,5 @@
-# Generated from rules/region/jp/domains_to_jp.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/jp/domains_to_jp.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN-KEYWORD,opinion

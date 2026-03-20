@@ -1,5 +1,5 @@
-# Generated from rules/region/jp/osaka_aws_ipv4.list
-# behavior: classical
+# 生成来源：rules/region/jp/osaka_aws_ipv4.list
+# 行为：classical
 payload:
   - "IP-CIDR,104.255.59.114/32"
   - "IP-CIDR,52.95.182.0/23"

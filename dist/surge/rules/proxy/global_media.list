@@ -1,6 +1,6 @@
-# Generated from rules/proxy/global_media.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/proxy/global_media.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,ai.google.dev
 DOMAIN,aistudio.google.com

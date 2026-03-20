@@ -1,5 +1,5 @@
-# Generated from rules/direct/bytedance_direct.list
-# behavior: classical
+# 生成来源：rules/direct/bytedance_direct.list
+# 行为：classical
 payload:
   - "DOMAIN-SUFFIX,2333333333333.com"
   - "DOMAIN-SUFFIX,365yg.com"

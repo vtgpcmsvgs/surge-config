@@ -1,4 +1,4 @@
-# ByteDance / DouYin direct rules: upstream first, local fallback second.
+# 字节系 / 抖音直连规则：上游优先，本地兜底。
 INCLUDE,upstream/blackmatrix7/bytedance.list
 INCLUDE,upstream/blackmatrix7/douyin.list
 DOMAIN-KEYWORD,bytedance

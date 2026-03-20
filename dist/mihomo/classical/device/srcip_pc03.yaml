@@ -1,4 +1,4 @@
-# Generated from rules/device/srcip_pc03.list
-# behavior: classical
+# 生成来源：rules/device/srcip_pc03.list
+# 行为：classical
 payload:
   - "SRC-IP-CIDR,192.168.25.23/32"

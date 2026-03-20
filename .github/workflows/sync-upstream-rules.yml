@@ -23,16 +23,16 @@ jobs:
         with:
           python-version: "3.11"
 
-      - name: Sync upstream snapshots
+      - name: 同步上游快照
         run: python tools/sync_upstream_rules.py
 
-      - name: Build dist
+      - name: 构建 dist
         run: python tools/build_rules.py
 
-      - name: Commit & push if changed
+      - name: 若有变更则提交并推送
         run: |
           if git diff --quiet; then
-            echo "No changes"
+            echo "无变更"
             exit 0
           fi
           git config user.name "github-actions[bot]"

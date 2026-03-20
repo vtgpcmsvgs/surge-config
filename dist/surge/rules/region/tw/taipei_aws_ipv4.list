@@ -1,6 +1,6 @@
-# Generated from rules/region/tw/taipei_aws_ipv4.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/tw/taipei_aws_ipv4.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,15.190.244.0/22
 IP-CIDR,16.12.80.0/24

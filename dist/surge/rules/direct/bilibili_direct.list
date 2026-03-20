@@ -1,6 +1,6 @@
-# Generated from rules/direct/bilibili_direct.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/direct/bilibili_direct.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,0gr4uqmtt8y41hcjsgrzdrc31.ourdvsss.com
 DOMAIN,0gr4uqmtt8y41hcjsgrzdrc3s.ourdvsss.com

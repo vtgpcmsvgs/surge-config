@@ -1,5 +1,5 @@
-# Generated from rules/proxy/global_media.list
-# behavior: classical
+# 生成来源：rules/proxy/global_media.list
+# 行为：classical
 payload:
   - "DOMAIN,ai.google.dev"
   - "DOMAIN,aistudio.google.com"

@@ -1,6 +1,6 @@
-# Generated from rules/direct/netease_direct.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/direct/netease_direct.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN,netease.ugcvideoss.ourdvs.com
 DOMAIN-SUFFIX,163yun.com

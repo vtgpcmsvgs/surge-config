@@ -1,5 +1,5 @@
-# Generated from rules/region/hk/aws_ipv4.list
-# behavior: classical
+# 生成来源：rules/region/hk/aws_ipv4.list
+# 行为：classical
 payload:
   - "IP-CIDR,216.244.32.0/22"
   - "IP-CIDR,18.99.176.0/20"

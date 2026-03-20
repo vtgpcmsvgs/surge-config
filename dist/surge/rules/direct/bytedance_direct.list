@@ -1,6 +1,6 @@
-# Generated from rules/direct/bytedance_direct.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/direct/bytedance_direct.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN-SUFFIX,2333333333333.com
 DOMAIN-SUFFIX,365yg.com

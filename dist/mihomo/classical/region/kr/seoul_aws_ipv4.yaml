@@ -1,5 +1,5 @@
-# Generated from rules/region/kr/seoul_aws_ipv4.list
-# behavior: classical
+# 生成来源：rules/region/kr/seoul_aws_ipv4.list
+# 行为：classical
 payload:
   - "IP-CIDR,3.5.140.0/22"
   - "IP-CIDR,3.2.75.0/24"

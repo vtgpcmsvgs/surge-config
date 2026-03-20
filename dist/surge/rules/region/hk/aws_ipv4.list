@@ -1,6 +1,6 @@
-# Generated from rules/region/hk/aws_ipv4.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/hk/aws_ipv4.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,216.244.32.0/22
 IP-CIDR,18.99.176.0/20

@@ -1,6 +1,6 @@
-# Generated from rules/proxy/telegram.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/proxy/telegram.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,91.105.192.0/23
 IP-CIDR,91.108.4.0/22

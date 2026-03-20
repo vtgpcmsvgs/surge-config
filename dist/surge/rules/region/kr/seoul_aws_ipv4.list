@@ -1,6 +1,6 @@
-# Generated from rules/region/kr/seoul_aws_ipv4.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/kr/seoul_aws_ipv4.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,3.5.140.0/22
 IP-CIDR,3.2.75.0/24

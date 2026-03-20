@@ -1,0 +1,14 @@
+# 生成来源：rules/reject/os_update_reject.list
+# 行为：classical
+payload:
+  - "DOMAIN-WILDCARD,*.windowsupdate.microsoft.com"
+  - "DOMAIN-WILDCARD,*.update.microsoft.com"
+  - "DOMAIN-WILDCARD,*.windowsupdate.com"
+  - "DOMAIN,gdmf.apple.com"
+  - "DOMAIN,mesu.apple.com"
+  - "DOMAIN,swscan.apple.com"
+  - "DOMAIN,swcdn.apple.com"
+  - "DOMAIN,swdownload.apple.com"
+  - "DOMAIN,swdist.apple.com"
+  - "DOMAIN,swquery.apple.com"
+  - "DOMAIN,updates.cdn-apple.com"

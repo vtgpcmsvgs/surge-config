@@ -1,5 +1,5 @@
-# Generated from rules/reject/adblock.list
-# behavior: classical
+# 生成来源：rules/reject/adblock.list
+# 行为：classical
 payload:
   - "DOMAIN-SUFFIX,admob.com"
   - "DOMAIN-SUFFIX,ads-twitter.com"

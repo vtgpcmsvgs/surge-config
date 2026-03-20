@@ -1,4 +1,4 @@
-# Generated from rules/region/jp/domains_to_jp.list
-# behavior: classical
+# 生成来源：rules/region/jp/domains_to_jp.list
+# 行为：classical
 payload:
   - "DOMAIN-KEYWORD,opinion"

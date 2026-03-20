@@ -1,6 +1,6 @@
-# Generated from rules/reject/adblock.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/reject/adblock.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 DOMAIN-SUFFIX,admob.com
 DOMAIN-SUFFIX,ads-twitter.com

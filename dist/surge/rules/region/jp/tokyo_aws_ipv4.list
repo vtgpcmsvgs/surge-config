@@ -1,6 +1,6 @@
-# Generated from rules/region/jp/tokyo_aws_ipv4.list
-# kind: rules
-# Do not edit dist directly.
+# 生成来源：rules/region/jp/tokyo_aws_ipv4.list
+# 类型：rules
+# 请勿直接编辑 dist。
 
 IP-CIDR,69.107.12.24/29
 IP-CIDR,15.221.34.0/24

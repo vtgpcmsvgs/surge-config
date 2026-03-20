@@ -1,4 +1,4 @@
-# NetEase direct rules: upstream first, local fallback second.
+# 网易直连规则：上游优先，本地兜底。
 INCLUDE,upstream/blackmatrix7/netease_music.list
 DOMAIN-KEYWORD,netease
 DOMAIN-SUFFIX,126.net

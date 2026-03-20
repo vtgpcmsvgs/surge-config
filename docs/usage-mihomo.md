@@ -50,9 +50,9 @@ rule-providers:
 建议顺序：
 
 1. 设备规则
-2. reject
-3. region
-4. direct / proxy
+2. 拒绝规则
+3. 区域规则
+4. 直连 / 代理
 5. `MATCH`
 
 注意：`region/tw/google_tw.yaml` 对应的规则需要放在 `proxy/global_media.yaml` 等广谱代理规则之前，确保 Google 优先命中 TW。
@@ -67,14 +67,6 @@ rule-providers:
     format: yaml
     path: ./rule-providers/device/srcip_pc01.yaml
     url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/device/srcip_pc01.yaml
-    interval: 86400
-
-  device-hk-wifi:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/device/srcip_hk_wifi.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/device/srcip_hk_wifi.yaml
     interval: 86400
 
   reject-classical:
@@ -191,7 +183,6 @@ rule-providers:
 
 rules:
   - RULE-SET,device-pc01,JP-AUTO
-  - RULE-SET,device-hk-wifi,HK-AUTO
 
   - RULE-SET,reject-classical,REJECT
   - RULE-SET,adblock-classical,REJECT

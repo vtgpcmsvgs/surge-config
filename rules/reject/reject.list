@@ -2,12 +2,8 @@
 DEST-PORT,80
 PROTOCOL,HTTP
 
-# Windows 更新（禁用）
-DOMAIN-WILDCARD,*.windowsupdate.microsoft.com
-DOMAIN-WILDCARD,*.update.microsoft.com
-DOMAIN-WILDCARD,*.windowsupdate.com
+# 操作系统更新（禁用）：Windows + Apple
+INCLUDE,reject/os_update_reject.list
 
-# 金山/WPS 广告（禁用）
-DOMAIN-SUFFIX,ksord.com,extended-matching
-DOMAIN-SUFFIX,wpscdn.cn,extended-matching
-DOMAIN-SUFFIX,wps.cn,extended-matching
+# 金山/WPS：低误伤拦截（广告/统计/付费提示）
+INCLUDE,reject/wps_reject.list

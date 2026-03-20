@@ -1,46 +1,46 @@
-# AWS Region IPv4 Rules
+# AWS 区域 IPv4 规则
 
-These rule links are generated from [AWS ip-ranges.json](https://ip-ranges.amazonaws.com/ip-ranges.json) and are meant to be imported from `dist/`, not from `rules/`.
+这些规则链接由 [AWS ip-ranges.json](https://ip-ranges.amazonaws.com/ip-ranges.json) 自动生成，客户端应从 `dist/` 引用，不要直接引用 `rules/`。
 
-Region mapping used by this repo:
+本仓库使用的区域映射：
 
-- `ap-east-1` = Hong Kong
-- `ap-northeast-1` = Tokyo
-- `ap-northeast-3` = Osaka
-- `ap-northeast-2` = Seoul
-- `ap-east-2` = Taipei
+- `ap-east-1` = 香港
+- `ap-northeast-1` = 东京
+- `ap-northeast-3` = 大阪
+- `ap-northeast-2` = 首尔
+- `ap-east-2` = 台北
 
-The sync path is:
+同步链路如下：
 
-1. `.github/workflows/sync-upstream-rules.yml` runs every day at `01:30 UTC` (`09:30 Asia/Shanghai`) and also supports manual trigger.
-2. `tools/sync_upstream_rules.py` fetches the latest AWS JSON, stores it in `rules/upstream/aws/ip-ranges.json`, and derives IPv4 snapshots for Hong Kong, Tokyo, Osaka, Seoul, and Taipei.
-3. `tools/build_rules.py` rebuilds the client-facing artifacts under `dist/surge/rules/` and `dist/mihomo/classical/`.
+1. `.github/workflows/sync-upstream-rules.yml` 每天 `01:30 UTC`（`09:30 Asia/Shanghai`）自动运行，也支持手动触发。
+2. `tools/sync_upstream_rules.py` 拉取最新 AWS JSON，保存到 `rules/upstream/aws/ip-ranges.json`，并生成香港、东京、大阪、首尔、台北的 IPv4 快照。
+3. `tools/build_rules.py` 重建面向客户端的产物目录：`dist/surge/rules/` 和 `dist/mihomo/classical/`。
 
-Bootstrap note:
+仓库引导说明：
 
-- If `rules/upstream/aws/ip-ranges.json` is still the repo bootstrap placeholder, or if any required AWS regional snapshot file is still a placeholder, the next `powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1` run will auto-sync AWS before rebuilding `dist/`.
+- 如果 `rules/upstream/aws/ip-ranges.json` 仍是仓库引导占位内容，或任一必需的 AWS 区域快照文件仍是占位内容，则下一次执行 `powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1` 会先自动同步 AWS，再重建 `dist/`。
 
-## Ready-to-use Links
+## 可直接使用的链接
 
-Surge:
+Surge：
 
-- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list`
-- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
-- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
-- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
-- Taipei: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list`
+- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list`
+- 东京：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
+- 大阪：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
+- 首尔：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
+- 台北：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list`
 
-Mihomo / Clash Verge Rev:
+Mihomo / Clash Verge Rev：
 
-- Hong Kong: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml`
-- Tokyo: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
-- Osaka: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
-- Seoul: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
-- Taipei: `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml`
+- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml`
+- 东京：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
+- 大阪：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
+- 首尔：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
+- 台北：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml`
 
-## Example
+## 示例
 
-Surge:
+Surge：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
@@ -50,7 +50,7 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list,TW-AUTO,no-resolve
 ```
 
-Mihomo / Clash Verge Rev:
+Mihomo / Clash Verge Rev：
 
 ```yaml
 rule-providers:
