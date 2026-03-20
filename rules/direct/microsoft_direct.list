@@ -1,7 +1,3 @@
-# Microsoft / OneDrive direct rules: upstream first, local fallback second.
+# Microsoft / OneDrive direct rules sourced from upstream.
 INCLUDE,upstream/blackmatrix7/onedrive.list
 INCLUDE,upstream/blackmatrix7/microsoft.list
-PROCESS-NAME,OneDrive
-PROCESS-NAME,OneDriveUpdater
-DOMAIN-KEYWORD,microsoft
-DOMAIN-KEYWORD,onedrive

@@ -1,7 +1,6 @@
-# AI platform rules routed to Taiwan: upstream first, local fallback second.
+# AI platform rules routed to Taiwan: upstream plus local supplement.
 INCLUDE,upstream/blackmatrix7/openai.list
 DOMAIN-SUFFIX,arc.net
 DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,claude
-DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,gemini

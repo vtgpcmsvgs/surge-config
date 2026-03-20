@@ -1,11 +1,3 @@
-# GFW proxy rules: upstream first, local fallback second.
+# GFW proxy rules sourced from upstream.
 INCLUDE,upstream/loyalsoldier/gfw.txt
 INCLUDE,upstream/loyalsoldier/tld-not-cn.txt
-DOMAIN-SUFFIX,facebook.com
-DOMAIN-SUFFIX,fbcdn.net
-DOMAIN-SUFFIX,instagram.com
-DOMAIN-SUFFIX,threads.net
-DOMAIN-SUFFIX,twitter.com
-DOMAIN-SUFFIX,whatsapp.com
-DOMAIN-SUFFIX,whatsapp.net
-DOMAIN-SUFFIX,x.com

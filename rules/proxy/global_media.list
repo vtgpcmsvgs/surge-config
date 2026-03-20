@@ -1,14 +1,2 @@
-# Global media proxy rules: upstream first, local fallback second.
+# Global media proxy rules sourced from upstream.
 INCLUDE,upstream/blackmatrix7/global_media.list
-DOMAIN-SUFFIX,disneyplus.com
-DOMAIN-SUFFIX,dssott.com
-DOMAIN-SUFFIX,hbomax.com
-DOMAIN-SUFFIX,hulu.com
-DOMAIN-SUFFIX,max.com
-DOMAIN-SUFFIX,netflix.com
-DOMAIN-SUFFIX,netflix.net
-DOMAIN-SUFFIX,nflximg.net
-DOMAIN-SUFFIX,nflxso.net
-DOMAIN-SUFFIX,nflxvideo.net
-DOMAIN-SUFFIX,spotify.com
-DOMAIN-SUFFIX,spotifycdn.com
