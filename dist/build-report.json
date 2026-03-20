@@ -321,7 +321,7 @@
       }
     },
     {
-      "source": "rules/reject/adblock.list",
+      "source": "rules/reject/adblock_reject.list",
       "category": "reject",
       "classification": "domain-only",
       "counts": {
@@ -329,8 +329,8 @@
         "mihomo_classical": 7
       },
       "dist": {
-        "surge_rules": "dist/surge/rules/reject/adblock.list",
-        "mihomo_classical": "dist/mihomo/classical/reject/adblock.yaml"
+        "surge_rules": "dist/surge/rules/reject/adblock_reject.list",
+        "mihomo_classical": "dist/mihomo/classical/reject/adblock_reject.yaml"
       }
     },
     {
@@ -347,19 +347,19 @@
       }
     },
     {
-      "source": "rules/reject/reject.list",
+      "source": "rules/reject/reject_all.list",
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 35,
-        "mihomo_classical": 34
+        "surge_rules": 42,
+        "mihomo_classical": 41
       },
       "dist": {
-        "surge_rules": "dist/surge/rules/reject/reject.list",
-        "mihomo_classical": "dist/mihomo/classical/reject/reject.yaml"
+        "surge_rules": "dist/surge/rules/reject/reject_all.list",
+        "mihomo_classical": "dist/mihomo/classical/reject/reject_all.yaml"
       },
       "warnings": [
-        "rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+        "rules/reject/reject_all.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
       ]
     },
     {
@@ -377,6 +377,6 @@
     }
   ],
   "warnings": [
-    "rules/reject/reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+    "rules/reject/reject_all.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
   ]
 }

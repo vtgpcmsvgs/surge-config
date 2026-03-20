@@ -1,4 +1,4 @@
-# 生成来源：rules/reject/reject.list
+# 生成来源：rules/reject/reject_all.list
 # 类型：rules
 # 请勿直接编辑 dist。
 
@@ -37,3 +37,10 @@ DOMAIN,mobad.ijinshan.com
 DOMAIN,stat.ijinshan.com
 DOMAIN,tj.ijinshan.com
 DOMAIN,union.ijinshan.com
+DOMAIN-SUFFIX,admob.com
+DOMAIN-SUFFIX,ads-twitter.com
+DOMAIN-SUFFIX,app-measurement.com
+DOMAIN-SUFFIX,doubleclick.net
+DOMAIN-SUFFIX,google-analytics.com
+DOMAIN-SUFFIX,googleadservices.com
+DOMAIN-SUFFIX,googlesyndication.com

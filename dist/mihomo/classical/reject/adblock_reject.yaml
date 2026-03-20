@@ -1,4 +1,4 @@
-# 生成来源：rules/reject/adblock.list
+# 生成来源：rules/reject/adblock_reject.list
 # 行为：classical
 payload:
   - "DOMAIN-SUFFIX,admob.com"

@@ -6,7 +6,7 @@
 
 sources:
   reject:
-    reject.list:
+    reject_all.list:
       preferred:
         - repo: self
           note: 保留本仓库自维护的禁用 HTTP 等强主观规则；系统更新与 WPS 细则均拆分到独立文件
@@ -22,7 +22,7 @@ sources:
           note: 提供 WPS 广告与统计子域名候选，按低误伤原则人工筛选
         - repo: blackmatrix7/ios_rule_script
           note: 使用 AdGuard 相关规则作交叉验证
-    adblock.list:
+    adblock_reject.list:
       preferred:
         - repo: self
           note: 广告拦截继续保持小而可读，不引入额外大体量上游

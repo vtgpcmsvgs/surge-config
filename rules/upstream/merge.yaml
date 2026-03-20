@@ -140,7 +140,7 @@ merge_plan:
       - sync_aws_ap_east_2_ipv4_daily
 
   - id: reject
-    target: rules/reject/reject.list
+    target: rules/reject/reject_all.list
     purpose: 强主观的拦截与限制规则
     strategy:
       - manual_only
@@ -168,7 +168,7 @@ merge_plan:
       - 候选来源以 anti-AD 与 blackmatrix7 为主，但只保留人工确认的低误伤子域
 
   - id: adblock
-    target: rules/reject/adblock.list
+    target: rules/reject/adblock_reject.list
     purpose: 轻量广告拦截
     strategy:
       - keep_small_and_readable

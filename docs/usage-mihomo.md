@@ -40,8 +40,8 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/reject/reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject.yaml
+    path: ./rule-providers/reject/reject_all.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject_all.yaml
     interval: 86400
 ```
 
@@ -73,17 +73,10 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/reject/reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject.yaml
+    path: ./rule-providers/reject/reject_all.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/reject_all.yaml
     interval: 86400
 
-  adblock-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/reject/adblock.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/adblock.yaml
-    interval: 86400
 
   tw-ai-classical:
     type: http
@@ -185,7 +178,6 @@ rules:
   - RULE-SET,device-pc01,JP-AUTO
 
   - RULE-SET,reject-classical,REJECT
-  - RULE-SET,adblock-classical,REJECT
 
   - RULE-SET,tw-ai-classical,TW-AUTO
   - RULE-SET,tw-google-classical,TW-AUTO

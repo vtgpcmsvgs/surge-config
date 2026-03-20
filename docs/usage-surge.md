@@ -21,8 +21,7 @@ https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc01.list,JP-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject_all.list,REJECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/google_tw.list,TW-AUTO
@@ -58,8 +57,7 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/device/srcip_pc02.list,JP-AUTO
 
 # 2. 拒绝
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject.list,REJECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/reject_all.list,REJECT
 
 # 3. 区域
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/ai_tw.list,TW-AUTO
@@ -93,7 +91,7 @@ FINAL,PROXY
 
 ## 常见误区
 
-- 不要继续引用 `rules/reject/reject.list` 这类源文件路径
+- 不要继续引用 `rules/reject/reject_all.list` 这类源文件路径
 - 不要再找旧的纯域名产物目录；仓库已经统一走 `RULE-SET`
 - 不要继续在客户端里直接引用 ACL4SSR / Loyalsoldier / blackmatrix7 的原始 URL
 - 不要再引入无扩展名源文件；构建脚本会直接拒绝这种历史写法

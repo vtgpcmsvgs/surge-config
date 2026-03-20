@@ -7,3 +7,6 @@ INCLUDE,reject/os_update_reject.list
 
 # 金山/WPS：低误伤拦截（广告/统计/付费提示）
 INCLUDE,reject/wps_reject.list
+
+# 广告拦截（已并入总拒绝）
+INCLUDE,reject/adblock_reject.list
