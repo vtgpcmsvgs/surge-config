@@ -1,6 +1,0 @@
-# Generated from rules/region/hk/domains_to_hk.list
-# kind: rules
-# Do not edit dist directly.
-
-DOMAIN-KEYWORD,amazon
-DOMAIN-KEYWORD,hongkong

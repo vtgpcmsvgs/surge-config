@@ -1,5 +1,0 @@
-# Generated from rules/region/hk/domains_to_hk.list
-# behavior: classical
-payload:
-  - "DOMAIN-KEYWORD,amazon"
-  - "DOMAIN-KEYWORD,hongkong"

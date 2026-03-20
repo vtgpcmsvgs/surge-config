@@ -47,10 +47,6 @@ sources:
         - repo: blackmatrix7/ios_rule_script
           note: 负责 Bilibili.list 补充
   proxy:
-    proxy.list:
-      preferred:
-        - repo: self
-          note: 放需要走默认代理组的小范围自定义规则
     google.list:
       preferred:
         - repo: self
@@ -77,10 +73,6 @@ sources:
           note: 负责 GlobalMedia.list 主体
 
   region:
-    hk/domains_to_hk.list:
-      preferred:
-        - repo: self
-          note: 当前是你自己的香港策略入口
     tw/ai_tw.list:
       preferred:
         - repo: self

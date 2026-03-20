@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 2,
     "ipcidr-only": 6,
-    "classical/mixed": 24,
+    "classical/mixed": 22,
     "empty": 0,
-    "total_sources": 32,
+    "total_sources": 30,
     "total_warnings": 1
   },
   "sources": [
@@ -217,19 +217,6 @@
       }
     },
     {
-      "source": "rules/proxy/proxy.list",
-      "category": "proxy",
-      "classification": "classical/mixed",
-      "counts": {
-        "surge_rules": 1,
-        "mihomo_classical": 1
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/proxy/proxy.list",
-        "mihomo_classical": "dist/mihomo/classical/proxy/proxy.yaml"
-      }
-    },
-    {
       "source": "rules/proxy/telegram.list",
       "category": "proxy",
       "classification": "classical/mixed",
@@ -253,19 +240,6 @@
       "dist": {
         "surge_rules": "dist/surge/rules/region/hk/aws_ipv4.list",
         "mihomo_classical": "dist/mihomo/classical/region/hk/aws_ipv4.yaml"
-      }
-    },
-    {
-      "source": "rules/region/hk/domains_to_hk.list",
-      "category": "region",
-      "classification": "classical/mixed",
-      "counts": {
-        "surge_rules": 2,
-        "mihomo_classical": 2
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/region/hk/domains_to_hk.list",
-        "mihomo_classical": "dist/mihomo/classical/region/hk/domains_to_hk.yaml"
       }
     },
     {
