@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 3,
     "ipcidr-only": 6,
-    "classical/mixed": 19,
+    "classical/mixed": 20,
     "empty": 0,
-    "total_sources": 28,
+    "total_sources": 29,
     "total_warnings": 1
   },
   "sources": [
@@ -84,6 +84,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/device/srcip_pc06.list",
         "mihomo_classical": "dist/mihomo/classical/device/srcip_pc06.yaml"
+      }
+    },
+    {
+      "source": "rules/direct/aliyun_ssh_direct.list",
+      "category": "direct",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 4,
+        "mihomo_classical": 4
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/direct/aliyun_ssh_direct.list",
+        "mihomo_classical": "dist/mihomo/classical/direct/aliyun_ssh_direct.yaml"
       }
     },
     {
@@ -347,19 +360,19 @@
       }
     },
     {
-      "source": "rules/reject/reject_all.list",
+      "source": "rules/reject/plain_http_reject.list",
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 42,
-        "mihomo_classical": 41
+        "surge_rules": 2,
+        "mihomo_classical": 1
       },
       "dist": {
-        "surge_rules": "dist/surge/rules/reject/reject_all.list",
-        "mihomo_classical": "dist/mihomo/classical/reject/reject_all.yaml"
+        "surge_rules": "dist/surge/rules/reject/plain_http_reject.list",
+        "mihomo_classical": "dist/mihomo/classical/reject/plain_http_reject.yaml"
       },
       "warnings": [
-        "rules/reject/reject_all.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+        "rules/reject/plain_http_reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
       ]
     },
     {
@@ -377,6 +390,6 @@
     }
   ],
   "warnings": [
-    "rules/reject/reject_all.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
+    "rules/reject/plain_http_reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
   ]
 }

@@ -1,0 +1,4 @@
+# 生成来源：rules/reject/plain_http_reject.list
+# 行为：classical
+payload:
+  - "DST-PORT,80"

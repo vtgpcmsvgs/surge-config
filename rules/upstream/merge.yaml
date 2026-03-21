@@ -51,6 +51,15 @@ merge_plan:
       - include_upstream_first_then_local_domain_fallback
       - include_blackmatrix7_netease_music
 
+  - id: aliyun-ssh-direct
+    target: rules/direct/aliyun_ssh_direct.list
+    purpose: 阿里云 SSH 代理直连
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+    notes:
+      - 针对 SSH 端口与阿里云相关 ASN/关键字做直连兜底
+
   - id: google-tw
     target: rules/region/tw/google_tw.list
     purpose: Google / YouTube / Gemini 统一走台湾策略
@@ -139,15 +148,14 @@ merge_plan:
       - keep_source_file_as_single_include
       - sync_aws_ap_east_2_ipv4_daily
 
-  - id: reject
-    target: rules/reject/reject_all.list
-    purpose: 强主观的拦截与限制规则
+  - id: reject-plain-http
+    target: rules/reject/plain_http_reject.list
+    purpose: 禁止明文 HTTP 出站
     strategy:
       - manual_only
+      - keep_scope_small_and_stable
     notes:
-      - 这类规则与客户端兼容性耦合更强，继续只做本地维护
-      - 操作系统更新禁用规则拆分到 rules/reject/os_update_reject.list
-      - 具体到 WPS 的细颗粒度规则，拆分到 rules/reject/wps_reject.list
+      - 保留 DEST-PORT,80 与 PROTOCOL,HTTP 两条最小规则，继续本地维护
 
   - id: reject-os-update
     target: rules/reject/os_update_reject.list

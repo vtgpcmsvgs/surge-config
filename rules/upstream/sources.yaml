@@ -6,10 +6,10 @@
 
 sources:
   reject:
-    reject_all.list:
+    plain_http_reject.list:
       preferred:
         - repo: self
-          note: 保留本仓库自维护的禁用 HTTP 等强主观规则；系统更新与 WPS 细则均拆分到独立文件
+          note: 保留禁用明文 HTTP 出站规则（DEST-PORT,80 + PROTOCOL,HTTP），继续本地维护
     os_update_reject.list:
       preferred:
         - repo: self
@@ -58,6 +58,10 @@ sources:
           note: 保留少量高频兜底
         - repo: blackmatrix7/ios_rule_script
           note: 负责 Bilibili.list 补充
+    aliyun_ssh_direct.list:
+      preferred:
+        - repo: self
+          note: 阿里云 SSH 代理直连规则（端口 22 + 阿里云 ASN + aliyun 关键字）
   proxy:
     gfw.list:
       preferred:

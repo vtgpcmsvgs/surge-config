@@ -41,7 +41,7 @@
 ## 警告约定
 
 - 当前已知且允许保留的 warning 只有一条：
-  - `rules/reject/reject_all.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules`
+  - `rules/reject/plain_http_reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules`
 - 如果构建 warning 数量增加，先检查是否引入了：
   - BOM 字符
   - 不受支持的 Mihomo 规则
