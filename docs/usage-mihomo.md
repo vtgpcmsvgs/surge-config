@@ -49,6 +49,8 @@ rule-providers:
     interval: 86400
 ```
 
+说明：`reject-plain-http` 当前只拦截常见浏览器进程的明文 HTTP（`DST-PORT,80`），不再全局拒绝所有应用的 80 端口请求，以避免误伤微信等原生客户端。
+
 ## 推荐顺序
 
 建议顺序：

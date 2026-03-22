@@ -5,7 +5,7 @@
     "classical/mixed": 14,
     "empty": 0,
     "total_sources": 23,
-    "total_warnings": 1
+    "total_warnings": 0
   },
   "sources": [
     {
@@ -286,16 +286,13 @@
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 2,
-        "mihomo_classical": 1
+        "surge_rules": 8,
+        "mihomo_classical": 8
       },
       "dist": {
         "surge_rules": "dist/surge/rules/reject/plain_http_reject.list",
         "mihomo_classical": "dist/mihomo/classical/reject/plain_http_reject.yaml"
-      },
-      "warnings": [
-        "rules/reject/plain_http_reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
-      ]
+      }
     },
     {
       "source": "rules/reject/wps_reject.list",
@@ -311,7 +308,5 @@
       }
     }
   ],
-  "warnings": [
-    "rules/reject/plain_http_reject.list:3 mihomo does not support PROTOCOL,HTTP; kept only in Surge rules"
-  ]
+  "warnings": []
 }

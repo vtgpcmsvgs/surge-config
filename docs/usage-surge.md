@@ -26,6 +26,8 @@ RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/r
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
 ```
 
+说明：`plain_http_reject.list` 当前只拦截常见浏览器进程的明文 HTTP（`DST-PORT,80`），不再全局拒绝所有应用的 80 端口请求，以避免误伤微信等原生客户端。
+
 ## 推荐顺序
 
 建议顺序：

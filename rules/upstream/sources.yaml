@@ -2,14 +2,14 @@
 # 说明：
 # 1. 第三方只作为 rules/upstream/ 快照来源，由 GitHub Actions 每日同步。
 # 2. 真正给客户端使用的内容，请始终走 dist/。
-# 3. rules/ 源文件中的手写规则优先，后续通过 INCLUDE 追加第三方快照。
+# 3. rules/ 源文件中的手写规则优先，后续通过 INCLUDE 叠加第三方快照。
 
 sources:
   reject:
     plain_http_reject.list:
       preferred:
         - repo: self
-          note: 保留禁用明文 HTTP 出站规则（DEST-PORT,80 + PROTOCOL,HTTP），继续本地维护
+          note: 保留仅浏览器进程禁止明文 HTTP 出站规则，继续本地维护
     os_update_reject.list:
       preferred:
         - repo: self
@@ -17,7 +17,7 @@ sources:
     wps_reject.list:
       preferred:
         - repo: self
-          note: 只保留低误伤的 WPS 广告/统计/付费提示子域名
+          note: 只保留低误伤的 WPS 广告、统计与付费提示子域名
         - repo: privacy-protection-tools/anti-AD
           note: 提供 WPS 广告与统计子域名候选，按低误伤原则人工筛选
         - repo: blackmatrix7/ios_rule_script
@@ -37,7 +37,7 @@ sources:
     microsoft_direct.list:
       preferred:
         - repo: self
-          note: 保留 OneDrive 进程规则在最前面
+          note: 保留 OneDrive 进程规则放在最前面
         - repo: blackmatrix7/ios_rule_script
           note: 负责 Microsoft.list 与 OneDrive.list 主体
     bytedance_direct.list:
@@ -61,7 +61,8 @@ sources:
     aliyun_ssh_direct.list:
       preferred:
         - repo: self
-          note: 阿里云 SSH 代理直连规则（端口 22 + 阿里云 ASN + aliyun 关键字）
+          note: 阿里云 SSH 代理直连规则，含端口 22、阿里云 ASN 与 aliyun 关键词
+
   proxy:
     gfw.list:
       preferred:
@@ -74,13 +75,13 @@ sources:
     hk/global_media.list:
       preferred:
         - repo: self
-          note: 统一走香港区域策略；香港节点更稳更快，流媒体内容与支付方式也更友好
+          note: 统一走香港区域策略，香港节点通常更稳更快，流媒体内容与支付方式也更友好
         - repo: blackmatrix7/ios_rule_script
           note: 负责 GlobalMedia.list 主体
     hk/telegram.list:
       preferred:
         - repo: self
-          note: 统一走香港区域策略；香港节点更稳更快，适合 Telegram 大流量场景
+          note: 统一走香港区域策略，适合 Telegram 大流量场景
         - repo: Loyalsoldier/surge-rules
           note: 负责 telegramcidr.txt 补充
     tw/ai_tw.list:
@@ -92,19 +93,19 @@ sources:
     tw/crypto_tw.list:
       preferred:
         - repo: self
-          note: 保持单文件入口稳定，承接本地补充（如 g42.ai、预测市场、新兴 DeFi/分析站点）
+          note: 保持单文件入口稳定，承接本地补充，如 g42.ai、预测市场与新增 DeFi/分析站点
         - repo: blackmatrix7/ios_rule_script
-          note: 负责 Cryptocurrency.list 主体；通过 INCLUDE 并入该文件
+          note: 负责 Cryptocurrency.list 主体，通过 INCLUDE 并入该文件
     tw/google_tw.list:
       preferred:
         - repo: self
-          note: Google 相关（含 Play / Gemini / YouTube / FCM）唯一入口，统一走台湾节点
+          note: Google 相关服务，含 Play、Gemini、YouTube 与 FCM，统一走台湾入口
         - repo: blackmatrix7/ios_rule_script
-          note: 负责 GoogleFCM.list 与 YouTube.list 补充；通过 INCLUDE 并入该文件
+          note: 负责 GoogleFCM.list 与 YouTube.list 补充，通过 INCLUDE 并入该文件
     jp/domains_to_jp.list:
       preferred:
         - repo: self
-          note: 当前是你自己的日本策略入口
+          note: 当前是你自己维护的日本策略入口
     jp/jp_socks5_ipcidr.list:
       preferred:
         - repo: self
@@ -113,30 +114,30 @@ sources:
     hk/aws_ipv4.list:
       preferred:
         - repo: self
-          note: 保持源规则层 AWS 香港 IPv4 的单一 INCLUDE 入口稳定。
+          note: 保持源规则层 AWS 香港 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-east-1 IPv4 前缀到 rules/upstream/aws/hk_ipv4.txt
     jp/tokyo_aws_ipv4.list:
       preferred:
         - repo: self
-          note: 保持源规则层 AWS 东京 IPv4 的单一 INCLUDE 入口稳定。
+          note: 保持源规则层 AWS 东京 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-northeast-1 IPv4 前缀到 rules/upstream/aws/tokyo_ipv4.txt
     jp/osaka_aws_ipv4.list:
       preferred:
         - repo: self
-          note: 保持源规则层 AWS 大阪 IPv4 的单一 INCLUDE 入口稳定。
+          note: 保持源规则层 AWS 大阪 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-northeast-3 IPv4 前缀到 rules/upstream/aws/osaka_ipv4.txt
     kr/seoul_aws_ipv4.list:
       preferred:
         - repo: self
-          note: 保持源规则层 AWS 首尔 IPv4 的单一 INCLUDE 入口稳定。
+          note: 保持源规则层 AWS 首尔 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-northeast-2 IPv4 前缀到 rules/upstream/aws/seoul_ipv4.txt
     tw/taipei_aws_ipv4.list:
       preferred:
         - repo: self
-          note: 保持源规则层 AWS 台北 IPv4 的单一 INCLUDE 入口稳定。
+          note: 保持源规则层 AWS 台北 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-east-2 IPv4 前缀到 rules/upstream/aws/taipei_ipv4.txt

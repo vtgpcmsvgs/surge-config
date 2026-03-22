@@ -155,7 +155,7 @@ merge_plan:
       - manual_only
       - keep_scope_small_and_stable
     notes:
-      - 保留 DEST-PORT,80 与 PROTOCOL,HTTP 两条最小规则，继续本地维护
+      - 仅对常见浏览器进程命中 DST-PORT,80，避免误伤微信等原生客户端
 
   - id: reject-os-update
     target: rules/reject/os_update_reject.list
