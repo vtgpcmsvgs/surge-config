@@ -22,6 +22,7 @@ RULES_ROOT = ROOT / "rules"
 DIST_ROOT = ROOT / "dist"
 SOURCE_GROUPS = ("reject", "direct", "proxy", "region")
 AWS_UPSTREAM_BOOTSTRAP_PATH = RULES_ROOT / "upstream" / "aws" / "ip-ranges.json"
+ALICLOUD_UPSTREAM_BOOTSTRAP_PATH = RULES_ROOT / "upstream" / "alicloud" / "hk_ipv4.json"
 DOMAIN_CHARS = set("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._")
 DOMAIN_WILDCARD_CHARS = DOMAIN_CHARS | set("*?+")
 SUPPORTED_CLASSICAL_TOKENS = {
@@ -659,6 +660,29 @@ def aws_snapshots_need_sync() -> bool:
     return isinstance(payload, dict) and payload.get("syncToken") == "bootstrap"
 
 
+def alicloud_snapshots_need_sync() -> bool:
+    if not sync_upstream_rules.has_alicloud_credentials():
+        return False
+
+    expected_snapshot_paths = [
+        RULES_ROOT / "upstream" / snapshot.path
+        for snapshot in sync_upstream_rules.ALICLOUD_REGION_SNAPSHOTS
+    ]
+    for path in expected_snapshot_paths:
+        if not path.exists():
+            return True
+        if "Placeholder file kept in repo" in read_text(path):
+            return True
+
+    if not ALICLOUD_UPSTREAM_BOOTSTRAP_PATH.exists():
+        return True
+    try:
+        payload = json.loads(read_text(ALICLOUD_UPSTREAM_BOOTSTRAP_PATH))
+    except json.JSONDecodeError:
+        return True
+    return isinstance(payload, dict) and payload.get("syncToken") == "bootstrap"
+
+
 def main() -> int:
     configure_stdio()
     args = parse_args()
@@ -668,6 +692,7 @@ def main() -> int:
             or os.environ.get("RULEMESH_SYNC_UPSTREAM") == "1"
             or os.environ.get("SURGE_CONFIG_SYNC_UPSTREAM") == "1"
             or aws_snapshots_need_sync()
+            or alicloud_snapshots_need_sync()
         )
         if should_sync_upstream:
             sync_status = sync_upstream_rules.main()

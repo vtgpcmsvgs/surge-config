@@ -32,7 +32,7 @@ merge_plan:
 
   - id: bilibili-direct
     target: rules/direct/bilibili_direct.list
-    purpose: 哔哩哔哩直连
+    purpose: Bilibili 直连
     strategy:
       - include_upstream_first_then_local_domain_fallback
       - include_blackmatrix7_bilibili
@@ -51,15 +51,6 @@ merge_plan:
       - include_upstream_first_then_local_domain_fallback
       - include_blackmatrix7_netease_music
 
-  - id: aliyun-ssh-direct
-    target: rules/direct/aliyun_ssh_direct.list
-    purpose: 阿里云 SSH 代理直连
-    strategy:
-      - manual_only
-      - keep_scope_small_and_stable
-    notes:
-      - 针对 SSH 端口与阿里云相关 ASN/关键字做直连兜底
-
   - id: google-tw
     target: rules/region/tw/google_tw.list
     purpose: Google / YouTube / Gemini 统一走台湾策略
@@ -67,7 +58,7 @@ merge_plan:
       - include_upstream_first_then_local_keyword_fallback
       - include_blackmatrix7_google_and_youtube
     notes:
-      - Google 相关规则只维护在 rules/region/tw/google_tw.list，避免 proxy 与 region 双入口分叉。
+      - Google 相关规则只维护在 rules/region/tw/google_tw.list，避免 proxy 与 region 双入口分叉
 
   - id: hk-telegram
     target: rules/region/hk/telegram.list
@@ -76,8 +67,8 @@ merge_plan:
       - include_upstream_first_then_local_domain_fallback
       - include_loyalsoldier_telegram_cidr
     notes:
-      - 香港节点一般更稳定、速度更快，适合 Telegram 大流量场景。
-      - 香港地区内容生态与支付方式更友好。
+      - 香港节点通常更稳定、速度更快，适合 Telegram 大流量场景
+      - 香港地区内容生态与支付方式也更友好
 
   - id: gfw-proxy
     target: rules/proxy/gfw.list
@@ -93,8 +84,8 @@ merge_plan:
       - include_upstream_first_then_local_core_fallback
       - include_blackmatrix7_global_media
     notes:
-      - 香港节点一般更稳定、速度更快，适合 global media 大流量场景。
-      - 香港地区内容更贴近华语用户，且支付方式更友好。
+      - 香港节点通常更稳定、速度更快，适合 global media 场景
+      - 香港地区内容更贴近华语用户，且支付方式更友好
 
   - id: tw-ai
     target: rules/region/tw/ai_tw.list
@@ -111,7 +102,7 @@ merge_plan:
       - include_upstream_first_then_local_category_fallback
       - include_blackmatrix7_cryptocurrency
     notes:
-      - 覆盖区块浏览器 / 交易所 / DeFi / 预测市场；本地保留第三方未覆盖站点（如 g42.ai）。
+      - 覆盖区块浏览器、交易所、DeFi 与预测市场；本地保留第三方未覆盖站点，如 g42.ai
 
   - id: aws-hk-ipv4
     target: rules/region/hk/aws_ipv4.list
@@ -119,6 +110,16 @@ merge_plan:
     strategy:
       - keep_source_file_as_single_include
       - sync_aws_ap_east_1_ipv4_daily
+
+  - id: alicloud-hk-ipv4
+    target: rules/region/hk/alicloud_ipv4.list
+    purpose: 阿里云香港 IPv4 路由入口
+    strategy:
+      - keep_source_file_as_single_include
+      - sync_alicloud_cn_hongkong_ipv4_daily_via_official_openapi
+    notes:
+      - 数据源为阿里云官方 VPC OpenAPI DescribePublicIpAddress
+      - 首次同步需要具备该接口读取权限的 AccessKey 或 STS 临时凭证
 
   - id: aws-tokyo-ipv4
     target: rules/region/jp/tokyo_aws_ipv4.list

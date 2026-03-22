@@ -1,7 +1,0 @@
-# 生成来源：rules/direct/aliyun_ssh_direct.list
-# 行为：classical
-payload:
-  - "DST-PORT,22"
-  - "IP-ASN,56040,no-resolve"
-  - "IP-ASN,45102,no-resolve"
-  - "DOMAIN-KEYWORD,aliyun"

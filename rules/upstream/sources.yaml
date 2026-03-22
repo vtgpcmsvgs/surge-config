@@ -58,11 +58,6 @@ sources:
           note: 保留少量高频兜底
         - repo: blackmatrix7/ios_rule_script
           note: 负责 Bilibili.list 补充
-    aliyun_ssh_direct.list:
-      preferred:
-        - repo: self
-          note: 阿里云 SSH 代理直连规则，含端口 22、阿里云 ASN 与 aliyun 关键词
-
   proxy:
     gfw.list:
       preferred:
@@ -117,6 +112,12 @@ sources:
           note: 保持源规则层 AWS 香港 IPv4 的单一 INCLUDE 入口稳定
         - repo: AWS ip-ranges.json
           note: 每日同步全部 ap-east-1 IPv4 前缀到 rules/upstream/aws/hk_ipv4.txt
+    hk/alicloud_ipv4.list:
+      preferred:
+        - repo: self
+          note: 保持源规则层阿里云香港 IPv4 的单一 INCLUDE 入口稳定
+        - repo: Alibaba Cloud DescribePublicIpAddress
+          note: 通过官方 VPC OpenAPI 每日同步 cn-hongkong 的全部公网 IPv4 前缀到 rules/upstream/alicloud/hk_ipv4.txt
     jp/tokyo_aws_ipv4.list:
       preferred:
         - repo: self

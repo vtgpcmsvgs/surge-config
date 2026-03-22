@@ -13,6 +13,11 @@ jobs:
   build:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
+    environment: upstream-sync
+    env:
+      RULEMESH_ALICLOUD_ACCESS_KEY_ID: ${{ secrets.RULEMESH_ALICLOUD_ACCESS_KEY_ID }}
+      RULEMESH_ALICLOUD_ACCESS_KEY_SECRET: ${{ secrets.RULEMESH_ALICLOUD_ACCESS_KEY_SECRET }}
+      RULEMESH_ALICLOUD_SECURITY_TOKEN: ${{ secrets.RULEMESH_ALICLOUD_SECURITY_TOKEN }}
     steps:
       - uses: actions/checkout@v4
 

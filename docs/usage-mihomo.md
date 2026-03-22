@@ -102,6 +102,14 @@ rule-providers:
     url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/global_media.yaml
     interval: 86400
 
+  hk-alicloud-ipv4-classical:
+    type: http
+    behavior: classical
+    format: yaml
+    path: ./rule-providers/region/hk/alicloud_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/alicloud_ipv4.yaml
+    interval: 86400
+
   gfw-classical:
     type: http
     behavior: classical
@@ -124,6 +132,7 @@ rules:
 
   - RULE-SET,tw-google-classical,TW-AUTO
   - RULE-SET,hk-global-media-classical,HK-AUTO
+  - RULE-SET,hk-alicloud-ipv4-classical,HK-AUTO,no-resolve
 
   - RULE-SET,gfw-classical,PROXY
   - RULE-SET,cn-direct-classical,DIRECT
