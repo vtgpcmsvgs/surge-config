@@ -2,6 +2,7 @@ import sys
 import tempfile
 import unittest
 from pathlib import Path
+from unittest.mock import patch
 
 
 TOOLS_DIR = Path(__file__).resolve().parents[1] / "tools"
@@ -58,6 +59,57 @@ class FindNonChineseCommentLinesTests(unittest.TestCase):
                 build_rules.find_non_chinese_comment_lines(path),
                 [(2, "English section title")],
             )
+
+
+class TempRepoBuildRulesTests(unittest.TestCase):
+    def setUp(self) -> None:
+        self.temp_dir = tempfile.TemporaryDirectory()
+        self.addCleanup(self.temp_dir.cleanup)
+        self.repo_root = Path(self.temp_dir.name)
+        self.rules_root = self.repo_root / "rules"
+        self.dist_root = self.repo_root / "dist"
+        (self.rules_root / "direct").mkdir(parents=True, exist_ok=True)
+
+    def patch_repo_paths(self):
+        return patch.multiple(
+            build_rules,
+            ROOT=self.repo_root,
+            RULES_ROOT=self.rules_root,
+            DIST_ROOT=self.dist_root,
+        )
+
+    def test_utf8_bom_plain_rule_does_not_produce_warning(self) -> None:
+        path = self.rules_root / "direct" / "bom.list"
+        path.write_text("example.com\n", encoding="utf-8-sig")
+
+        with self.patch_repo_paths():
+            result = build_rules.build_source(path)
+
+        self.assertEqual(result.outputs["surge_rules"], ["DOMAIN,example.com"])
+        self.assertEqual(result.outputs["mihomo_classical"], ["DOMAIN,example.com"])
+        self.assertEqual(result.warnings, [])
+
+    def test_include_cycle_raises_build_error(self) -> None:
+        path_a = self.rules_root / "direct" / "a.list"
+        path_b = self.rules_root / "direct" / "b.list"
+        path_a.write_text("INCLUDE,direct/b.list\n", encoding="utf-8")
+        path_b.write_text("INCLUDE,direct/a.list\n", encoding="utf-8")
+
+        with self.patch_repo_paths():
+            with self.assertRaises(build_rules.BuildError) as context:
+                build_rules.expand_source_lines(path_a)
+
+        self.assertIn("INCLUDE 循环引用", str(context.exception))
+
+    def test_unsupported_mihomo_rule_emits_warning(self) -> None:
+        parsed = build_rules.parse_line("PROTOCOL,ICMP")
+
+        self.assertEqual(parsed.surge_rule, "PROTOCOL,ICMP")
+        self.assertIsNone(parsed.mihomo_classical)
+        self.assertEqual(
+            parsed.warnings,
+            ["mihomo does not support PROTOCOL,ICMP; kept only in Surge rules"],
+        )
 
 
 if __name__ == "__main__":

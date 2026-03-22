@@ -45,6 +45,14 @@ Windows 本地与 Codex 会话统一优先使用包装脚本：
 powershell -ExecutionPolicy Bypass -File tools/build_rules.ps1
 ```
 
+日常开发自检可直接运行：
+
+```bash
+powershell -ExecutionPolicy Bypass -File tools/check.ps1
+```
+
+这个脚本会串行执行构建、单元测试、`dist/` 目录结构校验、`dist/build-report.json` warning 校验，并在最后输出 `git status --short`。
+
 CI 或其他非 Windows 环境如果已经确认本机 `python` 可用，也可以直接执行：
 
 ```bash
@@ -74,6 +82,7 @@ python tools/build_rules.py
 
 - push 到 `main` 时自动构建 `dist/`
 - push 到 `main` 时会先运行单元测试，确保中文注释约束与上游中文模板没有退化
+- `pull request` 到 `main` 时会校验单元测试、构建流程，以及 `rules/upstream` 与 `dist/` 是否已经提交最新结果
 - 支持手动触发
 - 若 `dist/` 有差异，会自动提交构建产物
 - 这个自动回写行为定义在 [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml)，网页端直接编辑并提交到 `main` 也会触发同一个工作流

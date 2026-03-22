@@ -1,0 +1,31 @@
+name: validate-pr
+
+on:
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONDONTWRITEBYTECODE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: 运行单元测试
+        run: python -m unittest discover -s tests -p "test_*.py"
+
+      - name: 构建 dist
+        run: python -B tools/build_rules.py
+
+      - name: 校验已提交的构建产物
+        run: git diff --exit-code -- rules/upstream dist
