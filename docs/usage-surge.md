@@ -1,93 +1,48 @@
 # Surge 使用说明
 
-## 先看原则
+## 推荐入口
 
-- 客户端只引用 `dist/surge/rules/`
-- `rules/` 是源规则层，不建议在 Surge 配置中直接引用
-- 本仓库统一输出显式规则行，统一通过 `RULE-SET` 接入
-- Google 相关（含 Google Play / Gemini / YouTube / FCM）统一接 `region/tw/google_tw.list` 并绑定 `TW-AUTO`
-- 局域网设备分流（`SRC-IP` + `AND/OR`）建议在客户端配置中硬编码维护，不放在仓库 `dist` 规则集中
+- 完整公开参考模板：[`docs/examples/surge-public.conf`](examples/surge-public.conf)
+- 规则产物入口：`dist/surge/rules/`
 
-本文示例统一使用主分支 raw 地址：
+这个模板是基于本地长期使用的 Surge 配置整理出来的公开版，保留了总开关、区域自动切换、拒绝规则、直连规则与 IP 规则的完整结构，但移除了不适合公开仓库的个人化部分。
 
-```text
-https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
-```
+## 模板保留了什么
 
-## RULE-SET 示例
+- 总开关 + 手动切换 + 自动测速切换
+- 香港、台湾、日本、新加坡、美国、韩国的区域自动组
+- `reject`、`direct`、`proxy`、`region` 四类 RuleMesh 产物接入
+- `skip-proxy`、`always-real-ip`、基础 DNS 与测速参数
 
-```ini
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/plain_http_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/os_update_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/wps_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/google_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/gfw.list,PROXY
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ssh_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
-```
+## 模板刻意移除了什么
 
-说明：`plain_http_reject.list` 当前只拦截常见浏览器进程的明文 HTTP（`DST-PORT,80`），不再全局拒绝所有应用的 80 端口请求，以避免误伤微信等原生客户端。
+- 按局域网源 IP 的设备分流（`SRC-IP` + `AND/OR`）
+- 私有 `policy-path` 地址与真实机场命名
+- 整个 `[MITM]` 段及证书参数
 
-## 推荐顺序
+## 使用前只需要替换两处
 
-建议顺序：
+1. 把模板里所有 `https://example.com/subs/surge/all?target=Surge` 替换成你自己的 Surge 聚合订阅入口。
+2. 如果你不希望最终兜底走总开关，可以把 `FINAL,🚀 节点选择` 改成你想固定兜底的区域组。
+
+## 规则顺序建议
 
 1. 拒绝规则
-2. 区域规则
-3. 代理规则
-4. 直连 / 香港区域规则
+2. 区域精确规则
+3. 代理优先规则
+4. 直连规则
 5. IP 规则
 6. `FINAL`
 
 注意：
 
-- `region/tw/google_tw.list` 必须放在 `region/hk/global_media.list` 等广谱区域规则之前。
+- `region/tw/google_tw.list` 必须放在 `region/hk/global_media.list` 等广谱区域规则前。
 - `proxy/gfw.list` 建议放在 `direct/cn_direct.list` 前，减少广谱直连误伤。
+- 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
 
-一个最小可用 `[Rule]` 片段：
+## 使用原则
 
-```ini
-[Rule]
-# 1. 拒绝
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/plain_http_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/os_update_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/wps_reject.list,REJECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/reject/adblock_reject.list,REJECT
-
-# 2. 区域
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/ai_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/google_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/crypto_tw.list,TW-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/domains_to_jp.list,JP-AUTO
-
-# 3. 代理
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/gfw.list,PROXY
-
-# 4. 直连 / 香港区域
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ssh_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/microsoft_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/cn_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/bytedance_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/netease_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/bilibili_direct.list,DIRECT
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/telegram.list,HK-AUTO
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/global_media.list,HK-AUTO
-
-# 5. IP 规则
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/tw/taipei_aws_ipv4.list,TW-AUTO,no-resolve
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/jp_socks5_ipcidr.list,JP-AUTO,no-resolve
-
-# 6. 最终规则
-FINAL,PROXY
-```
-
-## 常见误区
-
-- 不要继续引用 `rules/` 源文件路径
-- 不要在客户端直接引用第三方原始规则 URL
-- 不要再引入无扩展名源文件；构建脚本会拒绝
+- 客户端只引用 `dist/surge/rules/`
+- `rules/` 是源规则层，不建议在 Surge 配置中直接引用
+- 不要在客户端继续引用第三方原始规则 URL
+- 不要手改 `dist/`，应先改 `rules/` 后重新构建

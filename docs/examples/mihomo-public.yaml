@@ -1,0 +1,482 @@
+# RuleMesh Mihomo 公开参考模板
+# 适用场景：
+# 1. 需要保留多订阅聚合、区域自动切换与完整规则顺序。
+# 2. 需要公开分享配置结构，但不暴露真实机场订阅、控制器或设备分流信息。
+#
+# 使用前请把下面 3 个示例订阅地址替换成你自己的提供方链接：
+# - https://example.com/subscriptions/provider-a.yaml
+# - https://example.com/subscriptions/provider-b.yaml
+# - https://example.com/subscriptions/provider-c.yaml
+
+mixed-port: 7897
+allow-lan: false
+mode: rule
+
+# > 日志级别
+log-level: warning
+global-ua: clash-verge/v2.2.0
+
+# > All Hybrid 网络并发手动切换
+tcp-concurrent: false
+
+# > IPv6 支持（默认关闭）
+ipv6: false
+
+unified-delay: true
+find-process-mode: strict
+
+profile:
+  store-selected: true
+  store-fake-ip: true
+
+# > 跳过代理
+# Mihomo 无 Surge 的全局 skip-proxy 等价字段，这里通过直连规则与 fake-ip-filter 覆盖主要场景。
+dns:
+  enable: true
+  ipv6: false
+  use-hosts: true
+  use-system-hosts: true
+  respect-rules: true
+  enhanced-mode: fake-ip
+  fake-ip-range: 198.18.0.1/16
+  # > DNS 服务器
+  nameserver:
+    - 223.5.5.5
+    - 119.29.29.29
+  # > DNS 劫持 / 代理服务器解析
+  proxy-server-nameserver:
+    - 8.8.8.8
+    - 8.8.4.4
+  # > Always Real IP Hosts
+  fake-ip-filter:
+    - "*.srv.nintendo.net"
+    - "*.stun.playstation.net"
+    - "xbox.*.microsoft.com"
+    - "*.xboxlive.com"
+    - "*.battlenet.com.cn"
+    - "*.battlenet.com"
+    - "*.blzstatic.cn"
+    - "*.battle.net"
+
+proxy-providers:
+  # 说明：下面这 3 个是公开模板里的占位订阅源。
+  # interval: 21600 = 每 6 小时自动重新拉一次订阅。
+  # health-check.interval: 300 = 每 5 分钟做一次测速，只影响延迟显示和自动组选路。
+  provider_a:
+    type: http
+    url: "https://example.com/subscriptions/provider-a.yaml"
+    path: ./proxy_provider/provider_a.yaml
+    interval: 21600
+    health-check:
+      enable: true
+      url: "http://www.google.com/generate_204"
+      interval: 300
+      timeout: 5000
+      lazy: false
+      expected-status: 204
+    override:
+      additional-prefix: "A | "
+
+  provider_b:
+    type: http
+    url: "https://example.com/subscriptions/provider-b.yaml"
+    path: ./proxy_provider/provider_b.yaml
+    interval: 21600
+    health-check:
+      enable: true
+      url: "http://www.google.com/generate_204"
+      interval: 300
+      timeout: 5000
+      lazy: false
+      expected-status: 204
+    override:
+      additional-prefix: "B | "
+
+  provider_c:
+    type: http
+    url: "https://example.com/subscriptions/provider-c.yaml"
+    path: ./proxy_provider/provider_c.yaml
+    interval: 21600
+    health-check:
+      enable: true
+      url: "http://www.google.com/generate_204"
+      interval: 300
+      timeout: 5000
+      lazy: false
+      expected-status: 204
+    override:
+      additional-prefix: "C | "
+
+proxy-groups:
+  # 说明：本段自动组里的 interval: 300 = 每 5 分钟重新测速并择优一次，不是更新订阅。
+  # 新手说明：这是总开关。日常只需要选它，内部再选“自动”或“手动”。
+  - name: "🚀 节点选择"
+    type: select
+    proxies:
+      - "♻️ 自动选择"
+      - "🇭🇰 香港-自动选择"
+      - "🇹🇼 台湾-自动选择"
+      - "🇸🇬 新加坡-自动选择"
+      - "🇯🇵 日本-自动选择"
+      - "🇺🇸 美国-自动选择"
+      - "🇰🇷 韩国-自动选择"
+      - "👋 手动切换"
+
+  - name: "👋 手动切换"
+    type: select
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    exclude-filter: "(?i)直接连接|联系我们"
+
+  - name: "♻️ 自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 50
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇭🇰|香港|hong kong|\\bhk\\b|🇹🇼|台湾|taiwan|\\btw\\b|🇯🇵|日本|japan|\\bjp\\b|🇸🇬|新加坡|singapore|\\bsg\\b|🇺🇸|美国|united states|\\bus\\b|🇰🇷|韩|korea|\\bkr\\b"
+
+  - name: "❌ 拒绝REJECT"
+    type: select
+    proxies:
+      - REJECT
+
+  - name: "🎯 直连DIRECT"
+    type: select
+    proxies:
+      - DIRECT
+
+  - name: "🇭🇰 香港-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 100
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇭🇰|香港|hong kong|\\bhk\\b"
+
+  - name: "🇹🇼 台湾-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 100
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇹🇼|台湾|taiwan|\\btw\\b"
+
+  - name: "🇯🇵 日本-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 150
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇯🇵|日本|japan|\\bjp\\b"
+
+  - name: "🇰🇷 韩国-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 150
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇰🇷|韩|korea|\\bkr\\b"
+
+  - name: "🇸🇬 新加坡-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 150
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇸🇬|新加坡|singapore|\\bsg\\b"
+
+  - name: "🇺🇸 美国-自动选择"
+    type: url-test
+    url: "http://www.google.com/generate_204"
+    interval: 300
+    tolerance: 150
+    timeout: 5000
+    lazy: false
+    use:
+      - provider_a
+      - provider_b
+      - provider_c
+    filter: "(?i)🇺🇸|美国|united states|\\bus\\b"
+
+rule-providers:
+  reject_adblock:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/adblock_reject.yaml"
+    path: ./ruleset/reject/adblock_reject.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  reject_os_update:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/os_update_reject.yaml"
+    path: ./ruleset/reject/os_update_reject.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  reject_plain_http:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/plain_http_reject.yaml"
+    path: ./ruleset/reject/plain_http_reject.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  reject_wps:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/wps_reject.yaml"
+    path: ./ruleset/reject/wps_reject.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  tw_google:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/google_tw.yaml"
+    path: ./ruleset/region/tw/google_tw.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  tw_ai:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/ai_tw.yaml"
+    path: ./ruleset/region/tw/ai_tw.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  tw_crypto:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/crypto_tw.yaml"
+    path: ./ruleset/region/tw/crypto_tw.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  jp_domains:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/domains_to_jp.yaml"
+    path: ./ruleset/region/jp/domains_to_jp.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  hk_telegram:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/telegram.yaml"
+    path: ./ruleset/region/hk/telegram.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  hk_global_media:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/global_media.yaml"
+    path: ./ruleset/region/hk/global_media.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  proxy_gfw:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/gfw.yaml"
+    path: ./ruleset/proxy/gfw.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_alicloud_hk_ssh:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ssh_direct.yaml"
+    path: ./ruleset/direct/alicloud_hk_ssh_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_microsoft:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/microsoft_direct.yaml"
+    path: ./ruleset/direct/microsoft_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_bytedance:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/bytedance_direct.yaml"
+    path: ./ruleset/direct/bytedance_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_netease:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/netease_direct.yaml"
+    path: ./ruleset/direct/netease_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_bilibili:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/bilibili_direct.yaml"
+    path: ./ruleset/direct/bilibili_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  direct_cn:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/cn_direct.yaml"
+    path: ./ruleset/direct/cn_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  hk_aws_ipv4:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml"
+    path: ./ruleset/region/hk/aws_ipv4.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  jp_tokyo_aws_ipv4:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml"
+    path: ./ruleset/region/jp/tokyo_aws_ipv4.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  jp_osaka_aws_ipv4:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml"
+    path: ./ruleset/region/jp/osaka_aws_ipv4.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  kr_seoul_aws_ipv4:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml"
+    path: ./ruleset/region/kr/seoul_aws_ipv4.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  tw_taipei_aws_ipv4:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/taipei_aws_ipv4.yaml"
+    path: ./ruleset/region/tw/taipei_aws_ipv4.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+  jp_socks5_ipcidr:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml"
+    path: ./ruleset/region/jp/jp_socks5_ipcidr.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
+rules:
+  - RULE-SET,reject_adblock,REJECT
+  - RULE-SET,reject_os_update,REJECT
+  - RULE-SET,reject_plain_http,REJECT
+  - RULE-SET,reject_wps,REJECT
+
+  - RULE-SET,tw_google,🇹🇼 台湾-自动选择
+  - RULE-SET,tw_ai,🇹🇼 台湾-自动选择
+  - RULE-SET,tw_crypto,🇹🇼 台湾-自动选择
+  - RULE-SET,jp_domains,🇯🇵 日本-自动选择
+  - RULE-SET,hk_telegram,🇭🇰 香港-自动选择
+  - RULE-SET,hk_global_media,🇭🇰 香港-自动选择
+
+  - RULE-SET,proxy_gfw,🚀 节点选择
+
+  - DOMAIN-SUFFIX,local,DIRECT
+  - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
+  - IP-CIDR,172.16.0.0/12,DIRECT,no-resolve
+  - IP-CIDR,192.168.0.0/16,DIRECT,no-resolve
+  - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
+  - RULE-SET,direct_alicloud_hk_ssh,DIRECT
+  - RULE-SET,direct_microsoft,DIRECT
+  - RULE-SET,direct_bytedance,DIRECT
+  - RULE-SET,direct_netease,DIRECT
+  - RULE-SET,direct_bilibili,DIRECT
+  - RULE-SET,direct_cn,DIRECT
+
+  - RULE-SET,hk_aws_ipv4,🇭🇰 香港-自动选择,no-resolve
+  - RULE-SET,jp_tokyo_aws_ipv4,🇯🇵 日本-自动选择,no-resolve
+  - RULE-SET,jp_osaka_aws_ipv4,🇯🇵 日本-自动选择,no-resolve
+  - RULE-SET,kr_seoul_aws_ipv4,🇰🇷 韩国-自动选择,no-resolve
+  - RULE-SET,tw_taipei_aws_ipv4,🇹🇼 台湾-自动选择,no-resolve
+  - RULE-SET,jp_socks5_ipcidr,🇯🇵 日本-自动选择,no-resolve
+
+  - MATCH,🚀 节点选择
+
+# 公开模板刻意不包含：
+# 1. 真实机场订阅地址与供应商命名。
+# 2. external-controller / secret 等控制面参数。
+# 3. 按局域网源 IP 的设备分流。

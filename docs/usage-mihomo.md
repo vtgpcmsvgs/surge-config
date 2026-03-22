@@ -6,143 +6,50 @@
 - Clash Meta for Android
 - 其他兼容 Mihomo `rule-providers` 的客户端
 
-## 先看原则
+## 推荐入口
 
-- 客户端只引用 `dist/mihomo/classical/`
-- `rules/` 是源规则层，不建议客户端直接引用
-- 本仓库统一输出 `behavior: classical`
-- Google 相关（含 Google Play / Gemini / YouTube / FCM）统一接 `region/tw/google_tw.yaml` 并绑定 `TW-AUTO`
-- 局域网设备分流建议在客户端配置中硬编码（`SRC-IP` + `AND/OR`），不在仓库 `dist` 规则集中维护
+- 完整公开参考模板：[`docs/examples/mihomo-public.yaml`](examples/mihomo-public.yaml)
+- 规则产物入口：`dist/mihomo/classical/`
 
-本文示例统一使用主分支 raw 地址：
+这个模板是基于本地长期使用的 Mihomo 配置整理出来的公开版，保留了多订阅聚合、区域自动切换、`rule-providers` 与完整规则顺序，但移除了真实机场地址和其他不适合公开仓库的私有信息。
 
-```text
-https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main
-```
+## 模板保留了什么
 
-## rule-providers 示例
+- `dns + proxy-providers + proxy-groups + rule-providers + rules` 的完整结构
+- 多订阅聚合后的统一总开关与区域自动组
+- `reject`、`direct`、`proxy`、`region` 四类 RuleMesh `classical` 产物接入
+- 用 `plain_http_reject.yaml` 接管浏览器明文 HTTP 拦截
 
-```yaml
-rule-providers:
-  reject-plain-http:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/reject/plain_http_reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/plain_http_reject.yaml
-    interval: 86400
+## 模板刻意移除了什么
 
-  tw-google-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/region/google_tw.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/google_tw.yaml
-    interval: 86400
+- 真实机场订阅链接、供应商命名与 token
+- `external-controller`、`secret` 等控制面参数
+- 按局域网源 IP 的设备分流逻辑
 
-  gfw-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/proxy/gfw.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/gfw.yaml
-    interval: 86400
-```
+## 使用前只需要替换两处
 
-说明：`reject-plain-http` 当前只拦截常见浏览器进程的明文 HTTP（`DST-PORT,80`），不再全局拒绝所有应用的 80 端口请求，以避免误伤微信等原生客户端。
+1. 把模板里 `provider_a`、`provider_b`、`provider_c` 的 `url` 改成你自己的订阅地址。
+2. 如果你不希望最终兜底走总开关，可以把 `MATCH,🚀 节点选择` 改成你想固定兜底的区域组。
 
-## 推荐顺序
-
-建议顺序：
+## 规则顺序建议
 
 1. 拒绝规则
-2. 区域规则
-3. 代理规则
-4. 直连 / 香港区域
-5. `MATCH`
+2. 区域精确规则
+3. 代理优先规则
+4. 直连规则
+5. IP 规则
+6. `MATCH`
 
 注意：
 
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/hk/global_media.yaml` 前。
 - `proxy/gfw.yaml` 建议放在 `direct/cn_direct.yaml` 前，减少广谱直连误伤。
+- `reject_plain_http` 已有构建产物，公开模板不再建议手写重复的浏览器进程规则。
 
-一个最小可用示例：
+## 使用原则
 
-```yaml
-rule-providers:
-  reject-plain-http:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/reject/plain_http_reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/plain_http_reject.yaml
-    interval: 86400
-
-  reject-os-update:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/reject/os_update_reject.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/reject/os_update_reject.yaml
-    interval: 86400
-
-  tw-google-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/region/google_tw.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/tw/google_tw.yaml
-    interval: 86400
-
-  hk-global-media-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/region/hk/global_media.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/global_media.yaml
-    interval: 86400
-
-  alicloud-hk-ssh-direct:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/direct/alicloud_hk_ssh_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ssh_direct.yaml
-    interval: 86400
-
-  gfw-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/proxy/gfw.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/gfw.yaml
-    interval: 86400
-
-  cn-direct-classical:
-    type: http
-    behavior: classical
-    format: yaml
-    path: ./rule-providers/direct/cn_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/cn_direct.yaml
-    interval: 86400
-
-rules:
-  - RULE-SET,reject-plain-http,REJECT
-  - RULE-SET,reject-os-update,REJECT
-
-  - RULE-SET,tw-google-classical,TW-AUTO
-  - RULE-SET,hk-global-media-classical,HK-AUTO
-  - RULE-SET,alicloud-hk-ssh-direct,DIRECT
-
-  - RULE-SET,gfw-classical,PROXY
-  - RULE-SET,cn-direct-classical,DIRECT
-
-  - MATCH,PROXY
-```
-
-## 常见误区
-
+- 客户端只引用 `dist/mihomo/classical/`
+- `rules/` 是源规则层，不建议客户端直接引用
 - 不要把 `classical` 产物误配成别的 `behavior`
-- 不要继续引用 `rules/` 源规则路径
 - 不要再找旧的纯域名或纯 CIDR 产物目录；仓库已经统一走 `classical`
-- 不要再引入无扩展名源文件；构建脚本会拒绝
+- 不要手改 `dist/`，应先改 `rules/` 后重新构建

@@ -90,8 +90,19 @@ python tools/build_rules.py
 
 - [docs/usage-surge.md](docs/usage-surge.md)
 - [docs/usage-mihomo.md](docs/usage-mihomo.md)
+- [docs/examples/surge-public.conf](docs/examples/surge-public.conf)
+- [docs/examples/mihomo-public.yaml](docs/examples/mihomo-public.yaml)
 - [docs/aws-region-rules.md](docs/aws-region-rules.md)
 - [docs/alicloud-direct-rules.md](docs/alicloud-direct-rules.md)
+
+其中两份公开参考模板已经做过脱敏处理，适合直接上传到公开仓库给他人参考：
+
+- `docs/examples/surge-public.conf`
+  - 保留完整 `General + Proxy Group + Rule` 结构
+  - 已移除设备分流、私有订阅地址与 `[MITM]`
+- `docs/examples/mihomo-public.yaml`
+  - 保留完整 `dns + proxy-providers + proxy-groups + rule-providers + rules` 结构
+  - 已移除真实机场订阅链接、供应商命名与控制面参数
 
 ## 当前设计原则
 
