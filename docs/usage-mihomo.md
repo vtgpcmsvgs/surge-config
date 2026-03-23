@@ -35,15 +35,17 @@
 
 1. 拒绝规则
 2. 区域精确规则
-3. 代理优先规则
-4. 直连规则
-5. IP 规则
-6. `MATCH`
+3. GitHub 仓库 SSH 定向直连
+4. 代理优先规则
+5. 直连规则
+6. IP 规则
+7. `MATCH`
 
 注意：
 
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/hk/global_media.yaml` 前。
-- `proxy/gfw.yaml` 建议放在 `direct/cn_direct.yaml` 前，减少广谱直连误伤。
+- `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
+- `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。
 - `reject_plain_http` 已有构建产物，公开模板不再建议手写重复的浏览器进程规则。
 
 ## 使用原则

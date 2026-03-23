@@ -331,6 +331,15 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
+  direct_github_ssh:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/github_ssh_direct.yaml"
+    path: ./ruleset/direct/github_ssh_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
   direct_alicloud_hk_ssh:
     type: http
     behavior: classical
@@ -451,6 +460,9 @@ rules:
   - RULE-SET,jp_domains,🇯🇵 日本-自动选择
   - RULE-SET,hk_telegram,🇭🇰 香港-自动选择
   - RULE-SET,hk_global_media,🇭🇰 香港-自动选择
+
+  # GitHub 仓库 SSH 定向直连必须放在 gfw 前，避免把整个 GitHub 放直连。
+  - RULE-SET,direct_github_ssh,DIRECT
 
   - RULE-SET,proxy_gfw,🚀 节点选择
 

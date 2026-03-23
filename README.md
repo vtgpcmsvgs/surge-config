@@ -103,10 +103,21 @@ python tools/build_rules.py
 - [docs/examples/mihomo-public.yaml](docs/examples/mihomo-public.yaml)
 - [docs/aws-region-rules.md](docs/aws-region-rules.md)
 - [docs/alicloud-direct-rules.md](docs/alicloud-direct-rules.md)
+- [docs/github-ssh-direct-rules.md](docs/github-ssh-direct-rules.md)
+
+其中 Surge 当前建议明确区分两种使用版本：
+
+- 软路由集群版
+  - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
+  - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
+- 个人终端版
+  - 对应仓库里的公开参考模板 [`docs/examples/surge-public.conf`](docs/examples/surge-public.conf)。
+  - 保留通用的 `General + Proxy Group + Rule` 结构，但移除设备分流、私有订阅地址与 `[MITM]`。
 
 其中两份公开参考模板已经做过脱敏处理，适合直接上传到公开仓库给他人参考：
 
 - `docs/examples/surge-public.conf`
+  - 对应 Surge 的“个人终端版”
   - 保留完整 `General + Proxy Group + Rule` 结构
   - 已移除设备分流、私有订阅地址与 `[MITM]`
 - `docs/examples/mihomo-public.yaml`

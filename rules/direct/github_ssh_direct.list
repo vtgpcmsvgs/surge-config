@@ -1,0 +1,6 @@
+# GitHub 仓库 SSH 定向直连规则。
+# 说明：
+# 1) 仅放行 GitHub 仓库 SSH 连接，保留 GitHub 网页与 raw 资源继续走代理。
+# 2) 客户端接入时必须放在 proxy/gfw 前，才能从 .github.com 的广谱代理规则中精确 carve-out。
+AND,((DOMAIN,github.com),(DST-PORT,22))
+AND,((DOMAIN,ssh.github.com),(DST-PORT,443))

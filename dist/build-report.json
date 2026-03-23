@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 3,
     "ipcidr-only": 6,
-    "classical/mixed": 15,
+    "classical/mixed": 16,
     "empty": 0,
-    "total_sources": 24,
+    "total_sources": 25,
     "total_warnings": 0
   },
   "sources": [
@@ -58,6 +58,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/direct/cn_direct.list",
         "mihomo_classical": "dist/mihomo/classical/direct/cn_direct.yaml"
+      }
+    },
+    {
+      "source": "rules/direct/github_ssh_direct.list",
+      "category": "direct",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 2,
+        "mihomo_classical": 2
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/direct/github_ssh_direct.list",
+        "mihomo_classical": "dist/mihomo/classical/direct/github_ssh_direct.yaml"
       }
     },
     {

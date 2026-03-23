@@ -1,0 +1,5 @@
+# 生成来源：rules/direct/github_ssh_direct.list
+# 行为：classical
+payload:
+  - "AND,((DOMAIN,github.com),(DST-PORT,22))"
+  - "AND,((DOMAIN,ssh.github.com),(DST-PORT,443))"

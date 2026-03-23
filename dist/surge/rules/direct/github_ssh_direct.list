@@ -1,0 +1,6 @@
+# 生成来源：rules/direct/github_ssh_direct.list
+# 类型：rules
+# 请勿直接编辑 dist。
+
+AND,((DOMAIN,github.com),(DEST-PORT,22))
+AND,((DOMAIN,ssh.github.com),(DEST-PORT,443))
