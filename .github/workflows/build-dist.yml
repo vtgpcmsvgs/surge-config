@@ -7,20 +7,14 @@ on:
   workflow_dispatch: {}
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   build:
     if: github.actor != 'github-actions[bot]'
     runs-on: ubuntu-latest
-    environment: upstream-sync
     env:
       PYTHONDONTWRITEBYTECODE: "1"
-      RULEMESH_ALICLOUD_ACCESS_KEY_ID: ${{ secrets.RULEMESH_ALICLOUD_ACCESS_KEY_ID }}
-      RULEMESH_ALICLOUD_ACCESS_KEY_SECRET: ${{ secrets.RULEMESH_ALICLOUD_ACCESS_KEY_SECRET }}
-      RULEMESH_ALICLOUD_SECURITY_TOKEN: ${{ secrets.RULEMESH_ALICLOUD_SECURITY_TOKEN }}
-      RULEMESH_UPSTREAM_ALERT_FEISHU_WEBHOOK_URL: ${{ secrets.RULEMESH_UPSTREAM_ALERT_FEISHU_WEBHOOK_URL }}
-      RULEMESH_UPSTREAM_ALERT_FEISHU_SECRET: ${{ secrets.RULEMESH_UPSTREAM_ALERT_FEISHU_SECRET }}
     steps:
       - uses: actions/checkout@v4
 
@@ -31,9 +25,6 @@ jobs:
       - name: 运行单元测试
         run: python -m unittest discover -s tests -p "test_*.py"
 
-      - name: 同步上游快照
-        run: python -B tools/sync_upstream_rules.py
-
       - name: 构建 dist
         run: python -B tools/build_rules.py
 
@@ -43,15 +34,5 @@ jobs:
           name: dist
           path: dist
 
-      - name: 若 dist 有变更则提交
-        if: github.ref == 'refs/heads/main'
-        run: |
-          if git diff --quiet -- rules/upstream dist; then
-            echo "rules/upstream 与 dist 无变更"
-            exit 0
-          fi
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add rules/upstream dist
-          git commit -m "chore: sync upstream rules and rebuild dist"
-          git push
+      - name: 校验已提交的构建产物
+        run: git diff --exit-code -- rules/upstream dist

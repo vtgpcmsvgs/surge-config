@@ -32,11 +32,22 @@
 ## 仓库默认流程
 
 - 对本仓库的任何实际修改，默认同时同步更新 `%USERPROFILE%\Desktop\rulemesh-local\current` 中对应文件；除非用户明确说明不要同步
+- 修改前后都要判断 `%USERPROFILE%\Desktop\rulemesh-local\current` 是否存在对应文件；只有存在对应关系时才同步；若本次没有对应同步项，最终回复中必须明确写出“本次无对应同步项”
 - 修改完成后，必须检查整个仓库中同类问题是否仍然存在，并检查是否有耦合项、重复项、残留项；发现后应一并处理或明确报告
+- 提交前默认运行 `powershell -ExecutionPolicy Bypass -File tools/check.ps1`；若因为环境或权限限制无法执行，必须在最终回复中明确说明
+- 新增、删除或重命名 `rules/{reject,direct,proxy,region}/` 下的 `.list` 源规则文件时，必须同步更新 `rules/upstream/sources.yaml` 与 `rules/upstream/merge.yaml`
+- 新增或调整默认对外使用的规则入口、规则顺序、策略含义或公开模板行为时，必须同步更新 `README.md`、`docs/usage-surge.md`、`docs/usage-mihomo.md`、`docs/examples/surge-public.conf`、`docs/examples/mihomo-public.yaml`
 - 若本次修改影响使用方式、规则组织、构建方式、产物结构或维护约定，必须同步更新相关文档
 - 若本次任务产生了实际文件变更，且用户没有明确禁止提交，则默认在验证完成后提交 git commit
 - 如果上述任一步无法执行，不得静默跳过；必须在最终回复中明确说明未完成项、原因以及阻塞点
 - 最终回复默认应包含：同步状态、全仓检查结果、文档更新情况、验证结果、提交状态
+
+## 私有配置与脱敏
+
+- `.rulemesh.local.json`、`%USERPROFILE%\Desktop\rulemesh-local\current`、私有 `policy-path`、真实机场订阅地址、Webhook、AccessKey、STS、`[MITM]` 证书参数、局域网设备分流规则都视为私有内容
+- 默认不要把私有文件内容或敏感值写回公开仓库，也不要在回复中完整回显真实密钥、签名、订阅 URL 或其他敏感参数
+- 若本地私有配置结构发生变化，必须同步更新 `.rulemesh.local.example.json` 与相关文档，但只允许写入脱敏占位值
+- 若任务需要参考私有配置，默认只说明字段名、用途与是否生效，不直接暴露真实值
 
 ## 验证步骤
 
@@ -65,6 +76,7 @@
 ## 文件规范
 
 - 规则与文档统一使用 UTF-8 无 BOM
+- 新增或修改文本文件后，提交前要顺手检查是否意外写入 BOM；尤其是 `rules/`、`docs/`、`README.md`、`AGENTS.md`、`.github/`、`tools/`、`tests/`
 - 如果看到首行注释被构建脚本误报为 `unrecognized plain rule`，先检查 BOM
 - 不要手改 `dist/`；一律改 `rules/` 或构建脚本后重建
 - 提交前若新增或修改注释，先确认是否为中文表达，而不是英文占位说明

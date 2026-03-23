@@ -80,12 +80,11 @@ python tools/build_rules.py
 
 仓库已新增最小 GitHub Actions 工作流：
 
-- push 到 `main` 时自动构建 `dist/`
-- push 到 `main` 时会先运行单元测试，确保中文注释约束与上游中文模板没有退化
+- push 到 `main` 时会运行单元测试、重建 `dist/`，并校验已提交的 `rules/upstream` 与 `dist/` 是否和仓库源码一致
 - `pull request` 到 `main` 时会校验单元测试、构建流程，以及 `rules/upstream` 与 `dist/` 是否已经提交最新结果
+- 每天 `09:30 Asia/Shanghai` 的上游同步、重建与自动回写由 [`.github/workflows/sync-upstream-rules.yml`](.github/workflows/sync-upstream-rules.yml) 单独负责
 - 支持手动触发
-- 若 `dist/` 有差异，会自动提交构建产物
-- 这个自动回写行为定义在 [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml)，网页端直接编辑并提交到 `main` 也会触发同一个工作流
+- [`.github/workflows/build-dist.yml`](.github/workflows/build-dist.yml) 不再自动拉上游或自动修复提交；如果网页端直接编辑 `main` 却漏提 `dist/`，工作流会明确报错提醒补齐
 
 ## 客户端如何使用
 
@@ -120,9 +119,11 @@ python tools/build_rules.py
   - 对应 Surge 的“个人终端版”
   - 保留完整 `General + Proxy Group + Rule` 结构
   - 已移除设备分流、私有订阅地址与 `[MITM]`
+  - 默认接入 `proxy/adspower` 专项代理规则与 `proxy/gfw` 广谱代理规则
 - `docs/examples/mihomo-public.yaml`
   - 保留完整 `dns + proxy-providers + proxy-groups + rule-providers + rules` 结构
   - 已移除真实机场订阅链接、供应商命名与控制面参数
+  - 默认接入 `proxy/adspower` 专项代理规则与 `proxy/gfw` 广谱代理规则
 
 ## 当前设计原则
 
@@ -130,6 +131,7 @@ python tools/build_rules.py
 - 上游来源只作为参考素材，不直接暴露给客户端
 - 统一输出显式规则行，不再生成额外的客户端专用精简产物
 - 域名规则、CIDR 规则、关键词规则都通过 `RULE-SET` / `behavior: classical` 接入
+- 专项代理规则优先于广谱代理规则；例如 `proxy/adspower` 应放在 `proxy/gfw` 前，减少未来上游扩张带来的顺序漂移
 
 ## Google 路由强约束
 
@@ -150,13 +152,31 @@ python tools/build_rules.py
 
 这两个文件当前不参与自动构建，只负责把维护策略写清楚，避免后续继续依赖口头约定。
 
+## 本地私有配置
+
+仓库提供 [`.rulemesh.local.example.json`](.rulemesh.local.example.json) 作为本地私有配置模板。复制为 `.rulemesh.local.json` 后，可给 `tools/sync_upstream_rules.py` 提供本地告警配置；当前支持：
+
+- `upstream_alert.feishu_webhook_url`
+- `upstream_alert.feishu_secret`
+
+约定如下：
+
+- `.rulemesh.local.json` 只用于本地私有环境，已经被 `.gitignore` 忽略，不应提交到公开仓库
+- 缺少本地配置时，不影响构建与上游同步主流程，只会跳过 Feishu 告警发送
+- 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
+- 若私有配置结构发生变化，必须同步更新 `.rulemesh.local.example.json` 与相关文档，但只能提交脱敏占位值
+
 ## 维护建议
 
 - 优先改 `rules/`，不要直接手改 `dist/`
 - 新增规则前，先想清楚它是 `reject`、`direct`、`proxy` 还是 `region`
+- 新增、删除或重命名 `rules/{reject,direct,proxy,region}/` 下的 `.list` 源规则文件时，同步更新 `rules/upstream/sources.yaml` 与 `rules/upstream/merge.yaml`
+- 新增或调整默认对外使用的规则入口、顺序、策略含义时，同步更新 `README.md`、`docs/usage-surge.md`、`docs/usage-mihomo.md` 与两份公开模板
 - 如果一个源文件开始变得很大，优先补 `sources.yaml` 与 `merge.yaml`，再考虑引入更多上游素材
+- 提交前优先运行 `powershell -ExecutionPolicy Bypass -File tools/check.ps1`
 - 提交前看一眼 `dist/build-report.json` 的 warnings，特别是 Mihomo 不支持的规则类型
 - 自写注释、生成说明、文档说明默认统一写中文，不要再放英文占位注释
+
 ## 规则方法论：上游优先 + 本地兜底
 
 本仓库统一采用“上游优先精准匹配 + 本地规则兜底覆盖”的编排方式：

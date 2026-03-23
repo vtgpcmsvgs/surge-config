@@ -1,6 +1,7 @@
 import contextlib
 import io
 import json
+import re
 import sys
 import unittest
 from pathlib import Path
@@ -12,6 +13,84 @@ if str(TOOLS_DIR) not in sys.path:
     sys.path.insert(0, str(TOOLS_DIR))
 
 import build_rules  # noqa: E402
+
+
+UTF8_BOM = b"\xef\xbb\xbf"
+TEXT_FILE_ROOTS = (
+    ROOT / ".github",
+    ROOT / "docs",
+    ROOT / "rules",
+    ROOT / "tools",
+    ROOT / "tests",
+)
+TEXT_FILE_PATHS = (
+    ROOT / "AGENTS.md",
+    ROOT / "README.md",
+    ROOT / ".rulemesh.local.example.json",
+)
+SOURCE_RULE_GROUPS = ("reject", "direct", "proxy", "region")
+
+
+def iter_text_files() -> list[Path]:
+    files: list[Path] = []
+    for path in TEXT_FILE_PATHS:
+        if path.exists():
+            files.append(path)
+    for root in TEXT_FILE_ROOTS:
+        if not root.exists():
+            continue
+        for path in root.rglob("*"):
+            if (
+                path.is_file()
+                and "__pycache__" not in path.parts
+                and path.suffix != ".pyc"
+            ):
+                files.append(path)
+    return sorted(set(files))
+
+
+def collect_source_rule_paths() -> list[str]:
+    files: list[str] = []
+    rules_root = ROOT / "rules"
+    for group in SOURCE_RULE_GROUPS:
+        root = rules_root / group
+        if not root.exists():
+            continue
+        for path in root.rglob("*.list"):
+            files.append(path.relative_to(rules_root).as_posix())
+    return sorted(files)
+
+
+def collect_sources_yaml_entries() -> list[str]:
+    entries: list[str] = []
+    category: str | None = None
+    pattern = re.compile(r"^\s{4}([A-Za-z0-9_./-]+\.list):\s*$")
+    path = ROOT / "rules" / "upstream" / "sources.yaml"
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        header = re.match(r"^\s{2}(reject|direct|proxy|region):\s*$", raw)
+        if header:
+            category = header.group(1)
+            continue
+        match = pattern.match(raw)
+        if not match or not category:
+            continue
+        key = match.group(1)
+        if category == "region":
+            entries.append(f"region/{key}")
+        else:
+            entries.append(f"{category}/{key}")
+    return sorted(entries)
+
+
+def collect_merge_yaml_targets() -> list[str]:
+    pattern = re.compile(r"^\s*target:\s+rules/([A-Za-z0-9_./-]+\.list)\s*$")
+    path = ROOT / "rules" / "upstream" / "merge.yaml"
+    targets = [
+        match.group(1)
+        for raw in path.read_text(encoding="utf-8").splitlines()
+        if (match := pattern.match(raw))
+    ]
+    return sorted(targets)
 
 
 class RepoInvariantTests(unittest.TestCase):
@@ -56,3 +135,17 @@ class RepoInvariantTests(unittest.TestCase):
             sorted(path.name for path in mihomo_root.iterdir() if path.is_dir()),
             ["classical"],
         )
+
+    def test_repo_text_files_use_utf8_without_bom(self) -> None:
+        offenders = [
+            path.relative_to(ROOT).as_posix()
+            for path in iter_text_files()
+            if path.read_bytes().startswith(UTF8_BOM)
+        ]
+        self.assertEqual(offenders, [], f"以下文件仍包含 UTF-8 BOM: {offenders}")
+
+    def test_sources_yaml_covers_all_rule_sources(self) -> None:
+        self.assertEqual(collect_sources_yaml_entries(), collect_source_rule_paths())
+
+    def test_merge_yaml_covers_all_rule_sources(self) -> None:
+        self.assertEqual(collect_merge_yaml_targets(), collect_source_rule_paths())

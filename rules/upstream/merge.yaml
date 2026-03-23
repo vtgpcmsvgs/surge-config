@@ -62,6 +62,27 @@ merge_plan:
       - 数据源为阿里云官方 VPC OpenAPI DescribePublicIpAddress
       - 首次同步需要具备该接口读取权限的 AccessKey 或 STS 临时凭证
 
+  - id: github-ssh-direct
+    target: rules/direct/github_ssh_direct.list
+    purpose: GitHub 仓库 SSH 定向直连
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+      - match_only_github_ssh_endpoints
+    notes:
+      - 仅覆盖 github.com:22 与 ssh.github.com:443
+      - 客户端顺序必须放在 proxy/gfw 前
+
+  - id: adspower-proxy
+    target: rules/proxy/adspower.list
+    purpose: AdsPower 官方站点与接口走代理
+    strategy:
+      - include_curated_official_host_snapshot_first
+      - keep_local_keyword_fallback_small
+    notes:
+      - 官方主机名来自人工核对后的官网、帮助中心与文档页面
+      - 只对 adspower.com 做关键词兜底，避免误伤 local.adspower.net 这类本地地址
+
   - id: google-tw
     target: rules/region/tw/google_tw.list
     purpose: Google / YouTube / Gemini 统一走台湾策略
@@ -149,6 +170,24 @@ merge_plan:
     strategy:
       - keep_source_file_as_single_include
       - sync_aws_ap_east_2_ipv4_daily
+
+  - id: jp-domains
+    target: rules/region/jp/domains_to_jp.list
+    purpose: 日本区域域名策略入口
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+    notes:
+      - 当前保持极小入口，按你自己的长期使用结果维护
+
+  - id: jp-socks5-ipcidr
+    target: rules/region/jp/jp_socks5_ipcidr.list
+    purpose: 日本 SOCKS5 端点 CIDR 入口
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+    notes:
+      - 当前以你自己维护的端点清单为准，不引入额外上游聚合
 
   - id: reject-plain-http
     target: rules/reject/plain_http_reject.list
