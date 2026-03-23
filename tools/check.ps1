@@ -7,6 +7,11 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $buildScript = Join-Path $PSScriptRoot "build_rules.ps1"
 $reportPath = Join-Path $repoRoot "dist\build-report.json"
+$knownLocalPythonHint = "%LocalAppData%\Programs\Python\Python314\python.exe"
+$knownLocalPython = $null
+if ($env:LOCALAPPDATA) {
+    $knownLocalPython = Join-Path $env:LOCALAPPDATA "Programs\Python\Python314\python.exe"
+}
 
 function Resolve-PythonCommand {
     $candidates = @()
@@ -33,10 +38,12 @@ function Resolve-PythonCommand {
         Label = ".venv"
     }
 
-    $candidates += [pscustomobject]@{
-        Kind = "Path"
-        Value = "C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe"
-        Label = "Python314"
+    if ($knownLocalPython) {
+        $candidates += [pscustomobject]@{
+            Kind = "Path"
+            Value = $knownLocalPython
+            Label = "Python314"
+        }
     }
 
     $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
@@ -65,12 +72,12 @@ function Resolve-PythonCommand {
         }
     }
 
-    throw @"
+throw @"
 No usable Python interpreter was found.
 You can fix this by:
 1. Setting RULEMESH_PYTHON (or the legacy SURGE_CONFIG_PYTHON) to a valid python.exe path
 2. Installing Python and making sure python or py -3 is available
-3. Using the known local path: C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe
+3. Using the known local path: $knownLocalPythonHint
 "@
 }
 

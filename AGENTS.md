@@ -18,7 +18,7 @@
 - 这个包装脚本会优先探测：
   - `$env:RULEMESH_PYTHON`
   - 仓库内 `.venv\Scripts\python.exe`
-  - `C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe`
+  - `%LocalAppData%\Programs\Python\Python314\python.exe`
   - `python`
   - `py -3`
 
@@ -26,8 +26,17 @@
 
 - 在 Codex Windows 沙箱里，`python` / `py -3` 可能不可用，即使 Python 已安装
 - 当前机器已确认存在的解释器路径是：
-  - `C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe`
+  - `%LocalAppData%\Programs\Python\Python314\python.exe`
 - 如果直接执行该解释器出现 `Access is denied`（访问被拒绝），这是沙箱限制，不是仓库问题；需要申请提升权限后再运行
+
+## 仓库默认流程
+
+- 对本仓库的任何实际修改，默认同时同步更新 `%USERPROFILE%\Desktop\rulemesh-local\current` 中对应文件；除非用户明确说明不要同步
+- 修改完成后，必须检查整个仓库中同类问题是否仍然存在，并检查是否有耦合项、重复项、残留项；发现后应一并处理或明确报告
+- 若本次修改影响使用方式、规则组织、构建方式、产物结构或维护约定，必须同步更新相关文档
+- 若本次任务产生了实际文件变更，且用户没有明确禁止提交，则默认在验证完成后提交 git commit
+- 如果上述任一步无法执行，不得静默跳过；必须在最终回复中明确说明未完成项、原因以及阻塞点
+- 最终回复默认应包含：同步状态、全仓检查结果、文档更新情况、验证结果、提交状态
 
 ## 验证步骤
 

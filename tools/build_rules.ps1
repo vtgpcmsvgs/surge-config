@@ -9,6 +9,11 @@ $ErrorActionPreference = "Stop"
 
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $pythonScript = Join-Path $PSScriptRoot "build_rules.py"
+$knownLocalPythonHint = "%LocalAppData%\Programs\Python\Python314\python.exe"
+$knownLocalPython = $null
+if ($env:LOCALAPPDATA) {
+    $knownLocalPython = Join-Path $env:LOCALAPPDATA "Programs\Python\Python314\python.exe"
+}
 
 function Resolve-PythonCommand {
     $candidates = @()
@@ -35,10 +40,12 @@ function Resolve-PythonCommand {
         Label = ".venv"
     }
 
-    $candidates += [pscustomobject]@{
-        Kind = "Path"
-        Value = "C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe"
-        Label = "Python314"
+    if ($knownLocalPython) {
+        $candidates += [pscustomobject]@{
+            Kind = "Path"
+            Value = $knownLocalPython
+            Label = "Python314"
+        }
     }
 
     $pythonCommand = Get-Command python -ErrorAction SilentlyContinue
@@ -72,7 +79,7 @@ function Resolve-PythonCommand {
 可按以下方式处理：
 1. 设置 RULEMESH_PYTHON（或历史变量 SURGE_CONFIG_PYTHON）为有效的 python.exe 路径
 2. 安装 Python，并确保 python 或 py -3 可用
-3. 使用已知本机路径：C:\Users\zaife\AppData\Local\Programs\Python\Python314\python.exe
+3. 使用已知本机路径：$knownLocalPythonHint
 "@
 }
 
