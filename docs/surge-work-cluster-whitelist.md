@@ -16,9 +16,10 @@
 
 ## 当前白名单原则
 
-- 工作路由对那 6 台固定工作电脑采用白名单模式
+- 工作路由仍以那 6 台固定工作电脑为核心维护对象，并继续采用白名单模式
 - 拒绝规则维持当前逻辑
 - 设备分流继续按“源 IP + AWS 区域”定向到对应设备组
+- 只有 2.1 设备分流继续保留“源 IP + AWS 区域”约束；2.2-2.5 不再额外限制源 IP
 - 区域精确规则继续保留，且 `Google TW` 必须先于广谱区域规则
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out；如果将来重新启用 `proxy/gfw`，它仍必须放在 `gfw` 前
 - AdsPower 继续维持 `adspower_reject`、`adspower_direct`、`adspower_proxy` 三段细分
@@ -28,8 +29,8 @@
 - `direct/macos_update_direct` 继续保留 `DIRECT`，用于需要时临时放开 macOS 系统升级；它只匹配 Apple 官方标注为 macOS only 的更新主机
 - `alicloud_hk_ssh_direct` 与阿里云抢占式 IP 直连继续保留
 - `bytedance_direct.list` 继续保留 `DIRECT`
-- `dist/surge/rules/region/` 下现有 IP 规则继续完整接入
-- 其他源 IP 与未命中白名单的流量最终统一落到 `FINAL,REJECT`
+- 原独立 2.6 `IP 规则` 段已删除，避免与 2.1 设备分流重复
+- 未命中上述白名单入口的流量最终统一落到 `FINAL,REJECT`
 
 ## 永久差异约定
 
@@ -46,8 +47,7 @@
 5. AdsPower 细分规则
 6. AdsPower 广覆盖观察兜底
 7. 指定直连入口
-8. IP 规则
-9. 全局 `FINAL,REJECT` 兜底
+8. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 
