@@ -26,6 +26,7 @@
 - 真实机场订阅链接、供应商命名与 token
 - `external-controller`、`secret` 等控制面参数
 - 按局域网源 IP 的设备分流逻辑
+- 私有 Surge 工作路由白名单特化；那份差异只属于本地 `rulemesh-substore-surge-work-cluster-router.conf`
 
 ## 使用前只需要替换两处
 
@@ -52,6 +53,7 @@
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。
 - `reject_plain_http` 已有构建产物，公开模板不再建议手写重复的浏览器进程规则。
+- Surge 私有工作路由白名单并不迁移到 Mihomo 模板；Mihomo 仍维持这里描述的公开/个人通用结构。
 
 ## 使用原则
 
@@ -60,3 +62,4 @@
 - 不要把 `classical` 产物误配成别的 `behavior`
 - 不要再找旧的纯域名或纯 CIDR 产物目录；仓库已经统一走 `classical`
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
+- 私有 Surge 工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)，但该约定不影响 Mihomo 模板与 Mihomo personal 配置。

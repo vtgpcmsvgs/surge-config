@@ -103,6 +103,7 @@ python tools/build_rules.py
 - [docs/usage-mihomo.md](docs/usage-mihomo.md)
 - [docs/examples/surge-public.conf](docs/examples/surge-public.conf)
 - [docs/examples/mihomo-public.yaml](docs/examples/mihomo-public.yaml)
+- [docs/surge-work-cluster-whitelist.md](docs/surge-work-cluster-whitelist.md)
 - [docs/aws-region-rules.md](docs/aws-region-rules.md)
 - [docs/alicloud-direct-rules.md](docs/alicloud-direct-rules.md)
 - [docs/github-ssh-direct-rules.md](docs/github-ssh-direct-rules.md)
@@ -120,9 +121,13 @@ python tools/build_rules.py
 - 软路由集群版
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
+  - 其中私有 `rulemesh-substore-surge-work-cluster-router.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
+  - 这份工作路由白名单与两个 `personal` 配置永久有意不一致，后续维护不要按“统一模板”思路把它改回去。
+  - 维护约定见 [docs/surge-work-cluster-whitelist.md](docs/surge-work-cluster-whitelist.md)。
 - 个人终端版
   - 对应仓库里的公开参考模板 [`docs/examples/surge-public.conf`](docs/examples/surge-public.conf)。
   - 保留通用的 `General + Proxy Group + Rule` 结构，但移除设备分流、私有订阅地址与 `[MITM]`。
+  - 不继承上述工作路由白名单约束，继续按个人/公开模板的通用结构维护。
 
 其中两份公开参考模板已经做过脱敏处理，适合直接上传到公开仓库给他人参考：
 
@@ -131,10 +136,12 @@ python tools/build_rules.py
   - 保留完整 `General + Proxy Group + Rule` 结构
   - 已移除设备分流、私有订阅地址与 `[MITM]`
   - 默认接入 AdsPower 专项 `reject/direct/proxy` 规则集，并保持在 `proxy/gfw` 前完成细分控制
+  - 刻意不承载私有工作路由白名单结构，避免把本地工作特化误当成公开模板默认值
 - `docs/examples/mihomo-public.yaml`
   - 保留完整 `dns + proxy-providers + proxy-groups + rule-providers + rules` 结构
   - 已移除真实机场订阅链接、供应商命名与控制面参数
   - 默认接入 AdsPower 专项 `reject/direct/proxy` 规则集，并保持在 `proxy/gfw` 前完成细分控制
+  - 同样不承载私有 Surge 工作路由白名单特化
 
 ## 当前设计原则
 
@@ -144,6 +151,7 @@ python tools/build_rules.py
 - 域名规则、CIDR 规则与大多数关键词规则都通过 `RULE-SET` / `behavior: classical` 接入
 - 单一应用如果同时涉及 `reject`、`direct`、`proxy` 多种动作，优先使用 `rules/app/*.txt` 主清单统一维护，再派生到现有四类源规则
 - AdsPower 专项规则应先命中 `reject/adspower_reject`、`direct/adspower_direct`、`proxy/adspower_proxy`，再落到 `proxy/gfw`
+- Surge 私有工作路由白名单与两个 `personal` 配置永久允许结构不一致，维护时不要互相回抄
 
 ## Google 路由强约束
 

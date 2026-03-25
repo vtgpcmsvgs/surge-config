@@ -13,10 +13,13 @@
   - 用于工作电脑集群接入软路由 Surge。
   - 可保留 `SRC-IP` 设备分流、私有订阅地址与完整 `[MITM]`。
   - 这类内容不适合入公开仓库，建议只在本地私有目录维护。
+  - 其中私有 `rulemesh-substore-surge-work-cluster-router.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
+  - 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
 - 个人终端版
   - 用于同事个人终端或可公开分享的配置。
   - 对应本仓库的 [`docs/examples/surge-public.conf`](examples/surge-public.conf)。
   - 默认移除 `SRC-IP` 设备分流、私有订阅地址与整个 `[MITM]`。
+  - 不继承工作路由白名单的 `REJECT` 兜底结构。
 
 ## 模板保留了什么
 
@@ -57,6 +60,7 @@
 - `reject/adspower_reject.list` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
+- 私有 `rulemesh-substore-surge-work-cluster-router.conf` 是白名单例外：它只保留设备分流、区域精确、GitHub SSH、AdsPower、阿里云指定直连、ByteDance 与 IP 规则，其余未列出的流量对工作电脑统一 `REJECT`；不要把公开模板里的广谱放行段机械同步回去。
 
 ## 使用原则
 
@@ -64,3 +68,4 @@
 - `rules/` 是源规则层，不建议在 Surge 配置中直接引用
 - 不要在客户端继续引用第三方原始规则 URL
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
+- 私有工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)；该约定只影响本地 Surge 工作路由文件，不影响公开模板。
