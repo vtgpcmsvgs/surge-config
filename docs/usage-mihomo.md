@@ -26,7 +26,7 @@
 - 真实机场订阅链接、供应商命名与 token
 - `external-controller`、`secret` 等控制面参数
 - 按局域网源 IP 的设备分流逻辑
-- 私有 Surge 工作路由白名单特化；那份差异只属于本地 `rulemesh-substore-surge-work-cluster-router.conf`
+- 私有 Surge 工作路由白名单特化；那份差异只属于本地 `rulemesh-substore-surge-work-whitelist.conf`
 
 ## 使用前只需要替换两处
 

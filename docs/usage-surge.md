@@ -13,7 +13,7 @@
   - 用于工作电脑集群接入软路由 Surge。
   - 可保留 `SRC-IP` 设备分流、私有订阅地址与完整 `[MITM]`。
   - 这类内容不适合入公开仓库，建议只在本地私有目录维护。
-  - 其中私有 `rulemesh-substore-surge-work-cluster-router.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
+  - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
   - 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
 - 个人终端版
   - 用于同事个人终端或可公开分享的配置。
@@ -60,7 +60,7 @@
 - `reject/adspower_reject.list` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
-- 私有 `rulemesh-substore-surge-work-cluster-router.conf` 是白名单例外：它只保留设备分流、区域精确、GitHub SSH、AdsPower、阿里云指定直连、ByteDance 与 IP 规则，其余未列出的流量对工作电脑统一 `REJECT`；不要把公开模板里的广谱放行段机械同步回去。
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它只保留设备分流、区域精确、GitHub SSH、AdsPower、阿里云指定直连、ByteDance 与 IP 规则，其余未列出的流量对工作电脑统一 `REJECT`；不要把公开模板里的广谱放行段机械同步回去。
 
 ## 使用原则
 
