@@ -11,6 +11,8 @@ DOMAIN-WILDCARD,*.windowsupdate.com
 # Apple 系统更新（macOS / iOS / iPadOS）
 DOMAIN,gdmf.apple.com
 DOMAIN,mesu.apple.com
+DOMAIN,ig.apple.com
+DOMAIN,skl.apple.com
 DOMAIN,swscan.apple.com
 DOMAIN,swcdn.apple.com
 DOMAIN,swdownload.apple.com

@@ -386,6 +386,15 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
+  direct_macos_update:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/macos_update_direct.yaml"
+    path: ./ruleset/direct/macos_update_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
   direct_bytedance:
     type: http
     behavior: classical
@@ -479,6 +488,7 @@ rule-providers:
 rules:
   - RULE-SET,reject_adblock,REJECT
   - RULE-SET,reject_os_update,REJECT
+  # 需要临时升级 Windows / macOS 时，可注释上一条拒绝规则，让后面的系统升级直连规则接管。
   - RULE-SET,reject_plain_http,REJECT
   - RULE-SET,reject_wps,REJECT
   - RULE-SET,reject_adspower,REJECT
@@ -511,6 +521,7 @@ rules:
   - IP-CIDR,100.64.0.0/10,DIRECT,no-resolve
   - RULE-SET,direct_alicloud_hk_ssh,DIRECT
   - RULE-SET,direct_microsoft,DIRECT
+  - RULE-SET,direct_macos_update,DIRECT
   - RULE-SET,direct_bytedance,DIRECT
   - RULE-SET,direct_netease,DIRECT
   - RULE-SET,direct_bilibili,DIRECT

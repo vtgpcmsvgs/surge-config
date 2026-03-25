@@ -115,6 +115,7 @@ python tools/build_rules.py
 - 不要在本地配置里重复手写同一组 `PROCESS-NAME + PORT 80` 拦截规则
 - AdsPower 专项规则统一维护在 `rules/app/adspower.txt`
 - 客户端应显式接入 `reject/adspower_reject`、`direct/adspower_direct` 与 `proxy/adspower_proxy`，不要再退回单条 `DOMAIN-KEYWORD,adspower` 兜底
+- 如果你采用“默认禁更，升级时手动临时放行”的习惯，请把 `reject/os_update_reject` 与 `direct/microsoft_direct`、`direct/macos_update_direct` 配套接入；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口
 
 其中 Surge 当前建议明确区分两种使用版本：
 
@@ -122,6 +123,7 @@ python tools/build_rules.py
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
   - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
+  - 在该白名单里，`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统升级直连入口。
   - 其中 AdsPower 在精细规则后允许额外保留一条广覆盖观察兜底，用于发现细分规则漏网之鱼。
   - 这份工作路由白名单与两个 `personal` 配置永久有意不一致，后续维护不要按“统一模板”思路把它改回去。
   - 维护约定见 [docs/surge-work-cluster-whitelist.md](docs/surge-work-cluster-whitelist.md)。
@@ -136,11 +138,13 @@ python tools/build_rules.py
   - 对应 Surge 的“个人终端版”
   - 保留完整 `General + Proxy Group + Rule` 结构
   - 已移除设备分流、私有订阅地址与 `[MITM]`
+  - 默认同时接入 `reject/os_update_reject`、`direct/microsoft_direct` 与 `direct/macos_update_direct`，便于临时放开 Windows / macOS 系统升级直连
   - 默认接入 AdsPower 专项 `reject/direct/proxy` 规则集，并保持在 `proxy/gfw` 前完成细分控制
   - 刻意不承载私有工作路由白名单结构，避免把本地工作特化误当成公开模板默认值
 - `docs/examples/mihomo-public.yaml`
   - 保留完整 `dns + proxy-providers + proxy-groups + rule-providers + rules` 结构
   - 已移除真实机场订阅链接、供应商命名与控制面参数
+  - 默认同时接入 `reject/os_update_reject`、`direct/microsoft_direct` 与 `direct/macos_update_direct`，便于临时放开 Windows / macOS 系统升级直连
   - 默认接入 AdsPower 专项 `reject/direct/proxy` 规则集，并保持在 `proxy/gfw` 前完成细分控制
   - 同样不承载私有 Surge 工作路由白名单特化
 

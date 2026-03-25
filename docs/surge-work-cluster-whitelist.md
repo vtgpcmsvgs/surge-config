@@ -25,6 +25,7 @@
 - 在 `adspower_direct` 与 `adspower_proxy` 之后，额外保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底；策略仍走节点选择，专门用于发现细分规则漏网之鱼
 - `LAN,DIRECT` 继续保留在白名单直连入口中
 - `direct/microsoft_direct` 继续保留 `DIRECT`
+- `direct/macos_update_direct` 继续保留 `DIRECT`，用于需要时临时放开 macOS 系统升级；它只匹配 Apple 官方标注为 macOS only 的更新主机
 - `alicloud_hk_ssh_direct` 与阿里云抢占式 IP 直连继续保留
 - `bytedance_direct.list` 继续保留 `DIRECT`
 - `dist/surge/rules/region/` 下现有 IP 规则继续完整接入

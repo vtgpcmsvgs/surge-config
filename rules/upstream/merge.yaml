@@ -40,6 +40,16 @@ merge_plan:
       - include_blackmatrix7_first_then_local_process_fallback
       - include_blackmatrix7_onedrive_and_microsoft
 
+  - id: macos-update-direct
+    target: rules/direct/macos_update_direct.list
+    purpose: macOS 系统更新直连
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+    notes:
+      - 仅保留 Apple 官方标注为 macOS only 的系统更新主机，避免把 App Store / Apple TV 等其他 Apple 服务误放直连
+      - 设计为与 reject/os_update_reject 配套使用；需要升级 macOS 时，可临时注释对应 reject 入口后命中这里
+
   - id: bilibili-direct
     target: rules/direct/bilibili_direct.list
     purpose: Bilibili 直连

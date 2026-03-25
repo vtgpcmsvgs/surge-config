@@ -1,10 +1,10 @@
 {
   "summary": {
-    "domain-only": 5,
+    "domain-only": 6,
     "ipcidr-only": 6,
     "classical/mixed": 16,
     "empty": 0,
-    "total_sources": 27,
+    "total_sources": 28,
     "total_warnings": 0
   },
   "sources": [
@@ -84,6 +84,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/direct/github_ssh_direct.list",
         "mihomo_classical": "dist/mihomo/classical/direct/github_ssh_direct.yaml"
+      }
+    },
+    {
+      "source": "rules/direct/macos_update_direct.list",
+      "category": "direct",
+      "classification": "domain-only",
+      "counts": {
+        "surge_rules": 6,
+        "mihomo_classical": 6
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/direct/macos_update_direct.list",
+        "mihomo_classical": "dist/mihomo/classical/direct/macos_update_direct.yaml"
       }
     },
     {
@@ -325,8 +338,8 @@
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 11,
-        "mihomo_classical": 11
+        "surge_rules": 13,
+        "mihomo_classical": 13
       },
       "dist": {
         "surge_rules": "dist/surge/rules/reject/os_update_reject.list",

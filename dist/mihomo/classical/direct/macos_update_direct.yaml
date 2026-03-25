@@ -1,0 +1,9 @@
+# 生成来源：rules/direct/macos_update_direct.list
+# 行为：classical
+payload:
+  - "DOMAIN,ig.apple.com"
+  - "DOMAIN,skl.apple.com"
+  - "DOMAIN,swscan.apple.com"
+  - "DOMAIN,swcdn.apple.com"
+  - "DOMAIN,swdownload.apple.com"
+  - "DOMAIN,swdist.apple.com"

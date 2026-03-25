@@ -51,6 +51,7 @@
 - `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
+- 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `reject/os_update_reject.yaml`、`direct/microsoft_direct.yaml` 与 `direct/macos_update_direct.yaml`；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口。
 - `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。
 - `reject_plain_http` 已有构建产物，公开模板不再建议手写重复的浏览器进程规则。
 - Surge 私有工作路由白名单并不迁移到 Mihomo 模板；Mihomo 仍维持这里描述的公开/个人通用结构。

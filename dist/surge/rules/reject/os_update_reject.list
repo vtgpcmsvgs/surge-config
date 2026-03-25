@@ -7,6 +7,8 @@ DOMAIN-WILDCARD,*.update.microsoft.com
 DOMAIN-WILDCARD,*.windowsupdate.com
 DOMAIN,gdmf.apple.com
 DOMAIN,mesu.apple.com
+DOMAIN,ig.apple.com
+DOMAIN,skl.apple.com
 DOMAIN,swscan.apple.com
 DOMAIN,swcdn.apple.com
 DOMAIN,swdownload.apple.com
