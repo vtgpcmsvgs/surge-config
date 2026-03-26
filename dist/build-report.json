@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 6,
     "ipcidr-only": 6,
-    "classical/mixed": 16,
+    "classical/mixed": 17,
     "empty": 0,
-    "total_sources": 28,
+    "total_sources": 29,
     "total_warnings": 0
   },
   "sources": [
@@ -149,6 +149,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/gfw.list",
         "mihomo_classical": "dist/mihomo/classical/proxy/gfw.yaml"
+      }
+    },
+    {
+      "source": "rules/proxy/polygon_rpc_proxy.list",
+      "category": "proxy",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 24,
+        "mihomo_classical": 24
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/proxy/polygon_rpc_proxy.list",
+        "mihomo_classical": "dist/mihomo/classical/proxy/polygon_rpc_proxy.yaml"
       }
     },
     {

@@ -1,0 +1,28 @@
+# 生成来源：rules/proxy/polygon_rpc_proxy.list
+# 类型：rules
+# 请勿直接编辑 dist。
+
+DOMAIN,rpc.sentio.xyz
+DOMAIN-WILDCARD,*.rpc.sentio.xyz
+DOMAIN,polygon.llamarpc.com
+DOMAIN-WILDCARD,*.polygon.llamarpc.com
+DOMAIN,polygon.drpc.org
+DOMAIN-WILDCARD,*.polygon.drpc.org
+DOMAIN,polygon-rpc.com
+DOMAIN-WILDCARD,*.polygon-rpc.com
+DOMAIN,polygon-public.nodies.app
+DOMAIN-WILDCARD,*.polygon-public.nodies.app
+DOMAIN,polygon-bor-rpc.publicnode.com
+DOMAIN-WILDCARD,*.polygon-bor-rpc.publicnode.com
+DOMAIN,poly.api.pocket.network
+DOMAIN-WILDCARD,*.poly.api.pocket.network
+DOMAIN,lb.drpc.live
+DOMAIN-WILDCARD,*.lb.drpc.live
+DOMAIN,go.getblock.io
+DOMAIN-WILDCARD,*.go.getblock.io
+DOMAIN,api.zan.top
+DOMAIN-WILDCARD,*.api.zan.top
+DOMAIN,api-polygon-mainnet-full.n.dwellir.com
+DOMAIN-WILDCARD,*.api-polygon-mainnet-full.n.dwellir.com
+DOMAIN,1rpc.io
+DOMAIN-WILDCARD,*.1rpc.io

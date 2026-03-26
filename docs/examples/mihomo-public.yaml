@@ -341,6 +341,15 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
+  proxy_polygon_rpc:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/polygon_rpc_proxy.yaml"
+    path: ./ruleset/proxy/polygon_rpc_proxy.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
   proxy_gfw:
     type: http
     behavior: classical
@@ -508,11 +517,13 @@ rules:
 
   # 5) AdsPower 细分节点选择（必须放在 gfw 前）
   - RULE-SET,proxy_adspower,🚀 节点选择
+  - RULE-SET,proxy_polygon_rpc,🚀 节点选择
 
-  # 6) 代理优先
+  # 6) Polygon 主网 RPC 节点选择（必须放在 gfw 前）
+  # 7) 代理优先
   - RULE-SET,proxy_gfw,🚀 节点选择
 
-  # 7) 直连规则
+  # 8) 直连规则
   - DOMAIN-SUFFIX,local,DIRECT
   - IP-CIDR,127.0.0.0/8,DIRECT,no-resolve
   - IP-CIDR,10.0.0.0/8,DIRECT,no-resolve
@@ -527,7 +538,7 @@ rules:
   - RULE-SET,direct_bilibili,DIRECT
   - RULE-SET,direct_cn,DIRECT
 
-  # 8) IP 规则
+  # 9) IP 规则
   - RULE-SET,hk_aws_ipv4,🇭🇰 香港-自动选择,no-resolve
   - RULE-SET,jp_tokyo_aws_ipv4,🇯🇵 日本-自动选择,no-resolve
   - RULE-SET,jp_osaka_aws_ipv4,🇯🇵 日本-自动选择,no-resolve
@@ -535,7 +546,7 @@ rules:
   - RULE-SET,tw_taipei_aws_ipv4,🇨🇳 台湾-自动选择,no-resolve
   - RULE-SET,jp_socks5_ipcidr,🇯🇵 日本-自动选择,no-resolve
 
-  # 9) 最终兜底
+  # 10) 最终兜底
   - MATCH,🚀 节点选择
 
 # 公开模板刻意不包含：

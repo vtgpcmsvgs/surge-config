@@ -1,0 +1,30 @@
+# Polygon 主网 RPC 节点选择规则。
+# 维护原则：
+# 1) 仅收敛你明确指定的 Polygon 主网 RPC 域名，不扩展为泛区块链代理入口
+# 2) 同时保留根域名与通配符子域名，兼顾主机名直连与后续子域名扩展
+# 3) 客户端接入时必须放在 proxy/gfw 前，避免被广谱代理规则提前命中
+
+DOMAIN,rpc.sentio.xyz
+DOMAIN-WILDCARD,*.rpc.sentio.xyz
+DOMAIN,polygon.llamarpc.com
+DOMAIN-WILDCARD,*.polygon.llamarpc.com
+DOMAIN,polygon.drpc.org
+DOMAIN-WILDCARD,*.polygon.drpc.org
+DOMAIN,polygon-rpc.com
+DOMAIN-WILDCARD,*.polygon-rpc.com
+DOMAIN,polygon-public.nodies.app
+DOMAIN-WILDCARD,*.polygon-public.nodies.app
+DOMAIN,polygon-bor-rpc.publicnode.com
+DOMAIN-WILDCARD,*.polygon-bor-rpc.publicnode.com
+DOMAIN,poly.api.pocket.network
+DOMAIN-WILDCARD,*.poly.api.pocket.network
+DOMAIN,lb.drpc.live
+DOMAIN-WILDCARD,*.lb.drpc.live
+DOMAIN,go.getblock.io
+DOMAIN-WILDCARD,*.go.getblock.io
+DOMAIN,api.zan.top
+DOMAIN-WILDCARD,*.api.zan.top
+DOMAIN,api-polygon-mainnet-full.n.dwellir.com
+DOMAIN-WILDCARD,*.api-polygon-mainnet-full.n.dwellir.com
+DOMAIN,1rpc.io
+DOMAIN-WILDCARD,*.1rpc.io

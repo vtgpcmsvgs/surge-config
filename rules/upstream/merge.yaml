@@ -128,6 +128,17 @@ merge_plan:
       - 统一由 rules/app/adspower.txt 维护，不直接手改该源文件
       - 规则顺序应先于 proxy/gfw，避免被广谱代理入口吞没
 
+  - id: polygon-rpc-proxy
+    target: rules/proxy/polygon_rpc_proxy.list
+    purpose: Polygon 主网 RPC 域名专项节点选择
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+      - retain_exact_and_wildcard_entries_together
+    notes:
+      - 仅收敛明确指定的 Polygon 主网 RPC 域名，不扩展为其他链或泛 RPC 分类
+      - 客户端顺序应放在 proxy/gfw 前，避免被广谱代理入口提前命中
+
   - id: hk-global-media
     target: rules/region/hk/global_media.list
     purpose: 国际流媒体走香港区域策略

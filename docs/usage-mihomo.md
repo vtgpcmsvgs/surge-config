@@ -19,6 +19,7 @@
 - 多订阅聚合后的统一总开关与区域自动组
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh `classical` 产物接入
 - AdsPower 专项 `reject/direct/proxy` 规则集与 `proxy/gfw.yaml` 广谱代理规则的顺序关系
+- Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
 - 用 `plain_http_reject.yaml` 接管浏览器明文 HTTP 拦截
 
 ## 模板刻意移除了什么
@@ -40,16 +41,18 @@
 3. GitHub 仓库 SSH 定向直连
 4. AdsPower 细分直连规则
 5. AdsPower 细分节点选择规则
-6. 代理优先规则
-7. 直连规则
-8. IP 规则
-9. `MATCH`
+6. Polygon 主网 RPC 节点选择规则
+7. 代理优先规则
+8. 直连规则
+9. IP 规则
+10. `MATCH`
 
 注意：
 
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/hk/global_media.yaml` 前。
 - `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
+- `proxy/polygon_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `reject/os_update_reject.yaml`、`direct/microsoft_direct.yaml` 与 `direct/macos_update_direct.yaml`；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口。
 - `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。

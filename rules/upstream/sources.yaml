@@ -89,6 +89,10 @@ sources:
       preferred:
         - repo: self
           note: AdsPower 专项节点选择规则由 rules/app/adspower.txt 单一主清单派生，承接必须走代理的核心服务
+    polygon_rpc_proxy.list:
+      preferred:
+        - repo: self
+          note: Polygon 主网 RPC 域名专项节点选择入口，统一收敛根域名与通配符子域名，避免继续散落在客户端配置里手写
     gfw.list:
       preferred:
         - repo: self
