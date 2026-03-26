@@ -782,6 +782,19 @@ def alicloud_snapshots_need_sync() -> bool:
     return isinstance(payload, dict) and payload.get("syncToken") == "bootstrap"
 
 
+def chainlist_snapshots_need_sync() -> bool:
+    expected_snapshot_paths = [
+        RULES_ROOT / "upstream" / snapshot.path
+        for snapshot in sync_upstream_rules.CHAINLIST_RPC_SNAPSHOTS
+    ]
+    for path in expected_snapshot_paths:
+        if not path.exists():
+            return True
+        if "Placeholder file kept in repo" in read_text(path):
+            return True
+    return False
+
+
 def main() -> int:
     configure_stdio()
     args = parse_args()
@@ -790,6 +803,7 @@ def main() -> int:
             args.sync_upstream
             or os.environ.get("RULEMESH_SYNC_UPSTREAM") == "1"
             or os.environ.get("SURGE_CONFIG_SYNC_UPSTREAM") == "1"
+            or chainlist_snapshots_need_sync()
             or aws_snapshots_need_sync()
             or alicloud_snapshots_need_sync()
         )

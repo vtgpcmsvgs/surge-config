@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 7,
     "ipcidr-only": 7,
-    "classical/mixed": 17,
+    "classical/mixed": 18,
     "empty": 0,
-    "total_sources": 31,
+    "total_sources": 32,
     "total_warnings": 0
   },
   "sources": [
@@ -139,6 +139,19 @@
       }
     },
     {
+      "source": "rules/proxy/bsc_rpc_proxy.list",
+      "category": "proxy",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 104,
+        "mihomo_classical": 104
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/proxy/bsc_rpc_proxy.list",
+        "mihomo_classical": "dist/mihomo/classical/proxy/bsc_rpc_proxy.yaml"
+      }
+    },
+    {
       "source": "rules/proxy/gfw.list",
       "category": "proxy",
       "classification": "domain-only",
@@ -182,8 +195,8 @@
       "category": "proxy",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 24,
-        "mihomo_classical": 24
+        "surge_rules": 62,
+        "mihomo_classical": 62
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/polygon_rpc_proxy.list",

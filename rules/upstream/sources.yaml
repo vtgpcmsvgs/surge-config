@@ -98,7 +98,15 @@ sources:
     polygon_rpc_proxy.list:
       preferred:
         - repo: self
-          note: Polygon 主网 RPC 域名专项节点选择入口，统一收敛根域名与通配符子域名，避免继续散落在客户端配置里手写
+          note: Polygon 主网 RPC 域名专项节点选择入口，源文件只保留单一 INCLUDE，由 Chainlist 每日自动累计更新 host 集合
+        - repo: DefiLlama/chainlist
+          note: 每日抓取 chainlist.org/rpcs.json 中 chainId=137 的最终 RPC 列表，按 host 规范化后生成 DOMAIN 与 DOMAIN-WILDCARD，并采用只增不减策略
+    bsc_rpc_proxy.list:
+      preferred:
+        - repo: self
+          note: BSC 主网 RPC 域名专项节点选择入口，源文件只保留单一 INCLUDE，由 Chainlist 每日自动累计更新 host 集合
+        - repo: DefiLlama/chainlist
+          note: 每日抓取 chainlist.org/rpcs.json 中 chainId=56 的最终 RPC 列表，按 host 规范化后生成 DOMAIN 与 DOMAIN-WILDCARD，不包含 opBNB
     google_public_dns_ipv4_proxy.list:
       preferred:
         - repo: self

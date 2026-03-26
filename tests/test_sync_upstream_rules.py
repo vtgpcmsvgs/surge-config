@@ -119,6 +119,88 @@ class BuildOnepasswordSnapshotTextTests(unittest.TestCase):
         self.assertIn("DOMAIN-SUFFIX,1password.com", text)
 
 
+class ChainlistRpcHelpersTests(unittest.TestCase):
+    def test_normalize_chainlist_rpc_host_strips_path_query_and_port(self) -> None:
+        self.assertEqual(
+            sync_upstream_rules.normalize_chainlist_rpc_host(
+                "https://api-polygon-mainnet-full.n.dwellir.com/2ccf/demo?token=1"
+            ),
+            "api-polygon-mainnet-full.n.dwellir.com",
+        )
+        self.assertEqual(
+            sync_upstream_rules.normalize_chainlist_rpc_host("wss://bsc-rpc.publicnode.com:443/ws"),
+            "bsc-rpc.publicnode.com",
+        )
+        self.assertIsNone(
+            sync_upstream_rules.normalize_chainlist_rpc_host("ftp://example.com/archive")
+        )
+
+    def test_extract_chainlist_rpc_hosts_filters_and_dedupes(self) -> None:
+        payload = [
+            {
+                "chainId": 137,
+                "rpc": [
+                    {"url": "https://polygon-rpc.com"},
+                    {"url": "wss://polygon-rpc.com/ws"},
+                    {"url": "https://1rpc.io/matic"},
+                    {"url": "https://api.zan.top/polygon-mainnet"},
+                ],
+            },
+            {
+                "chainId": 56,
+                "rpc": [
+                    {"url": "https://bsc-dataseed.bnbchain.org"},
+                ],
+            },
+        ]
+
+        hosts = sync_upstream_rules.extract_chainlist_rpc_hosts(payload, 137)
+
+        self.assertEqual(
+            hosts,
+            [
+                "polygon-rpc.com",
+                "1rpc.io",
+                "api.zan.top",
+            ],
+        )
+
+    def test_merge_chainlist_rpc_hosts_keeps_existing_and_manual_hosts(self) -> None:
+        merged = sync_upstream_rules.merge_chainlist_rpc_hosts(
+            current_hosts=["polygon-rpc.com", "rpc.sentio.xyz"],
+            existing_hosts=["lb.drpc.live"],
+            preserve_hosts=("polygon.llamarpc.com",),
+        )
+
+        self.assertEqual(
+            merged,
+            [
+                "lb.drpc.live",
+                "polygon-rpc.com",
+                "polygon.llamarpc.com",
+                "rpc.sentio.xyz",
+            ],
+        )
+
+
+class BuildChainlistRpcSnapshotTextTests(unittest.TestCase):
+    def test_uses_expected_headers(self) -> None:
+        snapshot = sync_upstream_rules.CHAINLIST_RPC_SNAPSHOTS[0]
+
+        text = sync_upstream_rules.build_chainlist_rpc_snapshot_text(
+            snapshot,
+            current_hosts=["polygon-rpc.com", "rpc.sentio.xyz"],
+            cumulative_hosts=["lb.drpc.live", "polygon-rpc.com", "rpc.sentio.xyz"],
+        )
+
+        self.assertIn(sync_upstream_rules.CHAINLIST_RPCS_URL, text)
+        self.assertIn(sync_upstream_rules.CHAINLIST_REPO_URL, text)
+        self.assertIn(snapshot.title, text)
+        self.assertIn("只增不减", text)
+        self.assertIn("DOMAIN,lb.drpc.live", text)
+        self.assertIn("DOMAIN-WILDCARD,*.rpc.sentio.xyz", text)
+
+
 class FeishuWebhookTests(unittest.TestCase):
     def test_build_feishu_sign_uses_expected_algorithm(self) -> None:
         sign = sync_upstream_rules.build_feishu_sign("1711100000", "test-secret")

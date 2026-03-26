@@ -25,7 +25,7 @@
 1. 拒绝规则
 2. 区域精确规则
 3. `direct/github_ssh_direct`
-4. 其他更细的专项 carve-out，例如 `direct/adspower_direct`、`proxy/adspower_proxy`、`proxy/polygon_rpc_proxy`
+4. 其他更细的专项 carve-out，例如 `direct/adspower_direct`、`proxy/adspower_proxy`、`proxy/polygon_rpc_proxy`、`proxy/bsc_rpc_proxy`
 5. `proxy/gfw`
 6. 其他普通 `direct/*`
 7. IP 规则
@@ -46,7 +46,7 @@ Mihomo / Clash Verge Rev：
 Surge：
 
 ```ini
-# 必须放在 proxy/gfw.list 前；中间仍可继续插入 AdsPower / Polygon RPC 等更细专项规则
+# 必须放在 proxy/gfw.list 前；中间仍可继续插入 AdsPower / Polygon RPC / BSC RPC 等更细专项规则
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/github_ssh_direct.list,DIRECT
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/proxy/gfw.list,"🚀 节点选择"
 ```
@@ -64,7 +64,7 @@ rule-providers:
     interval: 86400
 
 rules:
-  # 必须放在 proxy_gfw 前；中间仍可继续插入 AdsPower / Polygon RPC 等更细专项规则
+  # 必须放在 proxy_gfw 前；中间仍可继续插入 AdsPower / Polygon RPC / BSC RPC 等更细专项规则
   - RULE-SET,direct_github_ssh,DIRECT
   - RULE-SET,proxy_gfw,🚀 节点选择
 ```

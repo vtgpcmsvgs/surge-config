@@ -144,11 +144,23 @@ merge_plan:
     target: rules/proxy/polygon_rpc_proxy.list
     purpose: Polygon 主网 RPC 域名专项节点选择
     strategy:
-      - manual_only
-      - keep_scope_small_and_stable
-      - retain_exact_and_wildcard_entries_together
+      - keep_source_file_as_single_include
+      - sync_chainlist_polygon_rpc_hosts_daily
+      - retain_incremental_union_without_shrinking_scope
     notes:
-      - 仅收敛明确指定的 Polygon 主网 RPC 域名，不扩展为其他链或泛 RPC 分类
+      - 每日抓取 chainlist.org/rpcs.json 中 chainId=137 的最终 RPC 列表，并统一归一化为主机名规则
+      - 上游快照采用只增不减策略，避免 Chainlist 日常波动导致既有覆盖面回撤
+      - 客户端顺序应放在 proxy/gfw 前，避免被广谱代理入口提前命中
+  - id: bsc-rpc-proxy
+    target: rules/proxy/bsc_rpc_proxy.list
+    purpose: BSC 主网 RPC 域名专项节点选择
+    strategy:
+      - keep_source_file_as_single_include
+      - sync_chainlist_bsc_rpc_hosts_daily
+      - retain_incremental_union_without_shrinking_scope
+    notes:
+      - 每日抓取 chainlist.org/rpcs.json 中 chainId=56 的最终 RPC 列表，并统一归一化为主机名规则
+      - 仅覆盖 BNB Smart Chain Mainnet，不扩展到 opBNB 等其他 BNB 系链
       - 客户端顺序应放在 proxy/gfw 前，避免被广谱代理入口提前命中
 
   - id: google-public-dns-ipv4-proxy

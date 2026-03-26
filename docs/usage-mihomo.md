@@ -20,6 +20,7 @@
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh `classical` 产物接入
 - AdsPower 专项 `reject/direct/proxy` 规则集与 `proxy/gfw.yaml` 广谱代理规则的顺序关系
 - Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
+- BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
 - Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
 - 用 `plain_http_reject.yaml` 接管浏览器明文 HTTP 拦截
 
@@ -53,12 +54,13 @@
 4. AdsPower 细分直连规则
 5. AdsPower 细分节点选择规则
 6. Polygon 主网 RPC 节点选择规则
-7. Google Public DNS 主 IPv4 端点节点选择规则
-8. 可选：1Password 核心连接节点选择规则
-9. 代理优先规则
-10. 直连规则
-11. IP 规则
-12. `MATCH`
+7. BSC 主网 RPC 节点选择规则
+8. Google Public DNS 主 IPv4 端点节点选择规则
+9. 可选：1Password 核心连接节点选择规则
+10. 代理优先规则
+11. 直连规则
+12. IP 规则
+13. `MATCH`
 
 注意：
 
@@ -66,6 +68,7 @@
 - `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
+- `proxy/bsc_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 BSC 主网 RPC 域名优先走 `🚀 节点选择`。
 - `proxy/google_public_dns_ipv4_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
 - 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.yaml`，并同样放在 `proxy/gfw.yaml` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。

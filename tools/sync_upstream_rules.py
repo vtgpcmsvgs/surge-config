@@ -39,9 +39,13 @@ MAX_FAILURES_IN_WEBHOOK = 8
 ONEPASSWORD_PORTS_DOMAINS_URL = "https://support.1password.com/ports-domains/"
 ONEPASSWORD_CORE_PATH = Path("onepassword/core_domains.list")
 ONEPASSWORD_CORE_TITLE = "1Password 核心连接域名"
-ONEPASSWORD_DOMAIN_PATTERN = re.compile(
+DOMAIN_HOST_PATTERN = re.compile(
     r"(?i)(?:\*\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}"
 )
+ONEPASSWORD_DOMAIN_PATTERN = DOMAIN_HOST_PATTERN
+CHAINLIST_RPCS_URL = "https://chainlist.org/rpcs.json"
+CHAINLIST_REPO_URL = "https://github.com/DefiLlama/chainlist"
+CHAINLIST_RESOURCE_PATH = Path("chainlist/rpcs.json")
 ONEPASSWORD_RULE_ORDER = (
     ("DOMAIN-SUFFIX", "1password.com"),
     ("DOMAIN-SUFFIX", "1password.ca"),
@@ -94,6 +98,14 @@ class AlicloudRegionSnapshot:
     region_id: str
     endpoint: str
     title: str
+
+
+@dataclass(frozen=True)
+class ChainlistRpcSnapshot:
+    path: Path
+    chain_id: int
+    title: str
+    preserve_hosts: tuple[str, ...] = ()
 
 
 @dataclass(frozen=True)
@@ -215,6 +227,23 @@ ALICLOUD_REGION_SNAPSHOTS = (
         region_id="cn-hongkong",
         endpoint="vpc.cn-hongkong.aliyuncs.com",
         title="阿里云香港 IPv4（cn-hongkong）",
+    ),
+)
+
+CHAINLIST_RPC_SNAPSHOTS = (
+    ChainlistRpcSnapshot(
+        path=Path("chainlist/polygon_rpc_domains.list"),
+        chain_id=137,
+        title="Polygon 主网 RPC 域名累计快照",
+        preserve_hosts=(
+            "polygon.llamarpc.com",
+            "lb.drpc.live",
+        ),
+    ),
+    ChainlistRpcSnapshot(
+        path=Path("chainlist/bsc_rpc_domains.list"),
+        chain_id=56,
+        title="BSC 主网 RPC 域名累计快照",
     ),
 )
 
@@ -477,6 +506,204 @@ def build_onepassword_snapshot_text(rules: list[str]) -> str:
     lines.extend(rules)
     lines.append("")
     return "\n".join(lines)
+
+
+def parse_domain_hosts_from_rule_text(text: str) -> list[str]:
+    hosts: list[str] = []
+    for raw in normalize_text(text).splitlines():
+        stripped = raw.strip()
+        if not stripped or stripped.startswith("#"):
+            continue
+        if stripped.startswith("DOMAIN,"):
+            candidate = stripped.split(",", 1)[1].strip().lower().rstrip(".")
+        elif stripped.startswith("DOMAIN-WILDCARD,*."):
+            candidate = stripped.split(",", 1)[1].strip().lower()
+            candidate = candidate[2:].rstrip(".")
+        else:
+            continue
+        if DOMAIN_HOST_PATTERN.fullmatch(candidate):
+            hosts.append(candidate)
+    return ordered_unique(hosts)
+
+
+def normalize_chainlist_rpc_host(url: str) -> str | None:
+    raw_url = url.strip()
+    if not raw_url:
+        return None
+    try:
+        parsed = urllib.parse.urlsplit(raw_url)
+    except ValueError:
+        return None
+    if parsed.scheme.lower() not in {"http", "https", "ws", "wss"}:
+        return None
+    if not parsed.hostname:
+        return None
+    host = parsed.hostname.lower().rstrip(".")
+    if not DOMAIN_HOST_PATTERN.fullmatch(host):
+        return None
+    return host
+
+
+def extract_chainlist_rpc_hosts(payload: object, chain_id: int) -> list[str]:
+    if not isinstance(payload, list):
+        raise ValueError("Chainlist payload 不是数组")
+
+    chain_entry = next(
+        (
+            entry
+            for entry in payload
+            if isinstance(entry, dict) and entry.get("chainId") == chain_id
+        ),
+        None,
+    )
+    if chain_entry is None:
+        raise ValueError(f"Chainlist 缺少 chainId={chain_id} 的链定义")
+
+    rpc_entries = chain_entry.get("rpc")
+    if not isinstance(rpc_entries, list):
+        raise ValueError(f"chainId={chain_id} 的 rpc 字段不是数组")
+
+    hosts: list[str] = []
+    for item in rpc_entries:
+        if isinstance(item, str):
+            url = item
+        elif isinstance(item, dict) and isinstance(item.get("url"), str):
+            url = item["url"]
+        else:
+            continue
+        host = normalize_chainlist_rpc_host(url)
+        if host:
+            hosts.append(host)
+    return ordered_unique(hosts)
+
+
+def merge_chainlist_rpc_hosts(
+    current_hosts: list[str],
+    existing_hosts: list[str],
+    preserve_hosts: tuple[str, ...] = (),
+) -> list[str]:
+    merged = {
+        host.lower()
+        for host in (*current_hosts, *existing_hosts, *preserve_hosts)
+        if DOMAIN_HOST_PATTERN.fullmatch(host.lower())
+    }
+    return sorted(merged)
+
+
+def build_chainlist_rpc_rules(hosts: list[str]) -> list[str]:
+    rules: list[str] = []
+    for host in hosts:
+        rules.append(f"DOMAIN,{host}")
+        rules.append(f"DOMAIN-WILDCARD,*.{host}")
+    return rules
+
+
+def build_chainlist_rpc_snapshot_text(
+    snapshot: ChainlistRpcSnapshot,
+    current_hosts: list[str],
+    cumulative_hosts: list[str],
+) -> str:
+    synced_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    lines = [
+        f"# 来源: {CHAINLIST_RPCS_URL}",
+        f"# 上游项目: {CHAINLIST_REPO_URL}",
+        f"# 标题: {snapshot.title}",
+        f"# chainId: {snapshot.chain_id}",
+        "# 维护策略: 只增不减；保留历史已收录主机名，避免上游日常波动导致覆盖面回撤。",
+        "# 规则展开: 每个主机名同时生成 DOMAIN 与 DOMAIN-WILDCARD，统一收敛为节点选择入口。",
+        f"# 本次抓取主机数: {len(current_hosts)}",
+        f"# 累计主机数: {len(cumulative_hosts)}",
+        f"# 同步时间: {synced_at}",
+        "",
+    ]
+    lines.extend(build_chainlist_rpc_rules(cumulative_hosts))
+    lines.append("")
+    return "\n".join(lines)
+
+
+def sync_chainlist_rpc_snapshots(failures: list[UpstreamFailure]) -> tuple[int, int]:
+    try:
+        raw_text = fetch_text(CHAINLIST_RPCS_URL)
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        print(f"[WARN] {CHAINLIST_RESOURCE_PATH.as_posix()} fetch failed: {exc}")
+        record_failure(
+            failures,
+            source="Chainlist RPC 快照",
+            resource=CHAINLIST_RESOURCE_PATH.as_posix(),
+            url=CHAINLIST_RPCS_URL,
+            category=classify_fetch_failure(exc),
+            detail=format_exception_message(exc),
+        )
+        return 0, 1
+
+    try:
+        payload = json.loads(raw_text)
+    except json.JSONDecodeError as exc:
+        print(f"[WARN] {CHAINLIST_RESOURCE_PATH.as_posix()} parse failed: {exc}")
+        record_failure(
+            failures,
+            source="Chainlist RPC 快照",
+            resource=CHAINLIST_RESOURCE_PATH.as_posix(),
+            url=CHAINLIST_RPCS_URL,
+            category="返回内容异常",
+            detail=format_exception_message(exc),
+        )
+        return 0, 1
+
+    changed = 0
+    failed = 0
+
+    for snapshot in CHAINLIST_RPC_SNAPSHOTS:
+        try:
+            current_hosts = extract_chainlist_rpc_hosts(payload, snapshot.chain_id)
+        except ValueError as exc:
+            detail = format_exception_message(exc)
+            print(f"[WARN] {snapshot.path.as_posix()} parse failed: {detail}")
+            record_failure(
+                failures,
+                source="Chainlist RPC 快照",
+                resource=snapshot.path.as_posix(),
+                url=CHAINLIST_RPCS_URL,
+                category="返回内容异常",
+                detail=detail,
+            )
+            failed += 1
+            continue
+
+        if not current_hosts:
+            detail = f"chainId={snapshot.chain_id} 的 RPC 主机名为空"
+            print(f"[WARN] {snapshot.path.as_posix()} sync failed: {detail}")
+            record_failure(
+                failures,
+                source="Chainlist RPC 快照",
+                resource=snapshot.path.as_posix(),
+                url=CHAINLIST_RPCS_URL,
+                category="链 RPC 主机名为空",
+                detail=detail,
+            )
+            failed += 1
+            continue
+
+        destination = UPSTREAM_ROOT / snapshot.path
+        existing_text = read_existing(destination) or ""
+        existing_hosts = parse_domain_hosts_from_rule_text(existing_text)
+        cumulative_hosts = merge_chainlist_rpc_hosts(
+            current_hosts,
+            existing_hosts,
+            snapshot.preserve_hosts,
+        )
+        rendered = build_chainlist_rpc_snapshot_text(
+            snapshot,
+            current_hosts,
+            cumulative_hosts,
+        )
+        if write_if_changed(destination, rendered):
+            print(f"[UPDATE] {snapshot.path.as_posix()}")
+            changed += 1
+        else:
+            print(f"[SKIP] {snapshot.path.as_posix()}")
+
+    return changed, failed
 
 
 def sync_onepassword_snapshot(failures: list[UpstreamFailure]) -> tuple[int, int]:
@@ -1159,6 +1386,10 @@ def main() -> int:
     onepassword_changed, onepassword_failed = sync_onepassword_snapshot(failures)
     changed += onepassword_changed
     failed += onepassword_failed
+
+    chainlist_changed, chainlist_failed = sync_chainlist_rpc_snapshots(failures)
+    changed += chainlist_changed
+    failed += chainlist_failed
 
     aws_changed, aws_failed = sync_aws_snapshots(failures)
     changed += aws_changed
