@@ -127,9 +127,10 @@ python tools/build_rules.py
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
   - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
-  - 其中只有设备分流继续按局域网源 IP 约束；区域精确、GitHub SSH、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点与指定直连不再额外限制源 IP。
+  - 其中只有设备分流继续按局域网源 IP 约束；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点与指定直连不再额外限制源 IP。
   - 在该白名单里，`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统升级直连入口。
   - 其中 `proxy/polygon_rpc_proxy` 与 `proxy/google_public_dns_ipv4_proxy` 都是允许保留的节点选择入口，用于白名单模式下显式放行指定代理端点。
+  - 其中 GitHub 在 `github_ssh_direct` 之后额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，统一走节点选择。
   - 原单独 `IP 规则` 段已删除，避免与设备分流重复。
   - 其中 AdsPower 在精细规则后允许额外保留一条广覆盖观察兜底，用于发现细分规则漏网之鱼。
   - 这份工作路由白名单与两个 `personal` 配置永久有意不一致，后续维护不要按“统一模板”思路把它改回去。

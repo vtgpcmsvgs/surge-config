@@ -19,9 +19,10 @@
 - 工作路由仍以那 6 台固定工作电脑为核心维护对象，并继续采用白名单模式
 - 拒绝规则维持当前逻辑
 - 设备分流继续按“源 IP + AWS 区域”定向到对应设备组
-- 只有 2.1 设备分流继续保留“源 IP + AWS 区域”约束；2.2-2.5 不再额外限制源 IP
+- 只有 2.1 设备分流继续保留“源 IP + AWS 区域”约束；2.2-2.7 不再额外限制源 IP
 - 区域精确规则继续保留，且 `Google TW` 必须先于广谱区域规则
-- GitHub 仓库 SSH 定向直连继续保留独立 carve-out；如果将来重新启用 `proxy/gfw`，它仍必须放在 `gfw` 前
+- GitHub 仓库 SSH 定向直连继续保留独立 carve-out
+- GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，策略继续走节点选择，用于白名单模式下拉取规则产物并发现 SSH / Raw 之外的漏网之鱼
 - AdsPower 继续维持 `adspower_reject`、`adspower_direct`、`adspower_proxy` 三段细分
 - 在 `adspower_direct` 与 `adspower_proxy` 之后，额外保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底；策略仍走节点选择，专门用于发现细分规则漏网之鱼
 - `proxy/polygon_rpc_proxy.list` 继续保留 `🚀 节点选择`，用于白名单模式下显式放行 Polygon 主网 RPC 域名
@@ -46,12 +47,14 @@
 2. 设备分流
 3. 区域精确规则
 4. GitHub 仓库 SSH 定向直连
-5. AdsPower 细分规则
-6. AdsPower 广覆盖观察兜底
-7. Polygon 主网 RPC 节点选择入口
-8. Google Public DNS 主 IPv4 端点节点选择入口
-9. 指定直连入口
-10. 全局 `FINAL,REJECT` 兜底
+5. GitHub Raw 下载入口
+6. GitHub 广覆盖观察兜底
+7. AdsPower 细分规则
+8. AdsPower 广覆盖观察兜底
+9. Polygon 主网 RPC 节点选择入口
+10. Google Public DNS 主 IPv4 端点节点选择入口
+11. 指定直连入口
+12. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 
