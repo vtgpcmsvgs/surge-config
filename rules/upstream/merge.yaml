@@ -128,6 +128,18 @@ merge_plan:
       - 统一由 rules/app/adspower.txt 维护，不直接手改该源文件
       - 规则顺序应先于 proxy/gfw，避免被广谱代理入口吞没
 
+  - id: onepassword-proxy
+    target: rules/proxy/onepassword_proxy.list
+    purpose: 1Password 核心连接节点选择
+    strategy:
+      - keep_source_file_as_single_include
+      - sync_onepassword_core_domains_daily_from_official_support
+      - keep_only_first_party_core_domains_and_update_endpoints
+    notes:
+      - 只自动保留 1Password 官方自有核心域名与更新/基础设施端点
+      - 不自动并入 Watchtower、Fastmail、Brex、Privacy Cards 等第三方依赖域名
+      - 客户端顺序应放在 proxy/gfw 前；工作白名单中也应作为显式放行入口
+
   - id: polygon-rpc-proxy
     target: rules/proxy/polygon_rpc_proxy.list
     purpose: Polygon 主网 RPC 域名专项节点选择

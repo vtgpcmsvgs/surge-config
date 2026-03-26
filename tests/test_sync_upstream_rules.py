@@ -53,6 +53,72 @@ class BuildAlicloudSnapshotTextTests(unittest.TestCase):
         self.assertIn("alicloud/hk_ipv4.txt", ssh_text)
 
 
+class BuildOnepasswordRulesTests(unittest.TestCase):
+    def test_extracts_only_conservative_core_rules(self) -> None:
+        raw_text = """
+        <html>
+          <body>
+            *.1password.com
+            *.1password.ca
+            *.1password.eu
+            *.1passwordservices.com
+            *.1passwordusercontent.com
+            *.1passwordusercontent.ca
+            *.1passwordusercontent.eu
+            app-updates.agilebits.com
+            app-updates.us.svc.1infra.net
+            *.1infra.net
+            cache.agilebits.com
+            api.pwnedpasswords.com
+            accounts.brex.com
+          </body>
+        </html>
+        """
+
+        rules = sync_upstream_rules.build_onepassword_core_rules(raw_text)
+
+        self.assertEqual(
+            rules,
+            [
+                "DOMAIN-SUFFIX,1password.com",
+                "DOMAIN-SUFFIX,1password.ca",
+                "DOMAIN-SUFFIX,1password.eu",
+                "DOMAIN-SUFFIX,1passwordservices.com",
+                "DOMAIN-SUFFIX,1passwordusercontent.com",
+                "DOMAIN-SUFFIX,1passwordusercontent.ca",
+                "DOMAIN-SUFFIX,1passwordusercontent.eu",
+                "DOMAIN,app-updates.agilebits.com",
+                "DOMAIN-SUFFIX,1infra.net",
+                "DOMAIN,cache.agilebits.com",
+            ],
+        )
+
+    def test_raises_when_required_core_rules_are_missing(self) -> None:
+        with self.assertRaises(ValueError) as context:
+            sync_upstream_rules.build_onepassword_core_rules("*.1password.com")
+
+        self.assertIn("1Password 官方页面缺少核心域名", str(context.exception))
+
+
+class BuildOnepasswordSnapshotTextTests(unittest.TestCase):
+    def test_uses_expected_headers(self) -> None:
+        text = sync_upstream_rules.build_onepassword_snapshot_text(
+            [
+                "DOMAIN-SUFFIX,1password.com",
+                "DOMAIN-SUFFIX,1passwordservices.com",
+                "DOMAIN-SUFFIX,1passwordusercontent.com",
+                "DOMAIN,app-updates.agilebits.com",
+                "DOMAIN-SUFFIX,1infra.net",
+                "DOMAIN,cache.agilebits.com",
+            ]
+        )
+
+        self.assertIn(sync_upstream_rules.ONEPASSWORD_PORTS_DOMAINS_URL, text)
+        self.assertIn(sync_upstream_rules.ONEPASSWORD_CORE_TITLE, text)
+        self.assertIn("不自动并入 Watchtower、Fastmail、Brex、Privacy Cards", text)
+        self.assertIn("DOMAIN-SUFFIX,1password.com", text)
+
+
 class FeishuWebhookTests(unittest.TestCase):
     def test_build_feishu_sign_uses_expected_algorithm(self) -> None:
         sign = sync_upstream_rules.build_feishu_sign("1711100000", "test-secret")

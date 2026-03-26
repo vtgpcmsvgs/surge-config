@@ -37,6 +37,7 @@
 - 按局域网源 IP 的设备分流（`SRC-IP` + `AND/OR`）
 - 私有 `policy-path` 地址与真实机场命名
 - 整个 `[MITM]` 段及证书参数
+- 1Password 重度用户专项入口；如需启用，请另行接入 `proxy/onepassword_proxy.list`
 
 ## 使用前只需要替换两处
 
@@ -59,10 +60,11 @@
 5. AdsPower 细分节点选择规则
 6. Polygon 主网 RPC 节点选择规则
 7. Google Public DNS 主 IPv4 端点节点选择规则
-8. 代理优先规则
-9. 直连规则
-10. IP 规则
-11. `FINAL`
+8. 可选：1Password 核心连接节点选择规则
+9. 代理优先规则
+10. 直连规则
+11. IP 规则
+12. `FINAL`
 
 注意：
 
@@ -71,11 +73,12 @@
 - `direct/adspower_direct.list` 与 `proxy/adspower_proxy.list` 都应放在 `proxy/gfw.list` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.list` 应放在 `proxy/gfw.list` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
 - `proxy/google_public_dns_ipv4_proxy.list` 应放在 `proxy/gfw.list` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
+- 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.list`，并同样放在 `proxy/gfw.list` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.list` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `reject/os_update_reject.list`、`direct/microsoft_direct.list` 与 `direct/macos_update_direct.list`；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
-- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点、`LAN,DIRECT`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；GitHub 在 `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com` 与 `DOMAIN-KEYWORD,github`，统一走节点选择，并为 `raw.githubusercontent.com` 额外绑定 `server:system`、保留 `system + 公共 DNS` 组合作为解析兜底；私有订阅更新直连统一从本地单一源文件同步到白名单显式放行段；AdsPower 细分规则后还故意保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底，用来发现漏网之鱼；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点、`LAN,DIRECT`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；GitHub 在 `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com` 与 `DOMAIN-KEYWORD,github`，统一走节点选择，并为 `raw.githubusercontent.com` 额外绑定 `server:system`、保留 `system + 公共 DNS` 组合作为解析兜底；私有订阅更新直连统一从本地单一源文件同步到白名单显式放行段；`proxy/onepassword_proxy.list` 也作为白名单显式放行入口放在 `proxy/gfw` 之前；AdsPower 细分规则后还故意保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底，用来发现漏网之鱼；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
 
 ## 使用原则
 
@@ -85,3 +88,4 @@
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
 - 私有工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)；该约定只影响本地 Surge 工作路由文件，不影响公开模板。
 - 私有订阅更新直连同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定同样只影响本地私有配置，不影响公开模板。
+- 1Password 重度用户专项规则约定见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)；公开模板默认不内置，需要时再显式接入。

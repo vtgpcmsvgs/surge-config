@@ -9,6 +9,7 @@ import hashlib
 import hmac
 import json
 import os
+import re
 import sys
 import urllib.error
 import urllib.parse
@@ -35,6 +36,34 @@ ALICLOUD_API_VERSION = "2016-04-28"
 ALICLOUD_ACTION = "DescribePublicIpAddress"
 LOCAL_CONFIG_PATH = ROOT / ".rulemesh.local.json"
 MAX_FAILURES_IN_WEBHOOK = 8
+ONEPASSWORD_PORTS_DOMAINS_URL = "https://support.1password.com/ports-domains/"
+ONEPASSWORD_CORE_PATH = Path("onepassword/core_domains.list")
+ONEPASSWORD_CORE_TITLE = "1Password 核心连接域名"
+ONEPASSWORD_DOMAIN_PATTERN = re.compile(
+    r"(?i)(?:\*\.)?(?:[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?\.)+[a-z]{2,63}"
+)
+ONEPASSWORD_RULE_ORDER = (
+    ("DOMAIN-SUFFIX", "1password.com"),
+    ("DOMAIN-SUFFIX", "1password.ca"),
+    ("DOMAIN-SUFFIX", "1password.eu"),
+    ("DOMAIN-SUFFIX", "1passwordservices.com"),
+    ("DOMAIN-SUFFIX", "1passwordusercontent.com"),
+    ("DOMAIN-SUFFIX", "1passwordusercontent.ca"),
+    ("DOMAIN-SUFFIX", "1passwordusercontent.eu"),
+    ("DOMAIN", "app-updates.agilebits.com"),
+    ("DOMAIN-SUFFIX", "1infra.net"),
+    ("DOMAIN", "cache.agilebits.com"),
+)
+ONEPASSWORD_REQUIRED_RULES = frozenset(
+    {
+        "DOMAIN-SUFFIX,1password.com",
+        "DOMAIN-SUFFIX,1passwordservices.com",
+        "DOMAIN-SUFFIX,1passwordusercontent.com",
+        "DOMAIN,app-updates.agilebits.com",
+        "DOMAIN-SUFFIX,1infra.net",
+        "DOMAIN,cache.agilebits.com",
+    }
+)
 
 
 @dataclass(frozen=True)
@@ -399,6 +428,94 @@ def sync_one(item: UpstreamFile, failures: list[UpstreamFailure]) -> tuple[bool,
 
     print(f"[UPDATE] {item.path.as_posix()}")
     return True, False
+
+
+def extract_domain_candidates(text: str) -> list[str]:
+    return ordered_unique(
+        [
+            match.group(0).lower().lstrip("*.").rstrip(".")
+            for match in ONEPASSWORD_DOMAIN_PATTERN.finditer(text)
+        ]
+    )
+
+
+def has_domain_or_subdomain(candidates: set[str], domain: str) -> bool:
+    return domain in candidates or any(candidate.endswith(f".{domain}") for candidate in candidates)
+
+
+def build_onepassword_core_rules(raw_text: str) -> list[str]:
+    candidates = set(extract_domain_candidates(raw_text))
+    rules: list[str] = []
+
+    for token, value in ONEPASSWORD_RULE_ORDER:
+        if token == "DOMAIN-SUFFIX":
+            if has_domain_or_subdomain(candidates, value):
+                rules.append(f"{token},{value}")
+            continue
+
+        if value in candidates:
+            rules.append(f"{token},{value}")
+
+    missing = sorted(rule for rule in ONEPASSWORD_REQUIRED_RULES if rule not in rules)
+    if missing:
+        raise ValueError("1Password 官方页面缺少核心域名: " + ", ".join(missing))
+
+    return rules
+
+
+def build_onepassword_snapshot_text(rules: list[str]) -> str:
+    synced_at = dt.datetime.now(dt.timezone.utc).replace(microsecond=0).isoformat()
+    lines = [
+        f"# 来源: {ONEPASSWORD_PORTS_DOMAINS_URL}",
+        f"# 标题: {ONEPASSWORD_CORE_TITLE}",
+        f"# 同步时间: {synced_at}",
+        "# 维护边界: 仅自动保留 1Password 官方自有核心域名与更新/基础设施端点。",
+        "# 排除项: 不自动并入 Watchtower、Fastmail、Brex、Privacy Cards 等第三方依赖域名。",
+        f"# 规则数量: {len(rules)}",
+        "",
+    ]
+    lines.extend(rules)
+    lines.append("")
+    return "\n".join(lines)
+
+
+def sync_onepassword_snapshot(failures: list[UpstreamFailure]) -> tuple[int, int]:
+    try:
+        raw_text = fetch_text(ONEPASSWORD_PORTS_DOMAINS_URL)
+    except (urllib.error.URLError, TimeoutError, OSError) as exc:
+        print(f"[WARN] {ONEPASSWORD_CORE_PATH.as_posix()} fetch failed: {exc}")
+        record_failure(
+            failures,
+            source="1Password 官方支持页",
+            resource=ONEPASSWORD_CORE_PATH.as_posix(),
+            url=ONEPASSWORD_PORTS_DOMAINS_URL,
+            category=classify_fetch_failure(exc),
+            detail=format_exception_message(exc),
+        )
+        return 0, 1
+
+    try:
+        rules = build_onepassword_core_rules(raw_text)
+    except ValueError as exc:
+        detail = format_exception_message(exc)
+        print(f"[WARN] {ONEPASSWORD_CORE_PATH.as_posix()} parse failed: {detail}")
+        record_failure(
+            failures,
+            source="1Password 官方支持页",
+            resource=ONEPASSWORD_CORE_PATH.as_posix(),
+            url=ONEPASSWORD_PORTS_DOMAINS_URL,
+            category="核心域名缺失" if "核心域名" in detail else "返回内容异常",
+            detail=detail,
+        )
+        return 0, 1
+
+    rendered = build_onepassword_snapshot_text(rules)
+    if write_if_changed(UPSTREAM_ROOT / ONEPASSWORD_CORE_PATH, rendered):
+        print(f"[UPDATE] {ONEPASSWORD_CORE_PATH.as_posix()}")
+        return 1, 0
+
+    print(f"[SKIP] {ONEPASSWORD_CORE_PATH.as_posix()}")
+    return 0, 0
 
 
 def validate_aws_payload(data: object) -> dict[str, object]:
@@ -1038,6 +1155,10 @@ def main() -> int:
         updated, fetch_failed = sync_one(item, failures)
         changed += int(updated)
         failed += int(fetch_failed)
+
+    onepassword_changed, onepassword_failed = sync_onepassword_snapshot(failures)
+    changed += onepassword_changed
+    failed += onepassword_failed
 
     aws_changed, aws_failed = sync_aws_snapshots(failures)
     changed += aws_changed

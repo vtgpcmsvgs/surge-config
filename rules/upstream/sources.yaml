@@ -89,6 +89,12 @@ sources:
       preferred:
         - repo: self
           note: AdsPower 专项节点选择规则由 rules/app/adspower.txt 单一主清单派生，承接必须走代理的核心服务
+    onepassword_proxy.list:
+      preferred:
+        - repo: self
+          note: 1Password 重度用户专项节点选择入口，源文件只保留单一 INCLUDE
+        - repo: 1Password Support
+          note: 通过官方《1Password ports and domains》每日抓取核心一方域名与更新/基础设施端点，保守排除第三方集成域名
     polygon_rpc_proxy.list:
       preferred:
         - repo: self

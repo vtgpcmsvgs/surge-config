@@ -108,6 +108,7 @@ python tools/build_rules.py
 - [docs/aws-region-rules.md](docs/aws-region-rules.md)
 - [docs/alicloud-direct-rules.md](docs/alicloud-direct-rules.md)
 - [docs/github-ssh-direct-rules.md](docs/github-ssh-direct-rules.md)
+- [docs/onepassword-proxy-rules.md](docs/onepassword-proxy-rules.md)
 
 补充约定：
 
@@ -120,6 +121,9 @@ python tools/build_rules.py
 - 客户端应显式接入 `proxy/polygon_rpc_proxy`，并放在 `proxy/gfw` 前，让 `🚀 节点选择` 先命中这些 RPC 域名
 - Google Public DNS 主 IPv4 端点专项规则统一维护在 `rules/proxy/google_public_dns_ipv4_proxy.list`
 - 客户端应显式接入 `proxy/google_public_dns_ipv4_proxy`，并放在 `proxy/gfw` 前，让 `🚀 节点选择` 先命中 `8.8.8.8/32`
+- 1Password 核心连接专项规则统一维护在 `rules/proxy/onepassword_proxy.list`
+- 上游快照由 `tools/sync_upstream_rules.py` 每日抓取 1Password 官方《ports and domains》支持页，保守收敛到核心一方域名与更新/基础设施端点
+- 如需启用，请显式接入 `proxy/onepassword_proxy` 并放在 `proxy/gfw` 前；公开模板默认不内置这条重度用户特化入口
 - 如果你采用“默认禁更，升级时手动临时放行”的习惯，请把 `reject/os_update_reject` 与 `direct/microsoft_direct`、`direct/macos_update_direct` 配套接入；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口
 
 其中 Surge 当前建议明确区分两种使用版本：
@@ -128,9 +132,9 @@ python tools/build_rules.py
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
   - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
-  - 其中只有设备分流继续按局域网源 IP 约束；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点与指定直连不再额外限制源 IP。
+  - 其中只有设备分流继续按局域网源 IP 约束；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点与指定直连不再额外限制源 IP。
   - 在该白名单里，`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统升级直连入口。
-  - 其中 `proxy/polygon_rpc_proxy` 与 `proxy/google_public_dns_ipv4_proxy` 都是允许保留的节点选择入口，用于白名单模式下显式放行指定代理端点。
+  - 其中 `proxy/onepassword_proxy`、`proxy/polygon_rpc_proxy` 与 `proxy/google_public_dns_ipv4_proxy` 都是允许保留的节点选择入口，用于白名单模式下显式放行指定代理端点。
   - 其中 GitHub 在 `github_ssh_direct` 之后额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，统一走节点选择。
   - 私有订阅更新直连统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，并通过脚本同步到本地三份私有配置，不回写公开模板。
   - 其中 `raw.githubusercontent.com` 额外绑定 `server:system`，同时 `dns-server` 保留 `system + 公共 DNS`，用于降低 GitHub Raw 外部资源偶发超时。
@@ -173,6 +177,7 @@ python tools/build_rules.py
 - AdsPower 专项规则应先命中 `reject/adspower_reject`、`direct/adspower_direct`、`proxy/adspower_proxy`，再落到 `proxy/gfw`
 - Polygon 主网 RPC 专项规则应先命中 `proxy/polygon_rpc_proxy`，再落到 `proxy/gfw`
 - Google Public DNS 主 IPv4 端点专项规则应先命中 `proxy/google_public_dns_ipv4_proxy`，再落到 `proxy/gfw`
+- 1Password 核心连接专项规则如启用，应先命中 `proxy/onepassword_proxy`，再落到 `proxy/gfw`
 - Surge 私有工作路由白名单与两个 `personal` 配置永久允许结构不一致，维护时不要互相回抄
 
 ## Google 路由强约束

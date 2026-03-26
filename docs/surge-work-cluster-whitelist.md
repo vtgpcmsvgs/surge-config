@@ -24,7 +24,8 @@
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
 - GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，策略继续走节点选择，用于白名单模式下拉取规则产物并发现 SSH / Raw 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
-- 私有订阅更新直连继续保留独立显式放行入口，顺序位于 GitHub 观察兜底之后、AdsPower 之前；域名清单统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，再通过同步脚本分发到本地配置
+- 私有订阅更新直连继续保留独立显式放行入口，顺序位于 GitHub 观察兜底之后、1Password 之前；域名清单统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，再通过同步脚本分发到本地配置
+- `proxy/onepassword_proxy.list` 继续保留 `🚀 节点选择`，用于白名单模式下显式放行 1Password 核心连接；其上游快照由仓库每天自动抓取官方支持页生成，但默认只覆盖官方自有核心域名与更新/基础设施端点
 - AdsPower 继续维持 `adspower_reject`、`adspower_direct`、`adspower_proxy` 三段细分
 - 在 `adspower_direct` 与 `adspower_proxy` 之后，额外保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底；策略仍走节点选择，专门用于发现细分规则漏网之鱼
 - `proxy/polygon_rpc_proxy.list` 继续保留 `🚀 节点选择`，用于白名单模式下显式放行 Polygon 主网 RPC 域名
@@ -52,12 +53,13 @@
 5. GitHub Raw 下载入口
 6. GitHub 广覆盖观察兜底
 7. 私有订阅更新直连
-8. AdsPower 细分规则
-9. AdsPower 广覆盖观察兜底
-10. Polygon 主网 RPC 节点选择入口
-11. Google Public DNS 主 IPv4 端点节点选择入口
-12. 指定直连入口
-13. 全局 `FINAL,REJECT` 兜底
+8. 1Password 核心连接节点选择入口
+9. AdsPower 细分规则
+10. AdsPower 广覆盖观察兜底
+11. Polygon 主网 RPC 节点选择入口
+12. Google Public DNS 主 IPv4 端点节点选择入口
+13. 指定直连入口
+14. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 

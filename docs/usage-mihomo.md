@@ -30,6 +30,7 @@
 - 按局域网源 IP 的设备分流逻辑
 - 私有 Surge 工作路由白名单特化；那份差异只属于本地 `rulemesh-substore-surge-work-whitelist.conf`
 - 私有订阅更新直连域名；这部分只在本地私有目录维护，并通过同步脚本写入 Mihomo personal 配置
+- 1Password 重度用户专项入口；如需启用，请另行接入 `proxy/onepassword_proxy.yaml`
 
 ## 使用前只需要替换两处
 
@@ -53,10 +54,11 @@
 5. AdsPower 细分节点选择规则
 6. Polygon 主网 RPC 节点选择规则
 7. Google Public DNS 主 IPv4 端点节点选择规则
-8. 代理优先规则
-9. 直连规则
-10. IP 规则
-11. `MATCH`
+8. 可选：1Password 核心连接节点选择规则
+9. 代理优先规则
+10. 直连规则
+11. IP 规则
+12. `MATCH`
 
 注意：
 
@@ -65,6 +67,7 @@
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
 - `proxy/google_public_dns_ipv4_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
+- 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.yaml`，并同样放在 `proxy/gfw.yaml` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `reject/os_update_reject.yaml`、`direct/microsoft_direct.yaml` 与 `direct/macos_update_direct.yaml`；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口。
 - `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。
@@ -80,3 +83,4 @@
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
 - 私有 Surge 工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)，但该约定不影响 Mihomo 模板与 Mihomo personal 配置。
 - 私有订阅更新直连同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定影响 Mihomo personal，但不影响公开模板。
+- 1Password 重度用户专项规则约定见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)；公开模板默认不内置，需要时再显式接入。
