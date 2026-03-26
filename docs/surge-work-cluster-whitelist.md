@@ -11,7 +11,7 @@
 
 ## 隐私边界
 
-- 这份工作路由文件里的真实 `SRC-IP` 列表、私有 `policy-path`、订阅地址与 `[MITM]` 参数继续只保留在本地私有目录
+- 这份工作路由文件里的真实 `SRC-IP` 列表、私有 `policy-path`、订阅地址、私有订阅更新域名与 `[MITM]` 参数继续只保留在本地私有目录
 - 公开仓库只记录“有 6 台固定工作电脑使用白名单模式”这一维护事实，不回写真实局域网 IP 或其他敏感值
 
 ## 当前白名单原则
@@ -24,6 +24,7 @@
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
 - GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，策略继续走节点选择，用于白名单模式下拉取规则产物并发现 SSH / Raw 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
+- 私有订阅更新直连继续保留独立显式放行入口，顺序位于 GitHub 观察兜底之后、AdsPower 之前；域名清单统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，再通过同步脚本分发到本地配置
 - AdsPower 继续维持 `adspower_reject`、`adspower_direct`、`adspower_proxy` 三段细分
 - 在 `adspower_direct` 与 `adspower_proxy` 之后，额外保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底；策略仍走节点选择，专门用于发现细分规则漏网之鱼
 - `proxy/polygon_rpc_proxy.list` 继续保留 `🚀 节点选择`，用于白名单模式下显式放行 Polygon 主网 RPC 域名
@@ -50,12 +51,13 @@
 4. GitHub 仓库 SSH 定向直连
 5. GitHub Raw 下载入口
 6. GitHub 广覆盖观察兜底
-7. AdsPower 细分规则
-8. AdsPower 广覆盖观察兜底
-9. Polygon 主网 RPC 节点选择入口
-10. Google Public DNS 主 IPv4 端点节点选择入口
-11. 指定直连入口
-12. 全局 `FINAL,REJECT` 兜底
+7. 私有订阅更新直连
+8. AdsPower 细分规则
+9. AdsPower 广覆盖观察兜底
+10. Polygon 主网 RPC 节点选择入口
+11. Google Public DNS 主 IPv4 端点节点选择入口
+12. 指定直连入口
+13. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 
@@ -71,3 +73,4 @@
 - 只要工作路由白名单逻辑发生变化，就要同时更新这份文档
 - 如果只是个人模板或 Mihomo 模板调整，不代表工作路由也应同步同构
 - 如果未来白名单设备范围、允许入口或兜底策略发生变化，优先先确认这是“工作路由私有特化”还是“整个仓库公开默认行为”的变化，再决定是否更新公开模板
+- 如果未来私有订阅更新直连的源文件、同步脚本或插入顺序发生变化，也要同步更新 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)

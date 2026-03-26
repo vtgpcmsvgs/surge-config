@@ -13,8 +13,9 @@
   - 用于工作电脑集群接入软路由 Surge。
   - 可保留 `SRC-IP` 设备分流、私有订阅地址与完整 `[MITM]`。
   - 这类内容不适合入公开仓库，建议只在本地私有目录维护。
-  - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
-  - 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
+- 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
+- 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
+- 如果本地存在需要每日刷新的私有订阅域名，统一维护在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list`，再通过同步脚本分发到私有配置。
 - 个人终端版
   - 用于同事个人终端或可公开分享的配置。
   - 对应本仓库的 [`docs/examples/surge-public.conf`](examples/surge-public.conf)。
@@ -42,6 +43,13 @@
 1. 把模板里所有 `https://example.com/subs/surge/all?target=Surge` 替换成你自己的 Surge 聚合订阅入口。
 2. 如果你不希望最终兜底走总开关，可以把 `FINAL,🚀 节点选择` 改成你想固定兜底的区域组。
 
+## 私有订阅更新直连约定
+
+- 真实订阅更新域名只在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，不写回公开模板
+- 修改后运行 `powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1"`，统一同步到两份 Surge 私有配置与一份 Mihomo 私有配置
+- 这组规则在 Surge 私有配置中必须位于 `proxy/gfw.list` 前；在工作白名单里则属于显式放行入口
+- 详细维护方式见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)
+
 ## 规则顺序建议
 
 1. 拒绝规则
@@ -67,7 +75,7 @@
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `reject/os_update_reject.list`、`direct/microsoft_direct.list` 与 `direct/macos_update_direct.list`；平时由 `reject` 先拦截，需要升级 Windows / macOS 时再临时注释对应 `reject` 入口。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
-- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点、`LAN,DIRECT`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；GitHub 在 `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com` 与 `DOMAIN-KEYWORD,github`，统一走节点选择，并为 `raw.githubusercontent.com` 额外绑定 `server:system`、保留 `system + 公共 DNS` 组合作为解析兜底；AdsPower 细分规则后还故意保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底，用来发现漏网之鱼；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、AdsPower、Polygon 主网 RPC、Google Public DNS 主 IPv4 端点、`LAN,DIRECT`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；GitHub 在 `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com` 与 `DOMAIN-KEYWORD,github`，统一走节点选择，并为 `raw.githubusercontent.com` 额外绑定 `server:system`、保留 `system + 公共 DNS` 组合作为解析兜底；私有订阅更新直连统一从本地单一源文件同步到白名单显式放行段；AdsPower 细分规则后还故意保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底，用来发现漏网之鱼；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
 
 ## 使用原则
 
@@ -76,3 +84,4 @@
 - 不要在客户端继续引用第三方原始规则 URL
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
 - 私有工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)；该约定只影响本地 Surge 工作路由文件，不影响公开模板。
+- 私有订阅更新直连同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定同样只影响本地私有配置，不影响公开模板。

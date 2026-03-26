@@ -29,11 +29,20 @@
 - `external-controller`、`secret` 等控制面参数
 - 按局域网源 IP 的设备分流逻辑
 - 私有 Surge 工作路由白名单特化；那份差异只属于本地 `rulemesh-substore-surge-work-whitelist.conf`
+- 私有订阅更新直连域名；这部分只在本地私有目录维护，并通过同步脚本写入 Mihomo personal 配置
 
 ## 使用前只需要替换两处
 
 1. 把模板里 `provider_a`、`provider_b`、`provider_c` 的 `url` 改成你自己的订阅地址。
 2. 如果你不希望最终兜底走总开关，可以把 `MATCH,🚀 节点选择` 改成你想固定兜底的区域组。
+
+## 私有订阅更新直连约定
+
+- 真实订阅更新域名只在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，不写回公开模板
+- 修改后运行 `powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1"`，统一同步到 Mihomo personal 与两份 Surge 私有配置
+- 这份共享源文件应只保留 Surge / Mihomo 都能直接复用的规则语法；当前优先使用 `DOMAIN`、`DOMAIN-SUFFIX`、`DOMAIN-WILDCARD`
+- 在 Mihomo personal 中，这组规则应继续放在 `proxy_gfw` 前
+- 详细维护方式见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)
 
 ## 规则顺序建议
 
@@ -70,3 +79,4 @@
 - 不要再找旧的纯域名或纯 CIDR 产物目录；仓库已经统一走 `classical`
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
 - 私有 Surge 工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)，但该约定不影响 Mihomo 模板与 Mihomo personal 配置。
+- 私有订阅更新直连同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定影响 Mihomo personal，但不影响公开模板。
