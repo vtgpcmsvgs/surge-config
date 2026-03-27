@@ -39,6 +39,10 @@ DOMAIN,api.adspower.com
 DOMAIN,api.adspower.net
 DOMAIN,api.adspowerapp.com
 
+# 拦截 appdo 动态编号子域名（已观察到 appdo1 / appdo2 / appdo3）
+DOMAIN-REGEX,^appdo[0-9]+\.adspower\.com$
+DOMAIN-REGEX,^appdo[0-9]+\.adspower\.net$
+
 [proxy]
 # 需要走节点选择的 AdsPower 核心服务
 # 核心 API，涉及登录接口与账号同步

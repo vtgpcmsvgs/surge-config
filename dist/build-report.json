@@ -1,8 +1,8 @@
 {
   "summary": {
-    "domain-only": 8,
+    "domain-only": 7,
     "ipcidr-only": 7,
-    "classical/mixed": 18,
+    "classical/mixed": 19,
     "empty": 0,
     "total_sources": 33,
     "total_warnings": 0
@@ -388,10 +388,10 @@
     {
       "source": "rules/reject/adspower_reject.list",
       "category": "reject",
-      "classification": "domain-only",
+      "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 16,
-        "mihomo_classical": 16
+        "surge_rules": 18,
+        "mihomo_classical": 18
       },
       "dist": {
         "surge_rules": "dist/surge/rules/reject/adspower_reject.list",
