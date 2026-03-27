@@ -22,6 +22,7 @@
 - 只有 2.1 设备分流继续保留“源 IP + AWS 区域”约束；2.2-2.7 不再额外限制源 IP
 - 区域精确规则继续保留，且 `Google TW` 必须先于广谱区域规则
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
+- 阿里云广覆盖观察兜底继续保留，并紧跟在 `github_ssh_direct` 后，用于发现 `SSH 22` 端口之外的漏网之鱼
 - GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，策略继续走节点选择，用于白名单模式下拉取规则产物并发现 SSH / Raw 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
 - 私有订阅更新直连继续保留独立显式放行入口，顺序位于 GitHub 观察兜底之后、1Password 之前；域名清单统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，再通过同步脚本分发到本地配置
@@ -36,7 +37,7 @@
 - 单个白名单专属直连域名（例如 `smtp.163.com`）优先直接维护在 2.9“指定直连”入口，不为单条规则额外新增公开 `rules/` 文件
 - `direct/microsoft_direct` 继续保留 `DIRECT`
 - `direct/macos_update_direct` 继续保留 `DIRECT`，用于需要时临时放开 macOS 系统升级；它只匹配 Apple 官方标注为 macOS only 的更新主机
-- `alicloud_hk_ssh_direct` 与阿里云抢占式 IP 直连继续保留
+- `alicloud_hk_ssh_direct` 与阿里云广覆盖观察兜底继续保留
 - `bytedance_direct.list` 继续保留 `DIRECT`
 - 原独立 2.6 `IP 规则` 段已删除，避免与 2.1 设备分流重复
 - 未命中上述白名单入口的流量最终统一落到 `FINAL,REJECT`
@@ -53,17 +54,18 @@
 2. 设备分流
 3. 区域精确规则
 4. GitHub 仓库 SSH 定向直连
-5. GitHub Raw 下载入口
-6. GitHub 广覆盖观察兜底
-7. 私有订阅更新直连
-8. 1Password 核心连接节点选择入口
-9. AdsPower 细分规则
-10. AdsPower 广覆盖观察兜底
-11. Polygon 主网 RPC 节点选择入口
-12. BSC 主网 RPC 节点选择入口
-13. Google Public DNS 主 IPv4 端点节点选择入口
-14. 指定直连入口
-15. 全局 `FINAL,REJECT` 兜底
+5. 阿里云广覆盖观察兜底
+6. GitHub Raw 下载入口
+7. GitHub 广覆盖观察兜底
+8. 私有订阅更新直连
+9. 1Password 核心连接节点选择入口
+10. AdsPower 细分规则
+11. AdsPower 广覆盖观察兜底
+12. Polygon 主网 RPC 节点选择入口
+13. BSC 主网 RPC 节点选择入口
+14. Google Public DNS 主 IPv4 端点节点选择入口
+15. 指定直连入口
+16. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 

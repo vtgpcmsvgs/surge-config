@@ -23,6 +23,7 @@
 - 默认采用“国际域名优先国外加密 DNS、明确的国内直连域名集单独走国内加密 DNS”的分流思路
 - 默认启用 Tun 全量接管与域名嗅探，优先把 Mihomo 的实际体验拉到接近 Surge 的水位
 - `region/hk/global_media.yaml` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
+- `direct_github_ssh` 后保留一条阿里云广覆盖观察兜底，用于发现 SSH 22 端口之外的漏网之鱼
 - AdsPower 专项 `reject/direct/proxy` 规则集与 `proxy/gfw.yaml` 广谱代理规则的顺序关系
 - Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
 - BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系
@@ -86,6 +87,7 @@
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/hk/global_media.yaml` 前。
 - `region/hk/global_media.yaml` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.yaml`。
 - `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
+- 阿里云广覆盖观察兜底应紧跟 `direct/github_ssh_direct.yaml` 之后，保留对 SSH 22 端口之外漏网之鱼的观察入口，不要把它挪回普通 `direct` 段尾部。
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
 - `proxy/bsc_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 BSC 主网 RPC 域名优先走 `🚀 节点选择`。

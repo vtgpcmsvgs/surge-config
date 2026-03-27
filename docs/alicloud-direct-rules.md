@@ -1,6 +1,6 @@
-# 阿里云香港 SSH 直连规则
+# 阿里云香港 SSH 直连与广覆盖观察兜底
 
-这组规则沿用 AWS 区域 IPv4 的每日同步方式，但数据源改为阿里云官方 VPC OpenAPI：
+其中“香港 SSH 直连规则集”沿用 AWS 区域 IPv4 的每日同步方式，但数据源改为阿里云官方 VPC OpenAPI：
 
 - 官方接口：`DescribePublicIpAddress`
 - 官方文档：<https://help.aliyun.com/zh/eip/developer-reference/api-vpc-2016-04-28-describepublicipaddress-eips>
@@ -14,6 +14,12 @@
 3. 再从这些官方 IPv4 前缀派生 `rules/upstream/alicloud/hk_ssh22.txt`
 4. `rules/direct/alicloud_hk_ssh_direct.list` 只保留单一 `INCLUDE`
 5. `tools/build_rules.py` 统一生成 `dist/surge/rules/` 与 `dist/mihomo/classical/`
+
+除此之外，个人模板与本地 personal 配置还额外保留一条手写“阿里云广覆盖观察兜底”：
+
+- 作用：用于发现 `SSH 22` 端口之外的阿里云漏网之鱼
+- 语义：不是替代 `alicloud_hk_ssh_direct` 的官方前缀规则，而是补在它之外的一条观察型广覆盖入口
+- 顺序：必须紧跟 `github_ssh_direct` 之后，继续放在 `proxy/gfw` 之前，不要把它挪回普通 `direct` 段尾部
 
 ## 首次启用
 
@@ -45,6 +51,7 @@ Surge：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ssh_direct.list,DIRECT
+OR,((AND,((DEST-PORT,22), (PROTOCOL,TCP))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
 ```
 
 Mihomo / Clash Verge Rev：
@@ -61,4 +68,5 @@ rule-providers:
 
 rules:
   - RULE-SET,alicloud-hk-ssh-direct,DIRECT
+  - OR,((AND,((DST-PORT,22), (NETWORK,tcp))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
 ```

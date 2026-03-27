@@ -619,6 +619,9 @@ rules:
   # GitHub 仓库 SSH 定向直连必须放在 gfw 前，避免把整个 GitHub 放直连。
   - RULE-SET,direct_github_ssh,DIRECT
 
+  # 阿里云广覆盖观察兜底必须紧跟 github_ssh_direct 后，用于发现 SSH 22 端口之外的漏网之鱼。
+  - OR,((AND,((DST-PORT,22), (NETWORK,tcp))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
+
   # 4) AdsPower 细分直连（必须放在广谱代理前）
   - RULE-SET,direct_adspower,DIRECT
 
