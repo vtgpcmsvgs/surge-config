@@ -121,6 +121,7 @@ python tools/build_rules.py
 - 不要在本地配置里重复手写同一组 `PROCESS-NAME + PORT 80` 拦截规则
 - AdsPower 专项规则统一维护在 `rules/app/adspower.txt`
 - 客户端应显式接入 `reject/adspower_reject`、`direct/adspower_direct` 与 `proxy/adspower_proxy`，不要再退回单条 `DOMAIN-KEYWORD,adspower` 兜底
+- Surge 接入这三条 AdsPower `RULE-SET` 时应追加 `extended-matching`，以匹配目标为 IP、但 TLS SNI / HTTP Host 仍携带 AdsPower 域名的连接
 - Polygon 主网 RPC 专项规则统一维护在 `rules/proxy/polygon_rpc_proxy.list`
 - BSC 主网 RPC 专项规则统一维护在 `rules/proxy/bsc_rpc_proxy.list`
 - 两者上游快照由 `tools/sync_upstream_rules.py` 每日从 Chainlist 的 `rpcs.json` 抓取并累计更新，避免日常波动导致既有覆盖面回撤
@@ -151,7 +152,7 @@ python tools/build_rules.py
   - 私有订阅更新直连统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，并通过脚本同步到本地三份私有配置，不回写公开模板。
   - 其中 `raw.githubusercontent.com` 额外绑定 `server:system`，同时 `dns-server` 保留 `system + 公共 DNS`，用于降低 GitHub Raw 外部资源偶发超时。
   - 原单独 `IP 规则` 段已删除，避免与设备分流重复。
-  - 其中 AdsPower 在精细规则后允许额外保留一条广覆盖观察兜底，用于发现细分规则漏网之鱼。
+  - 其中 AdsPower 在精细规则后允许额外保留一条广覆盖观察兜底，用于发现细分规则漏网之鱼；白名单文件里的三条 AdsPower `RULE-SET` 与该兜底规则都应启用 `extended-matching`。
   - 这份工作路由白名单与两个 `personal` 配置永久有意不一致，后续维护不要按“统一模板”思路把它改回去。
   - 维护约定见 [docs/surge-work-cluster-whitelist.md](docs/surge-work-cluster-whitelist.md)。
 - 个人终端版
