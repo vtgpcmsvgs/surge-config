@@ -47,6 +47,22 @@ DOMAIN,api.adspowerapp.com
 DOMAIN-WILDCARD,appdo*.adspower.com
 DOMAIN-WILDCARD,appdo*.adspower.net
 
+# 拦截环境状态与用户资料更新接口，阻断本地状态回传
+URL-REGEX,^https?://api-global\.adspower\.com/client/fbcc-user-v2/update(?:[/?#]|$)
+URL-REGEX,^https?://api-global\.adspower\.net/client/fbcc-user-v2/update(?:[/?#]|$)
+URL-REGEX,^https?://api-global\.adspower\.com/fbcc/user/update-user-info(?:[/?#]|$)
+URL-REGEX,^https?://api-global\.adspower\.net/fbcc/user/update-user-info(?:[/?#]|$)
+
+# 拦截临时对象存储上传凭证下发，阻断云端写入授权
+URL-REGEX,^https?://api-global\.adspower\.com/client/oss-sts/get-upload-config(?:[/?#]|$)
+URL-REGEX,^https?://api-global\.adspower\.net/client/oss-sts/get-upload-config(?:[/?#]|$)
+
+# 拦截 storage_cache 上传链路，阻断 localStorage 与 IndexedDB 等缓存外传
+URL-REGEX,^https?://[^/]+\.aliyuncs\.com/storage_cache(?:/|$)
+URL-REGEX,^https?://[^/]+\.amazonaws\.com/storage_cache(?:/|$)
+URL-REGEX,^https?://[^/]+\.adspower\.com/storage_cache(?:/|$)
+URL-REGEX,^https?://[^/]+\.adspower\.net/storage_cache(?:/|$)
+
 [proxy]
 # 需要走节点选择的 AdsPower 核心服务
 # 核心 API，涉及登录接口与账号同步
