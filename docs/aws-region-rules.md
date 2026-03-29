@@ -10,6 +10,10 @@
 - `ap-northeast-2` = 首尔
 - `ap-east-2` = 台北
 
+命名约定补充：
+
+- 统一使用“城市 / 地区 + `aws` + `ipv4`”命名，因此香港入口现为 `hk_aws_ipv4`
+
 同步链路如下：
 
 1. `.github/workflows/sync-upstream-rules.yml` 每天 `01:30 UTC`（`09:30 Asia/Shanghai`）自动运行，也支持手动触发。
@@ -24,7 +28,7 @@
 
 Surge：
 
-- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list`
+- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/hk_aws_ipv4.list`
 - 东京：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list`
 - 大阪：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list`
 - 首尔：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list`
@@ -32,7 +36,7 @@ Surge：
 
 Mihomo / Clash Verge Rev：
 
-- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml`
+- 香港：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/hk_aws_ipv4.yaml`
 - 东京：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/tokyo_aws_ipv4.yaml`
 - 大阪：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/osaka_aws_ipv4.yaml`
 - 首尔：`https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml`
@@ -43,7 +47,7 @@ Mihomo / Clash Verge Rev：
 Surge：
 
 ```ini
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/aws_ipv4.list,HK-AUTO,no-resolve
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/hk/hk_aws_ipv4.list,HK-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/tokyo_aws_ipv4.list,TOKYO-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/jp/osaka_aws_ipv4.list,OSAKA-AUTO,no-resolve
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/region/kr/seoul_aws_ipv4.list,SEOUL-AUTO,no-resolve
@@ -58,8 +62,8 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/region/aws_hk_ipv4.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml
+    path: ./rule-providers/region/hk_aws_ipv4.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/hk_aws_ipv4.yaml
     interval: 86400
 
   aws-tokyo-classical:

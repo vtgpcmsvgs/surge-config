@@ -483,12 +483,12 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
-  direct_alicloud_hk_ssh:
+  direct_alicloud_hk_ipv4_ssh22:
     type: http
     behavior: classical
     format: yaml
-    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ssh_direct.yaml"
-    path: ./ruleset/direct/alicloud_hk_ssh_direct.yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ipv4_ssh22_direct.yaml"
+    path: ./ruleset/direct/alicloud_hk_ipv4_ssh22_direct.yaml
     interval: 86400
     proxy: "🚀 节点选择"
 
@@ -550,8 +550,8 @@ rule-providers:
     type: http
     behavior: classical
     format: yaml
-    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/aws_ipv4.yaml"
-    path: ./ruleset/region/hk/aws_ipv4.yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/hk/hk_aws_ipv4.yaml"
+    path: ./ruleset/region/hk/hk_aws_ipv4.yaml
     interval: 86400
     proxy: "🚀 节点选择"
 
@@ -653,7 +653,7 @@ rules:
   - IP-CIDR,169.254.0.0/16,DIRECT,no-resolve
   - IP-CIDR,224.0.0.0/4,DIRECT,no-resolve
   - RULE-SET,direct_os_time,DIRECT
-  - RULE-SET,direct_alicloud_hk_ssh,DIRECT
+- RULE-SET,direct_alicloud_hk_ipv4_ssh22,DIRECT
   - RULE-SET,direct_microsoft,DIRECT
   - RULE-SET,direct_macos_update,DIRECT
   - RULE-SET,direct_bytedance,DIRECT

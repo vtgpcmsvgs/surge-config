@@ -12,13 +12,19 @@
 1. `.github/workflows/sync-upstream-rules.yml` 每日运行 `tools/sync_upstream_rules.py`
 2. 先拉取阿里云香港全部公网 IPv4 前缀，写入 `rules/upstream/alicloud/hk_ipv4.txt` 与 `rules/upstream/alicloud/hk_ipv4.json`
 3. 再从这些官方 IPv4 前缀派生 `rules/upstream/alicloud/hk_ssh22.txt`
-4. `rules/direct/alicloud_hk_ssh_direct.list` 只保留单一 `INCLUDE`
+4. `rules/direct/alicloud_hk_ipv4_ssh22_direct.list` 只保留单一 `INCLUDE`
 5. `tools/build_rules.py` 统一生成 `dist/surge/rules/` 与 `dist/mihomo/classical/`
+
+命名与语义约定补充：
+
+- `rules/upstream/alicloud/hk_ipv4.txt` 继续保留纯 IPv4 快照，便于后续派生其他规则
+- 对外入口统一命名为 `alicloud_hk_ipv4_ssh22_direct`
+- 这个入口文件本身直接保留 `AND,((IP-CIDR,...),(DST-PORT,22))` 最终语义，不要求客户端额外在配置里二次拼装端口条件
 
 除此之外，个人模板与本地 personal 配置还额外保留一条手写“阿里云广覆盖观察兜底”：
 
 - 作用：用于发现 `SSH 22` 端口之外的阿里云漏网之鱼
-- 语义：不是替代 `alicloud_hk_ssh_direct` 的官方前缀规则，而是补在它之外的一条观察型广覆盖入口
+- 语义：不是替代 `alicloud_hk_ipv4_ssh22_direct` 的官方前缀规则，而是补在它之外的一条观察型广覆盖入口
 - 顺序：必须紧跟 `github_ssh_direct` 之后，继续放在 `proxy/gfw` 之前，不要把它挪回普通 `direct` 段尾部
 
 ## 首次启用
@@ -49,18 +55,18 @@
 
 Surge：
 
-- `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ssh_direct.list`
+- `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ipv4_ssh22_direct.list`
 
 Mihomo / Clash Verge Rev：
 
-- `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ssh_direct.yaml`
+- `https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ipv4_ssh22_direct.yaml`
 
 ## 示例
 
 Surge：
 
 ```ini
-RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ssh_direct.list,DIRECT
+RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ipv4_ssh22_direct.list,DIRECT
 OR,((AND,((DEST-PORT,22), (PROTOCOL,TCP))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
 ```
 
@@ -68,15 +74,15 @@ Mihomo / Clash Verge Rev：
 
 ```yaml
 rule-providers:
-  alicloud-hk-ssh-direct:
+  alicloud-hk-ipv4-ssh22-direct:
     type: http
     behavior: classical
     format: yaml
-    path: ./rule-providers/direct/alicloud_hk_ssh_direct.yaml
-    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ssh_direct.yaml
+    path: ./rule-providers/direct/alicloud_hk_ipv4_ssh22_direct.yaml
+    url: https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/alicloud_hk_ipv4_ssh22_direct.yaml
     interval: 86400
 
 rules:
-  - RULE-SET,alicloud-hk-ssh-direct,DIRECT
+  - RULE-SET,alicloud-hk-ipv4-ssh22-direct,DIRECT
   - OR,((AND,((DST-PORT,22), (NETWORK,tcp))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
 ```

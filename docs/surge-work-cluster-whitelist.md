@@ -39,7 +39,7 @@
 - 单个白名单专属直连域名（例如 `smtp.163.com`）优先直接维护在 2.10“指定直连”入口，不为单条规则额外新增公开 `rules/` 文件
 - `direct/microsoft_direct` 继续保留 `DIRECT`
 - `direct/macos_update_direct` 继续保留 `DIRECT`，用于需要时临时放开 macOS 系统升级；它只匹配 Apple 官方标注为 macOS only 的更新主机
-- `alicloud_hk_ssh_direct` 与阿里云广覆盖观察兜底继续保留
+- `alicloud_hk_ipv4_ssh22_direct` 与阿里云广覆盖观察兜底继续保留
 - `bytedance_direct.list` 继续保留 `DIRECT`
 - 原独立 2.6 `IP 规则` 段已删除，避免与 2.1 设备分流重复
 - 未命中上述白名单入口的流量最终统一落到 `FINAL,REJECT`

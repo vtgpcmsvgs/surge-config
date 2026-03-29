@@ -1,4 +1,4 @@
-# 生成来源：rules/direct/alicloud_hk_ssh_direct.list
+# 生成来源：rules/direct/alicloud_hk_ipv4_ssh22_direct.list
 # 行为：classical
 payload:
   - "AND,((IP-CIDR,103.142.100.0/24),(DST-PORT,22))"

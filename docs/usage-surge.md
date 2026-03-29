@@ -32,6 +32,8 @@
 - `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 的 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - `github_ssh_direct` 后保留一条阿里云广覆盖观察兜底，用于发现 SSH 22 端口之外的漏网之鱼
+- AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.list`
+- 阿里云香港 SSH 直连入口已统一为 `direct/alicloud_hk_ipv4_ssh22_direct.list`，并继续在入口文件里直接保留 `SSH TCP/22` 条件，不要求本地配置二次拼装端口规则
 - AdsPower 专项 `reject/direct/proxy` 规则集与 `proxy/gfw.list` 广谱代理规则的顺序关系
 - Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy.list` 与 `proxy/gfw.list` 的顺序关系
 - BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy.list` 与 `proxy/gfw.list` 的顺序关系
