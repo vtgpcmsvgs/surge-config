@@ -145,14 +145,15 @@ python tools/build_rules.py
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
   - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
-- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、阿里云广覆盖观察兜底、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
+- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
 - 在该白名单里，`direct/os_time_direct`、`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统类直连入口。
 - 白名单专属的单个直连域名例外（例如 `smtp.163.com`）默认直接维护在“指定直连”入口，不为单条规则额外拆分公开 `rules/` 文件。
 - 白名单专属的单个拒绝域名，或只用于阻断浏览器扩展更新链路的拒绝规则，也默认直接维护在白名单的“拒绝规则”入口，不为单条规则额外拆分公开 `rules/` 文件。
 - 其中 `proxy/onepassword_proxy`、`proxy/polygon_rpc_proxy`、`proxy/bsc_rpc_proxy`、`proxy/google_public_dns_ipv4_proxy` 与 `DOMAIN-SUFFIX,cloudflare-dns.com` 都是允许保留的节点选择入口，用于白名单模式下显式放行指定代理端点。
-  - 其中 GitHub SSH 之后额外保留一条阿里云广覆盖观察兜底，用于发现 `SSH 22` 端口之外的漏网之鱼；随后再保留 `DOMAIN,raw.githubusercontent.com` 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底，统一走节点选择。
+  - 其中 GitHub SSH 后直接进入 GitHub Raw 下载入口与 `DOMAIN-KEYWORD,github` 观察兜底；阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行，不再保留旧版广覆盖观察兜底。
   - 私有订阅更新直连统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，并通过脚本同步到本地三份私有配置，不回写公开模板。
   - 其中 `raw.githubusercontent.com` 额外绑定 `server:system`，同时 `dns-server` 保留 `system + 公共 DNS`，用于降低 GitHub Raw 外部资源偶发超时。
+  - 白名单 / 显式放行场景下，除 `REJECT` 外不要对 `DIRECT` 或 `PROXY` 规则使用 `extended-matching`；它会把可伪造的 Host / SNI 纳入放行判断，扩大绕过白名单的攻击面。
   - 原单独 `IP 规则` 段已删除，避免与设备分流重复。
   - 其中 AdsPower 在精细规则后允许额外保留一条广覆盖观察兜底，用于发现细分规则漏网之鱼。
   - 这份工作路由白名单与两个 `personal` 配置永久有意不一致，后续维护不要按“统一模板”思路把它改回去。
@@ -174,7 +175,7 @@ python tools/build_rules.py
 - 默认接入 BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认接入 Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认保留 `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
-- 默认在 `github_ssh_direct` 后保留一条阿里云广覆盖观察兜底，用于发现 SSH 22 端口之外的漏网之鱼
+- 默认接入 `direct/alicloud_hk_ipv4_ssh22_direct`，并在直连段显式保留 `DOMAIN-SUFFIX,aliyuncs.com` 与 `DOMAIN,check.myclientip.com`
 - 默认让 X / Twitter 网页、短链与静态资源优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
   - 刻意不承载私有工作路由白名单结构，避免把本地工作特化误当成公开模板默认值
 - `docs/examples/mihomo-public.yaml`
@@ -185,7 +186,7 @@ python tools/build_rules.py
 - 默认接入 Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认接入 BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认接入 Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
-- 默认在 `direct_github_ssh` 后保留一条阿里云广覆盖观察兜底，用于发现 SSH 22 端口之外的漏网之鱼
+- 默认接入 `direct_alicloud_hk_ipv4_ssh22`，并在直连段显式保留 `DOMAIN-SUFFIX,aliyuncs.com` 与 `DOMAIN,check.myclientip.com`
 - 默认让 X / Twitter 网页、短链与静态资源优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
   - 默认采用 Tun 全量接管、域名嗅探与分流 DNS；国际域名默认优先国外加密 DNS，明确的国内直连域名集单独走国内加密 DNS
   - 同样不承载私有 Surge 工作路由白名单特化

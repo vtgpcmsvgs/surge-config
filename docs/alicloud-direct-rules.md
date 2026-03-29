@@ -21,11 +21,13 @@
 - 对外入口统一命名为 `alicloud_hk_ipv4_ssh22_direct`
 - 这个入口文件本身直接保留 `AND,((IP-CIDR,...),(DST-PORT,22))` 最终语义，不要求客户端额外在配置里二次拼装端口条件
 
-除此之外，个人模板与本地 personal 配置还额外保留一条手写“阿里云广覆盖观察兜底”：
+除此之外，配置文件里当前只保留三条手写阿里云显式直连入口：
 
-- 作用：用于发现 `SSH 22` 端口之外的阿里云漏网之鱼
-- 语义：不是替代 `alicloud_hk_ipv4_ssh22_direct` 的官方前缀规则，而是补在它之外的一条观察型广覆盖入口
-- 顺序：必须紧跟 `github_ssh_direct` 之后，继续放在 `proxy/gfw` 之前，不要把它挪回普通 `direct` 段尾部
+- `RULE-SET,.../direct/alicloud_hk_ipv4_ssh22_direct...,DIRECT`：阿里云香港 SSH TCP/22 入口
+- `DOMAIN-SUFFIX,aliyuncs.com,DIRECT`：阿里云 SSH 控制面入口
+- `DOMAIN,check.myclientip.com,DIRECT`：AdsPower / 阿里云隧道出口探测入口
+- 它们统一放在直连段显式维护，不再保留旧版“阿里云广覆盖观察兜底”
+- 白名单 / 显式放行场景下，除 `REJECT` 外不要对 `DIRECT` 或 `PROXY` 规则使用 `extended-matching`
 
 ## 首次启用
 
@@ -67,7 +69,8 @@ Surge：
 
 ```ini
 RULE-SET,https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/surge/rules/direct/alicloud_hk_ipv4_ssh22_direct.list,DIRECT
-OR,((AND,((DEST-PORT,22), (PROTOCOL,TCP))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
+DOMAIN-SUFFIX,aliyuncs.com,DIRECT
+DOMAIN,check.myclientip.com,DIRECT
 ```
 
 Mihomo / Clash Verge Rev：
@@ -84,5 +87,6 @@ rule-providers:
 
 rules:
   - RULE-SET,alicloud-hk-ipv4-ssh22-direct,DIRECT
-  - OR,((AND,((DST-PORT,22), (NETWORK,tcp))), (OR,((IP-ASN,56040,no-resolve), (IP-ASN,45102,no-resolve))), (DOMAIN-KEYWORD,aliyun,extended-matching)),DIRECT
+  - DOMAIN-SUFFIX,aliyuncs.com,DIRECT
+  - DOMAIN,check.myclientip.com,DIRECT
 ```
