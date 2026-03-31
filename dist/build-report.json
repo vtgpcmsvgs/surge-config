@@ -1,8 +1,8 @@
 {
   "summary": {
-    "domain-only": 7,
+    "domain-only": 6,
     "ipcidr-only": 7,
-    "classical/mixed": 19,
+    "classical/mixed": 20,
     "empty": 0,
     "total_sources": 33,
     "total_warnings": 0
@@ -427,10 +427,10 @@
     {
       "source": "rules/reject/wps_reject.list",
       "category": "reject",
-      "classification": "domain-only",
+      "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 22,
-        "mihomo_classical": 22
+        "surge_rules": 36,
+        "mihomo_classical": 36
       },
       "dist": {
         "surge_rules": "dist/surge/rules/reject/wps_reject.list",
