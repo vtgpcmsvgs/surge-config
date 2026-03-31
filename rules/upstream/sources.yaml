@@ -21,11 +21,11 @@ sources:
     wps_reject.list:
       preferred:
         - repo: self
-          note: 只保留低误伤的 WPS 广告、统计与付费提示子域名
+          note: 按“WPS 程序全量封网”维护，接受云文档、模板、账号、插件、推送与升级全部失效
         - repo: privacy-protection-tools/anti-AD
-          note: 提供 WPS 广告与统计子域名候选，按低误伤原则人工筛选
+          note: 提供 WPS / Kingsoft 相关广告、统计与服务域名候选，作为全量封网候选底盘
         - repo: blackmatrix7/ios_rule_script
-          note: 使用 AdGuard 相关规则作交叉验证
+          note: 使用 AdGuard 相关规则作交叉验证，并补齐 WPS 客户端联网域名
     adblock_reject.list:
       preferred:
         - repo: self

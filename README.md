@@ -120,6 +120,7 @@ python tools/build_rules.py
 - 浏览器明文 HTTP 拦截统一维护在 `rules/reject/plain_http_reject.list`
 - 客户端请直接引用 `dist/surge/rules/reject/plain_http_reject.list` 或 `dist/mihomo/classical/reject/plain_http_reject.yaml`
 - 不要在本地配置里重复手写同一组 `PROCESS-NAME + PORT 80` 拦截规则
+- `rules/reject/wps_reject.list` 当前按“WPS 全量封网”维护，默认广覆盖阻断 WPS / 稻壳 / 云文档 / 模板 / 推送 / 账号 / 升级链路；如需保留 WPS 联网，请移除 `reject_wps`，不要只删单个子域
 - AdsPower 专项规则统一维护在 `rules/app/adspower.txt`
 - 客户端应显式接入 `reject/adspower_reject`、`direct/adspower_direct` 与 `proxy/adspower_proxy`，不要再退回单条 `DOMAIN-KEYWORD,adspower` 兜底
 - Polygon 主网 RPC 专项规则统一维护在 `rules/proxy/polygon_rpc_proxy.list`

@@ -29,6 +29,7 @@
 - 香港、台湾、日本、新加坡、美国、韩国的区域自动组
 - `geoip-maxmind-url` 显式固定到与 Mihomo 共用的本仓库 Release 镜像地址
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh 产物接入
+- `reject/wps_reject.list` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
 - `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 的 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.list`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
@@ -98,6 +99,7 @@
 - `proxy/google_public_dns_ipv4_proxy.list` 应放在 `proxy/gfw.list` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
 - 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.list`，并同样放在 `proxy/gfw.list` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.list` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
+- `reject/wps_reject.list` 如果接入，应继续放在拒绝段并位于 `direct` 段前；它当前是“WPS 全量封网”规则，不再追求低误伤。
 - `direct/os_time_direct.list` 建议放在其他普通 `direct/*.list` 前，优先保障 `time.windows.com`、`time.apple.com` 与 `time-macos.apple.com` 直连。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `direct/os_time_direct.list`、`reject/os_update_reject.list`、`direct/microsoft_direct.list` 与 `direct/macos_update_direct.list`；平时由 `reject` 先拦截升级流量，系统时间同步仍由 `os_time_direct` 保持直连。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。

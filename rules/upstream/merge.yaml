@@ -288,12 +288,13 @@ merge_plan:
 
   - id: reject-wps
     target: rules/reject/wps_reject.list
-    purpose: WPS 广告/统计/付费提示低误伤拦截
+    purpose: WPS 全量封网与后台组件广覆盖阻断
     strategy:
-      - manual_curated_from_upstream_candidates
-      - prefer_exact_domain_over_suffix
+      - runtime_log_driven_and_upstream_curated
+      - prefer_process_name_and_domain_suffix
     notes:
-      - 候选来源以 anti-AD 与 blackmatrix7 为主，但只保留人工确认的低误伤子域
+      - 默认接受 WPS 云文档、模板、账号、推送、升级与统计全部失效，不再追求低误伤
+      - 候选来源以 anti-AD、blackmatrix7 与 GitHub 公开规则片段为主，并结合本机运行日志向域名树放大
 
   - id: reject-adspower
     target: rules/reject/adspower_reject.list

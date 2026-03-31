@@ -20,6 +20,7 @@
 - `geodata-mode: false` + `geox-url.mmdb` 显式固定到与 Surge 共用的本仓库 Release 镜像地址
 - 多订阅聚合后的统一总开关与区域自动组
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh `classical` 产物接入
+- `reject/wps_reject.yaml` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
 - 默认采用“国际域名优先国外加密 DNS、明确的国内直连域名集单独走国内加密 DNS”的分流思路
 - 默认启用 Tun 全量接管与域名嗅探，优先把 Mihomo 的实际体验拉到接近 Surge 的水位
 - `region/hk/global_media.yaml` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
@@ -102,6 +103,7 @@
 - `proxy/google_public_dns_ipv4_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
 - 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.yaml`，并同样放在 `proxy/gfw.yaml` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
+- `reject/wps_reject.yaml` 如果接入，应继续放在拒绝段并位于 `direct_cn` 前；它当前是“WPS 全量封网”规则，不再追求低误伤。
 - `direct/os_time_direct.yaml` 建议放在其他普通 `direct/*.yaml` 前，优先保障 `time.windows.com`、`time.apple.com` 与 `time-macos.apple.com` 直连。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `direct/os_time_direct.yaml`、`reject/os_update_reject.yaml`、`direct/microsoft_direct.yaml` 与 `direct/macos_update_direct.yaml`；平时由 `reject` 先拦截升级流量，系统时间同步仍由 `os_time_direct` 保持直连。
 - `proxy/gfw.yaml` 建议放在其他普通 `direct/*.yaml` 前，减少广谱直连误伤。
