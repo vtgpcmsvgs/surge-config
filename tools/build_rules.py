@@ -475,7 +475,10 @@ def parse_simple_rule(token: str, rest: str) -> ParsedLine:
     if token in SUPPORTED_CLASSICAL_TOKENS:
         parsed.source_type = "classical"
         parsed.surge_rule = normalized
-        parsed.mihomo_classical = normalized
+        if token == "URL-REGEX":
+            parsed.mihomo_classical = None
+        else:
+            parsed.mihomo_classical = normalized
         return parsed
 
     parsed.warnings.append(f"unknown rule type: {token}")

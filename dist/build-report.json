@@ -390,7 +390,7 @@
       "category": "reject",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 20,
+        "surge_rules": 30,
         "mihomo_classical": 20
       },
       "dist": {
