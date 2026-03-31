@@ -148,14 +148,14 @@ python tools/build_rules.py
   - 只在本地私有环境维护，用于工作电脑集群接入软路由 Surge。
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
   - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
-- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
+- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
 - 在该白名单里，`direct/os_time_direct`、`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统类直连入口。
 - 白名单专属的单个直连域名例外（例如 `smtp.163.com`）默认直接维护在“指定直连”入口，不为单条规则额外拆分公开 `rules/` 文件。
 - 白名单专属的单个拒绝域名，或只用于阻断浏览器扩展更新链路的拒绝规则，也默认直接维护在白名单的“拒绝规则”入口，不为单条规则额外拆分公开 `rules/` 文件。
 - 其中 `proxy/onepassword_proxy`、`proxy/polygon_rpc_proxy`、`proxy/bsc_rpc_proxy`、`proxy/google_public_dns_ipv4_proxy` 与 `DOMAIN-SUFFIX,cloudflare-dns.com` 都是允许保留的节点选择入口，用于白名单模式下显式放行指定代理端点。
   - 其中 GitHub SSH 后直接进入 GitHub Raw 下载入口，并保留一条 `DOMAIN-KEYWORD,github,REJECT` 广覆盖观察兜底，用于发现 SSH / Raw 之外的漏网之鱼；AdsPower 细分规则后也保留一条 `DOMAIN-KEYWORD,adspower,REJECT` 广覆盖观察兜底。
   - 阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行；其后额外保留一条阿里云广覆盖 `REJECT` 观察兜底，用于发现上游阿里云规则的漏网之鱼。
-  - 私有订阅更新直连统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，并通过脚本同步到本地三份私有配置，不回写公开模板。
+  - 私有订阅域名统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，并通过脚本同步到本地四份私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块，不回写公开模板。
   - 其中 `raw.githubusercontent.com` 额外绑定 `server:system`，同时 `dns-server` 保留 `system + 公共 DNS`，用于降低 GitHub Raw 外部资源偶发超时。
   - 工作白名单模式下，广覆盖观察规则统一只允许使用 `REJECT`；不要对 `DIRECT` 或 `PROXY` 规则使用 `extended-matching`，否则会把可伪造的 Host / SNI 纳入放行判断，扩大绕过白名单的攻击面。
   - 原单独 `IP 规则` 段已删除，避免与设备分流重复。
@@ -250,10 +250,10 @@ python tools/build_rules.py
 - `.rulemesh.local.json` 只用于本地私有环境，已经被 `.gitignore` 忽略，不应提交到公开仓库
 - 缺少本地配置时，不影响本地构建与手工同步主流程，只会跳过本地 Feishu 告警发送；但 GitHub Actions 的每日 upstream 工作流会要求 webhook secrets 可用
 - 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
-- 私有订阅更新直连当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置
+- 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
 - 对 Clash Meta for Android 的兼容性调整，默认优先收敛到节点域名解析这一层；只有在移动网络下直连国外 DoH 不稳定时，才在 Android 专用文件里把 `proxy-server-nameserver` 定向到国内可直连加密 DNS
-- 这组私有订阅直连规则只记录在本地目录与私有文档约定中，不回写公开 `rules/`、`dist/` 或公开模板
+- 这组私有订阅域名同步规则只记录在本地目录与私有文档约定中，不回写公开 `rules/`、`dist/` 或公开模板
 - 详细维护方式见 [docs/private-subscription-direct-sync.md](docs/private-subscription-direct-sync.md)
 - 若私有配置结构发生变化，必须同步更新 `.rulemesh.local.example.json` 与相关文档，但只能提交脱敏占位值
 

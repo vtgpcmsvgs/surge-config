@@ -16,7 +16,7 @@
 - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
 - 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
 - 若只新增某个白名单专属的单个直连域名，默认直接维护在 2.10“指定直连”入口，不为单条规则额外新增公开 `rules/` 文件。
-- 如果本地存在需要每日刷新的私有订阅域名，统一维护在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list`，再通过同步脚本分发到私有配置。
+- 如果本地存在需要每日刷新的私有订阅域名，统一维护在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list`，再通过同步脚本分发到私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块。
 - 个人终端版
   - 用于同事个人终端或可公开分享的配置。
   - 对应本仓库的 [`docs/examples/surge-public.conf`](examples/surge-public.conf)。
@@ -61,11 +61,12 @@
 - 只有测速 URL 需要强制保持 `http://`；`policy-path`、`geoip-maxmind-url`、`RULE-SET` 等普通资源 URL 仍然可以继续使用 `https://`。
 - 如果后续要替换，请优先继续选择轻量、稳定、支持 HTTP HEAD 的 `http://` 目标。
 
-## 私有订阅更新直连约定
+## 私有订阅域名同步约定
 
 - 真实订阅更新域名只在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，不写回公开模板
 - 修改后运行 `powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1"`，统一同步到两份 Surge 私有配置与两份 Mihomo 私有配置
-- 这组规则在 Surge 私有配置中必须位于 `proxy/gfw.list` 前；在工作白名单里则属于显式放行入口
+- 同步脚本会先写入 Chrome 访问这些域名时的 `🚀 节点选择` 例外，再写入订阅更新继续 `DIRECT` 的规则
+- 这组同步块在 Surge 私有配置中必须位于 `proxy/gfw.list` 前；在工作白名单里则属于显式放行入口
 - 详细维护方式见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)
 
 ## 规则顺序建议
@@ -101,7 +102,7 @@
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `direct/os_time_direct.list`、`reject/os_update_reject.list`、`direct/microsoft_direct.list` 与 `direct/macos_update_direct.list`；平时由 `reject` 先拦截升级流量，系统时间同步仍由 `os_time_direct` 保持直连。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
-- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 广覆盖 `REJECT` 观察兜底、私有订阅更新直连、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；`github_ssh_direct` 后保留 `DOMAIN,raw.githubusercontent.com` 下载入口，并额外用 `DOMAIN-KEYWORD,github,REJECT` 观察 GitHub 漏网之鱼；阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行，其后额外保留一条阿里云广覆盖 `REJECT` 观察兜底；私有订阅更新直连统一从本地单一源文件同步到白名单显式放行段；`proxy/onepassword_proxy.list` 也作为白名单显式放行入口放在 `proxy/gfw` 之前；AdsPower 细分规则后额外保留一条 `DOMAIN-KEYWORD,adspower,REJECT` 广覆盖观察兜底，用来发现细分规则漏网之鱼；Google Public DNS 主 IPv4 端点之后还额外保留一条 `DOMAIN-SUFFIX,cloudflare-dns.com` 节点选择入口，用于白名单模式下显式放行 Cloudflare DNS；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 广覆盖 `REJECT` 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；`github_ssh_direct` 后保留 `DOMAIN,raw.githubusercontent.com` 下载入口，并额外用 `DOMAIN-KEYWORD,github,REJECT` 观察 GitHub 漏网之鱼；阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行，其后额外保留一条阿里云广覆盖 `REJECT` 观察兜底；私有订阅域名统一从本地单一源文件同步到白名单显式放行段，并在订阅更新直连前额外插入 Chrome 访问这些域名时改走 `🚀 节点选择` 的例外；`proxy/onepassword_proxy.list` 也作为白名单显式放行入口放在 `proxy/gfw` 之前；AdsPower 细分规则后额外保留一条 `DOMAIN-KEYWORD,adspower,REJECT` 广覆盖观察兜底，用来发现细分规则漏网之鱼；Google Public DNS 主 IPv4 端点之后还额外保留一条 `DOMAIN-SUFFIX,cloudflare-dns.com` 节点选择入口，用于白名单模式下显式放行 Cloudflare DNS；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
 - 工作白名单模式下，广覆盖观察规则统一只允许使用 `REJECT`；personal 配置即使当前风险可接受，也不应把 `DIRECT` / `PROXY + extended-matching` 这类写法继续扩散回白名单模板。
 - 若只新增某个白名单专属的单个拒绝域名，或只用于阻断浏览器扩展更新链路的拒绝规则，默认直接维护在这份私有白名单的拒绝段，不为单条规则额外新增公开 `rules/` 文件。
 
@@ -113,6 +114,6 @@
 - GeoIP 数据库是当前例外：公开模板默认显式固定到本仓库的 Release 镜像地址
 - 不要手改 `dist/`，应先改 `rules/` 后重新构建
 - 私有工作路由白名单约定见 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)；该约定只影响本地 Surge 工作路由文件，不影响公开模板。
-- 私有订阅更新直连同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定同样只影响本地私有配置，不影响公开模板。
+- 私有订阅域名同步约定见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)；该约定同样只影响本地私有配置，不影响公开模板。
 - 1Password 重度用户专项规则约定见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)；公开模板默认不内置，需要时再显式接入。
 - GeoIP 上游选择与维护边界见 [docs/geoip-upstream.md](geoip-upstream.md)。
