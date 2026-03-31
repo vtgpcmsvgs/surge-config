@@ -71,6 +71,8 @@ python tools/build_rules.py
 - 尝试识别 `domain-only`、`ipcidr-only`、`classical/mixed`
 - 强制校验 `rules/{reject,direct,proxy,region}/` 中的自写注释为中文；若出现纯英文注释会直接失败
 - 对不能安全转换到目标客户端格式的行输出 warning，而不是静默吞掉
+- 对当前 Mihomo classical 明确不支持、但 Surge 仍需要保留的规则类型，源规则层继续保留，Surge 产物照常输出，Mihomo 产物按当前兼容矩阵选择性跳过；当前已落地的例子是 `URL-REGEX`
+- 这种“对 Mihomo 选择性跳过”只代表当前版本能力边界，不代表永久删语义；如果后续 Mihomo 官方版本已支持并经仓库验证通过，应同步恢复 Mihomo 产物输出，而不是继续保留特判
 - 保证重复执行结果一致
 
 ## 如何发布
@@ -266,6 +268,7 @@ python tools/build_rules.py
 - 新增、删除或重命名 `rules/{reject,direct,proxy,region}/` 下的 `.list` 源规则文件时，同步更新 `rules/upstream/sources.yaml` 与 `rules/upstream/merge.yaml`
 - 新增或调整默认对外使用的规则入口、顺序、策略含义时，同步更新 `README.md`、`docs/usage-surge.md`、`docs/usage-mihomo.md` 与两份公开模板
 - 新增或调整 Mihomo 默认的 Tun、嗅探、DNS 分流、安全边界或性能取舍时，同步更新 `docs/mihomo-tun-dns-methodology.md`
+- 新增、删除或调整“某类规则在 Mihomo 侧是否保留 / 跳过”的兼容映射时，同步更新 `README.md`、`docs/usage-mihomo.md` 与 `docs/mihomo-tun-dns-methodology.md`
 - 如果一个源文件开始变得很大，优先补 `sources.yaml` 与 `merge.yaml`，再考虑引入更多上游素材
 - 提交前优先运行 `powershell -ExecutionPolicy Bypass -File tools/check.ps1`
 - 提交前看一眼 `dist/build-report.json` 的 warnings，特别是 Mihomo 不支持的规则类型

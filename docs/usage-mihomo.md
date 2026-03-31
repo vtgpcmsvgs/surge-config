@@ -64,6 +64,8 @@
 - 新增直连规则时，要先判断它属于“国内直连域名集”还是“国外直连例外”。只有前者才应进入 `nameserver-policy` 的国内解析名单。
 - `proxy-server-nameserver` 要与业务 DNS 分开维护；前者只负责节点域名解析，避免规则 DNS 与节点 DNS 互相依赖。
 - 如果要给 Clash Meta for Android 做定向兼容，优先只动它自己的 `proxy-server-nameserver`，并把变更局限在私有 Android 文件，不要反向污染 Clash Verge Rev 文件。
+- 当前 `dist/mihomo/classical/` 默认只发布 Mihomo 已确认支持的规则类型；像 `URL-REGEX` 这类 Surge 仍可使用、但 Mihomo classical 当前不支持的规则，会保留在源规则层和 Surge 产物中，但不会写入 Mihomo 产物。
+- 这不是放弃该类规则；如果后续 Mihomo 官方版本已支持并经仓库验证通过，Mihomo 产物会同步恢复输出，不需要反向删改源规则。
 - 详细维护边界、风险提示与检查清单见 [docs/mihomo-tun-dns-methodology.md](mihomo-tun-dns-methodology.md)。
 
 ## 私有订阅域名同步约定
@@ -103,6 +105,7 @@
 - `proxy/google_public_dns_ipv4_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
 - 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.yaml`，并同样放在 `proxy/gfw.yaml` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.yaml` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
+- `reject/adspower_reject.yaml` 当前只承载 Mihomo classical 已确认支持的 AdsPower 拒绝规则；源规则里为 Surge 保留的 `URL-REGEX` 条目不会进入这份 Mihomo 产物。
 - `reject/wps_reject.yaml` 如果接入，应继续放在拒绝段并位于 `direct_cn` 前；它当前是“WPS 全量封网”规则，不再追求低误伤。
 - `direct/os_time_direct.yaml` 建议放在其他普通 `direct/*.yaml` 前，优先保障 `time.windows.com`、`time.apple.com` 与 `time-macos.apple.com` 直连。
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `direct/os_time_direct.yaml`、`reject/os_update_reject.yaml`、`direct/microsoft_direct.yaml` 与 `direct/macos_update_direct.yaml`；平时由 `reject` 先拦截升级流量，系统时间同步仍由 `os_time_direct` 保持直连。
