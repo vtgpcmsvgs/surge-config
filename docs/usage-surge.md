@@ -66,6 +66,7 @@
 
 - 真实订阅更新域名只在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，不写回公开模板
 - 修改后运行 `powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1"`，统一同步到两份 Surge 私有配置与两份 Mihomo 私有配置
+- Surge 私有配置里的 `PROCESS-NAME + DOMAIN-*` 节点选择例外属于逻辑规则，末尾策略名必须裸写成 `...,🚀 节点选择`，不要手改成 `...,"🚀 节点选择"`；详细说明见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)
 - 同步脚本会先写入 Chrome 访问这些域名时的 `🚀 节点选择` 例外，再写入订阅更新继续 `DIRECT` 的规则
 - 这组同步块在 Surge 私有配置中必须位于 `proxy/gfw.list` 前；在工作白名单里则属于显式放行入口
 - 详细维护方式见 [docs/private-subscription-direct-sync.md](private-subscription-direct-sync.md)

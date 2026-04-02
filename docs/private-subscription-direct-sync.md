@@ -33,6 +33,27 @@
 3. 脚本会自动刷新四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
 4. 如需人工确认，可检查四份目标文件中的 `PRIVATE_SUBSCRIPTION_DIRECT_START` 与 `PRIVATE_SUBSCRIPTION_DIRECT_END` 标记段
 
+## Surge 语法防回滚
+
+- 这组“Chrome 访问节点选择例外”在 Surge 里属于逻辑规则，最终形态是 `AND,((PROCESS-NAME,...),(...)),策略名`
+- Surge 的逻辑规则末尾策略名必须直接裸写，不要额外套双引号；正确示例：
+
+```conf
+AND,((PROCESS-NAME,chrome.exe),(DOMAIN-SUFFIX,example.com)),🚀 节点选择
+```
+
+- 错误示例：
+
+```conf
+AND,((PROCESS-NAME,chrome.exe),(DOMAIN-SUFFIX,example.com)),"🚀 节点选择"
+```
+
+- 上面这种错误写法在视觉上很像普通 `RULE-SET,...,"🚀 节点选择"`，但 Surge 会把双引号也当成策略名的一部分，最终报 `unknown policy`
+- 因此，同一个策略组在不同规则类型里允许出现两种写法：
+  - 普通规则引用策略组时，可继续保留双引号，例如 `RULE-SET,...,"🚀 节点选择"`、`DOMAIN,raw.githubusercontent.com,"🚀 节点选择"`
+  - `AND` / `OR` 等逻辑规则收尾到策略组时，必须写成 `...,🚀 节点选择`
+- 后续维护 `sync_private_subscription_direct.ps1` 时，Surge 分支应继续只从目标配置提取裸策略名，再拼出逻辑规则；不要为了“统一格式”把 `AND` 规则也改成带引号版本
+
 ## 编码防回滚提醒
 
 - 这条链路的真实故障案例是：在 `sync_private_subscription_direct.ps1` 里直接写入中文或 emoji 策略组名字面量后，Windows PowerShell 5.1 可能把 UTF-8 无 BOM 的脚本按本地代码页误读，最终把 `🚀 节点选择` 之类的策略组名写成乱码
@@ -40,6 +61,17 @@
 - 因此，后续维护 `sync_private_subscription_direct.ps1` 时，优先保持脚本源码 ASCII-only；如果需要引用带中文或 emoji 的策略组名，不要直接硬编码，优先从目标配置中提取现有值后再写回
 - 修改同步脚本后，至少人工抽查一次四份目标文件中的新增规则：新写入的策略组名必须与同文件里已有的 `proxy_onepassword` / `onepassword_proxy.list` / `proxy_gfw` 行完全一致，不能出现乱码
 - Surge 侧的 `AND,((PROCESS-NAME,...),(...)),策略名` 逻辑规则不要给末尾策略名再套双引号；例如应写成 `...,🚀 节点选择`，不要写成 `...,"🚀 节点选择"`，否则 Surge 会把引号也当成策略名的一部分并报 `unknown policy`
+
+## 回归检查
+
+- 每次跑完 `sync_private_subscription_direct.ps1` 后，至少抽查两份 Surge 私有配置：
+  - `rulemesh-substore-surge-personal.conf`
+  - `rulemesh-substore-surge-work-whitelist.conf`
+- 抽查时重点看 `PRIVATE_SUBSCRIPTION_DIRECT_START` 标记段后的第一条 Chrome 例外规则：
+  - 必须是 `AND,((PROCESS-NAME,...),(...)),🚀 节点选择`
+  - 不能出现 `...,"🚀 节点选择"`
+  - 不能出现乱码策略名
+- 如果 Surge 报 `unknown policy`，优先对照报错行是否属于这段同步块；若是，先检查“策略名是否乱码”与“逻辑规则是否误加引号”，不要先怀疑 `RULE-SET` 顺序或节点组本身不存在
 
 ## 维护边界
 

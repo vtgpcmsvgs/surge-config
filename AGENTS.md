@@ -29,6 +29,7 @@
   - `%LocalAppData%\Programs\Python\Python314\python.exe`
 - 如果直接执行该解释器出现 `Access is denied`（访问被拒绝），这是沙箱限制，不是仓库问题；需要申请提升权限后再运行
 - 维护 `%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1` 这类 Windows PowerShell 私有同步脚本时，不要直接硬编码中文或 emoji 策略组名；UTF-8 无 BOM 的 `.ps1` 在 Windows PowerShell 5.1 下可能被按本地代码页误读，导致 Mihomo / Surge 配置里写出乱码策略组名并触发 `proxy not found`。优先保持脚本源码 ASCII-only，或从目标配置提取现有策略组名后再写回
+- 上述私有订阅同步脚本在生成 Surge 的 `AND,((PROCESS-NAME,...),(...)),策略名` 逻辑规则时，末尾策略名必须裸写，不要再套双引号；`RULE-SET,...,"🚀 节点选择"` 这类普通规则允许带引号，但 `AND` 规则若写成 `...,"🚀 节点选择"`，Surge 会把引号算进策略名并报 `unknown policy`
 
 ## 仓库默认流程
 
