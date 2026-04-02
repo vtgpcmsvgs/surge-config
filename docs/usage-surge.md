@@ -30,7 +30,7 @@
 - `geoip-maxmind-url` 显式固定到与 Mihomo 共用的本仓库 Release 镜像地址
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh 产物接入
 - `reject/wps_reject.list` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
-- `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 的 GitHub Raw 解析兜底
+- `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 下载入口，并继续配合 `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.list`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.list`
@@ -81,23 +81,24 @@
 1. 拒绝规则
 2. 区域精确规则
 3. GitHub 仓库 SSH 定向直连
-4. AdsPower 细分直连规则
-5. AdsPower 细分节点选择规则
-6. Polygon 主网 RPC 节点选择规则
-7. BSC 主网 RPC 节点选择规则
-8. Google Public DNS 主 IPv4 端点节点选择规则
-9. 可选：1Password 核心连接节点选择规则
-10. 代理优先规则
-11. 直连规则
-12. IP 规则
-13. `FINAL`
+4. GitHub Raw 规则产物下载入口
+5. AdsPower 细分直连规则
+6. AdsPower 细分节点选择规则
+7. Polygon 主网 RPC 节点选择规则
+8. BSC 主网 RPC 节点选择规则
+9. Google Public DNS 主 IPv4 端点节点选择规则
+10. 可选：1Password 核心连接节点选择规则
+11. 代理优先规则
+12. 直连规则
+13. IP 规则
+14. `FINAL`
 
 注意：
 
 - `region/tw/google_tw.list` 必须放在 `region/hk/global_media.list` 等广谱区域规则前。
 - `region/hk/global_media.list` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.list`。
 - `direct/github_ssh_direct.list` 必须放在 `proxy/gfw.list` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
-- GitHub Raw 规则产物下载建议保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。
+- GitHub Raw 规则产物下载建议在 `direct/github_ssh_direct.list` 后额外保留一条 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 入口，避免外部规则自举阶段依赖尚未加载完成的 `proxy/gfw.list`；同时继续保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。
 - `direct/alicloud_hk_ipv4_ssh22_direct.list`、`DOMAIN-SUFFIX,aliyuncs.com,DIRECT` 与 `DOMAIN,check.myclientip.com,DIRECT` 应统一放在直连段显式维护；其后可额外保留一条阿里云广覆盖 `REJECT` 观察兜底，用于发现上游阿里云规则的漏网之鱼。
 - `direct/adspower_direct.list` 与 `proxy/adspower_proxy.list` 都应放在 `proxy/gfw.list` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.list` 应放在 `proxy/gfw.list` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
