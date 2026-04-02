@@ -9,6 +9,8 @@
 # - https://example.com/subscriptions/provider-b.yaml
 # - https://example.com/subscriptions/provider-c.yaml
 # 如果客户端支持，请同时开启 TUN 模式；这份模板默认按 Tun + 嗅探 + 分流 DNS 设计。
+# 如果把这份文件作为 Clash Verge Rev 的本地日常主配置导入，建议在客户端“订阅”页对该配置右键“编辑信息”，把“更新时间隔”设为 720 分钟。
+# 这项 720 分钟设置不会写回 YAML，而是 Clash Verge Rev 保存在本机 profile 元数据里的外层定时重载设置；每台设备都要单独设置一次。
 
 mixed-port: 7897
 allow-lan: false
@@ -142,6 +144,8 @@ proxy-providers:
   # 说明：下面这 3 个是公开模板里的占位订阅源。
   # interval: 21600 = 每 6 小时自动重新拉一次订阅。
   # health-check.interval: 300 = 每 5 分钟做一次测速，只影响延迟显示和自动组选路。
+  # 如果在 Clash Verge Rev 里把这份文件作为本地配置长期使用，建议再配合客户端侧的 720 分钟“更新时间隔”做外层定时重载。
+  # 维护约定：YAML 里的 interval 仍负责 Mihomo 内核层更新；Clash Verge Rev 的 720 分钟只作为保底保险，不替代这里的 interval。
   provider_a:
     type: http
     url: "https://example.com/subscriptions/provider-a.yaml"

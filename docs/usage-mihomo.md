@@ -52,6 +52,10 @@
 
 - Clash Verge Rev 等支持 Tun 的客户端，建议同时开启 Tun 模式；这份模板默认按 Tun + 嗅探 + 分流 DNS 设计，关闭 Tun 会明显削弱体验。
 - 如果你同时维护 Clash Verge Rev 与 Clash Meta for Android，本地私有目录建议拆成 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml` 两份；规则骨架可以保持一致，但节点域名解析策略应允许分别维护。
+- 如果你把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的日常主配置，建议在“订阅”页对这份本地配置右键“编辑信息”，把 `更新时间隔` 设为 `720` 分钟。
+- 这项 `720` 分钟设置不会写回 YAML，而是保存在每台设备自己的 Clash Verge Rev profile 元数据里；因此同一份文件换到另一台设备后，也要重新手动设置一次。
+- 这项 `720` 分钟设置不替代下方 `proxy-providers` / `rule-providers` 的 `interval`；YAML 里的 `interval` 仍是 Mihomo 内核层的下载间隔，Clash Verge Rev 的 `720` 只是额外的外层定时重载。
+- 对长期后台运行、电脑睡眠唤醒、偶发网络抖动这些场景，`720` 分钟外层定时重载可作为 provider 自动更新的保底保险；当前本地经验默认建议保留。
 - 如果你把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的单一真相，默认应关闭 Clash Verge Rev 的 `DNS 覆写`；否则运行时 `dns` 会被 AppData 下的 `dns_config.yaml` 覆盖。
 - 如果你明确保留 Clash Verge Rev 的 `DNS 覆写`，就应把 `dns_config.yaml` 当成实际生效的 `dns` 配置入口，不要再假设源文件里的 `dns:` 会原样生效。
 - 如果关闭 Clash Verge Rev 的 `DNS 覆写` 后出现“国内可访问、国外代理不通”，默认先检查桌面端私有文件的 `proxy-server-nameserver` 与 `respect-rules`，而不是先回滚规则顺序。

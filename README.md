@@ -256,6 +256,9 @@ python tools/build_rules.py
 - 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
 - 四份本地私有配置里的“👋 手动切换”默认应过滤 `剩余流量`、`直接连接`、`套餐到期`、`距离下次重置`、`联系我们` 这类订阅状态/提示项；如果还要过滤某个供应商占位项，只对独立项全名做精确匹配，不对供应商名做宽泛子串匹配，避免把带统一前缀的真实节点一起过滤掉
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
+- 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的日常主配置，建议在客户端“订阅”页对这份本地配置右键“编辑信息”，把 `更新时间隔` 设为 `720` 分钟，作为默认维护基线
+- 这项 `720` 分钟设置不写回 YAML，而是保存在每台设备自己的 Clash Verge Rev profile 元数据里；换设备后需要重新设置一次
+- 这项 `720` 分钟设置不替代 YAML 里的 `proxy-providers` / `rule-providers` 自身 `interval`；后者仍负责 Mihomo 内核层的下载间隔，前者只是额外的外层定时重载保险，用于降低长期后台运行、睡眠唤醒后 provider 偶发不刷新的概率
 - 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的唯一权威配置，默认应关闭 Clash Verge Rev 的 `DNS 覆写`；否则运行时 `dns` 会被 AppData 下的 `dns_config.yaml` 覆盖
 - 如果明确保留 Clash Verge Rev 的 `DNS 覆写`，则应把 `dns_config.yaml` 视为实际生效的 `dns` 单一真相，而不是继续假设源文件里的 `dns:` 会原样生效
 - 如果关闭 Clash Verge Rev 的 `DNS 覆写` 后出现“国内可访问、国外代理不通”，默认先检查桌面端私有文件的 `respect-rules` 与 `proxy-server-nameserver`，优先修复节点域名解析启动链，而不是先回滚规则顺序
