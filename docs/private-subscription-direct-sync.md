@@ -39,6 +39,7 @@
 - 乱码一旦进入 Mihomo / Surge 私有配置，典型症状就是重新载入时报 `proxy not found`；报错通常出现在新插入的 `PROCESS-NAME + DOMAIN-*` 规则，而同文件原本已有的 `proxy_onepassword`、`onepassword_proxy.list` 或 `proxy_gfw` 规则仍然正常
 - 因此，后续维护 `sync_private_subscription_direct.ps1` 时，优先保持脚本源码 ASCII-only；如果需要引用带中文或 emoji 的策略组名，不要直接硬编码，优先从目标配置中提取现有值后再写回
 - 修改同步脚本后，至少人工抽查一次四份目标文件中的新增规则：新写入的策略组名必须与同文件里已有的 `proxy_onepassword` / `onepassword_proxy.list` / `proxy_gfw` 行完全一致，不能出现乱码
+- Surge 侧的 `AND,((PROCESS-NAME,...),(...)),策略名` 逻辑规则不要给末尾策略名再套双引号；例如应写成 `...,🚀 节点选择`，不要写成 `...,"🚀 节点选择"`，否则 Surge 会把引号也当成策略名的一部分并报 `unknown policy`
 
 ## 维护边界
 
