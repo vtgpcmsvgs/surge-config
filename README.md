@@ -254,6 +254,7 @@ python tools/build_rules.py
 - 缺少本地配置时，不影响本地构建与手工同步主流程，只会跳过本地 Feishu 告警发送；但 GitHub Actions 的每日 upstream 工作流会要求 webhook secrets 可用
 - 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
 - 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
+- 四份本地私有配置里的“👋 手动切换”默认应过滤 `剩余流量`、`直接连接`、`套餐到期`、`距离下次重置`、`联系我们` 这类订阅状态/提示项；如果还要过滤某个供应商占位项，只对独立项全名做精确匹配，不对供应商名做宽泛子串匹配，避免把带统一前缀的真实节点一起过滤掉
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
 - 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的唯一权威配置，默认应关闭 Clash Verge Rev 的 `DNS 覆写`；否则运行时 `dns` 会被 AppData 下的 `dns_config.yaml` 覆盖
 - 如果明确保留 Clash Verge Rev 的 `DNS 覆写`，则应把 `dns_config.yaml` 视为实际生效的 `dns` 单一真相，而不是继续假设源文件里的 `dns:` 会原样生效

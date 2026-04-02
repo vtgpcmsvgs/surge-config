@@ -62,6 +62,11 @@
 - 只有测速 URL 需要强制保持 `http://`；`policy-path`、`geoip-maxmind-url`、`RULE-SET` 等普通资源 URL 仍然可以继续使用 `https://`。
 - 如果后续要替换，请优先继续选择轻量、稳定、支持 HTTP HEAD 的 `http://` 目标。
 
+## 手动切换过滤约定
+
+- “👋 手动切换”默认应过滤 `剩余流量`、`直接连接`、`套餐到期`、`距离下次重置`、`联系我们` 这类订阅状态/提示项，让手动切换尽量只展示真实节点。
+- 如果还需要过滤某个供应商名或占位 Provider，只对独立项全名做精确匹配，不要直接拿供应商名做宽泛子串匹配；否则一旦节点侧额外注入统一前缀，真实节点也会被一起误杀。
+
 ## 私有订阅域名同步约定
 
 - 真实订阅更新域名只在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，不写回公开模板

@@ -208,7 +208,8 @@ proxy-groups:
       - provider_a
       - provider_b
       - provider_c
-    exclude-filter: "(?i)直接连接|联系我们"
+    # 维护约定：状态/提示项可按前缀匹配；如果后续要过滤某个供应商占位项，只对独立项全名做精确匹配，避免误伤带前缀的真实节点。
+    exclude-filter: "(?i)^(剩余流量|套餐到期|距离下次重置)|^直接连接$|联系我们"
 
   - name: "♻️ 自动选择"
     type: url-test
