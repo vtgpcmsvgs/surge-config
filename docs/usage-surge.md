@@ -96,7 +96,7 @@
 - `direct/adspower_direct.list` 与 `proxy/adspower_proxy.list` 都应放在 `proxy/gfw.list` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.list` 应放在 `proxy/gfw.list` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
 - `proxy/bsc_rpc_proxy.list` 应放在 `proxy/gfw.list` 前，确保 BSC 主网 RPC 域名优先走 `🚀 节点选择`。
-- `proxy/google_public_dns_ipv4_proxy.list` 应放在 `proxy/gfw.list` 前，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
+- `proxy/google_public_dns_ipv4_proxy.list` 应放在 `proxy/gfw.list` 前，并在 Surge 配置中以 `RULE-SET,...,"🚀 节点选择",no-resolve` 方式接入，确保 `8.8.8.8/32` 优先走 `🚀 节点选择`。
 - 如果你是 1Password 重度用户，可额外接入 `proxy/onepassword_proxy.list`，并同样放在 `proxy/gfw.list` 前；这条规则由仓库每日自动抓取 1Password 官方支持页生成，默认只覆盖官方自有核心域名与更新/基础设施端点，详情见 [docs/onepassword-proxy-rules.md](onepassword-proxy-rules.md)。
 - `reject/adspower_reject.list` 应和其他拒绝规则一起放在最前，先拦截隐私追踪与可安全阻断端点。
 - `reject/wps_reject.list` 如果接入，应继续放在拒绝段并位于 `direct` 段前；它当前是“WPS 全量封网”规则，不再追求低误伤。
