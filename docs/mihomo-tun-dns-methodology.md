@@ -55,6 +55,25 @@
   - 只有在这一步仍不稳定时，才继续评估更保守的 Android 专用启动链。
 - 对当前本地长期维护来说，Clash Meta 专用文件的节点域名解析默认优先使用阿里云 / 腾讯云 DoH；这一步只作用于节点域名，不应自动扩散到所有国际业务域名。
 
+## Clash Verge Rev DNS 覆写方法论
+
+- Clash Verge Rev 的 `DNS 覆写` 不是“在配置文件 `dns:` 上补几个默认值”，而是会用 AppData 下的 `dns_config.yaml` 直接覆盖运行时 `dns` 段。
+- 因此只要 `DNS 覆写` 处于开启状态，`rulemesh-substore-mihomo-clash-verge.yaml` 里的 `dns:` 默认就不再是实际生效的单一真相。
+- 如果目标是“把私有 Mihomo 文件当成唯一权威配置”，Clash Verge Rev 侧默认应关闭 `DNS 覆写`，让 `rulemesh-substore-mihomo-clash-verge.yaml` 自己负责完整 `dns:`。
+- 如果用户明确要保留 `DNS 覆写`，那就要把 `%APPDATA%/io.github.clash-verge-rev.clash-verge-rev/dns_config.yaml` 视为 `dns` 的单一真相，而不要再假设源文件里的 `dns:` 会原样生效。
+- 遇到“关闭 DNS 覆写后，国内可访问、国外代理不通”的情况，默认先怀疑桌面端私有文件的节点域名解析启动链，而不是先怀疑规则顺序或 `rule-providers`。
+- 对当前本地长期维护来说，Clash Verge Rev 私有文件在关闭 `DNS 覆写` 后，默认采用这组收敛原则：
+  - `respect-rules: false`，避免节点 DNS 再跟随规则链递归绕回代理组。
+  - `proxy-server-nameserver` 优先使用当前网络可直连的加密 DNS，例如阿里云 / 腾讯云 DoH。
+  - `proxy-server-nameserver-policy` 继续只承载少量明确需要专用解析链的节点域名，不把这层逻辑扩散到普通业务域名。
+  - 这一步只修复节点域名解析，不应顺手把业务 `nameserver`、`nameserver-policy` 与国际业务 DNS 统统改回国内。
+- 当前本地已验证可用的 Clash Verge Rev 修法是：
+  - 关闭应用侧 `DNS 覆写`
+  - 在 `rulemesh-substore-mihomo-clash-verge.yaml` 中保持 `respect-rules: false`
+  - 让 `proxy-server-nameserver` 走阿里云 / 腾讯云 DoH
+  - 保留 `+.bestvmr.com` 这类节点专用解析策略
+- 这套修法的目标是把“桌面端 Mihomo 私有文件重新变回单一真相”，而不是长期依赖 Clash Verge Rev 的界面覆写兜底。
+
 ## 国内 DNS 适用范围
 
 - `direct_cn`
@@ -122,6 +141,8 @@
 - 节点订阅更新、规则更新与节点域名解析是否仍然稳定。
 - 局域网、本地主机名、系统网络探测与系统时间同步是否正常。
 - 如果同时维护 Clash Verge Rev 与 Clash Meta for Android，是否已确认“桌面正常、安卓正常”分别由对应私有文件负责，而不是误把一端的启动链回滚到另一端。
+- 如果维护 Clash Verge Rev 私有文件，是否已确认当前到底是“源文件 `dns:` 生效”还是“App 侧 `dns_config.yaml` 生效”，避免在两个入口同时改 DNS 后误判问题来源。
+- 如果刚关闭 Clash Verge Rev 的 `DNS 覆写`，是否已验证国内站点直连正常、通过本地代理端口访问国外站点正常，以及运行时生成的 `clash-verge.yaml` 已回到期望的 `dns:` 配置。
 
 ## 适用范围
 

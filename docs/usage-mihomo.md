@@ -52,6 +52,10 @@
 
 - Clash Verge Rev 等支持 Tun 的客户端，建议同时开启 Tun 模式；这份模板默认按 Tun + 嗅探 + 分流 DNS 设计，关闭 Tun 会明显削弱体验。
 - 如果你同时维护 Clash Verge Rev 与 Clash Meta for Android，本地私有目录建议拆成 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml` 两份；规则骨架可以保持一致，但节点域名解析策略应允许分别维护。
+- 如果你把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的单一真相，默认应关闭 Clash Verge Rev 的 `DNS 覆写`；否则运行时 `dns` 会被 AppData 下的 `dns_config.yaml` 覆盖。
+- 如果你明确保留 Clash Verge Rev 的 `DNS 覆写`，就应把 `dns_config.yaml` 当成实际生效的 `dns` 配置入口，不要再假设源文件里的 `dns:` 会原样生效。
+- 如果关闭 Clash Verge Rev 的 `DNS 覆写` 后出现“国内可访问、国外代理不通”，默认先检查桌面端私有文件的 `proxy-server-nameserver` 与 `respect-rules`，而不是先回滚规则顺序。
+- 对当前本地私有维护来说，Clash Verge Rev 在关闭 `DNS 覆写` 后，节点域名解析默认收敛为 `respect-rules: false`，并让 `proxy-server-nameserver` 优先走当前网络可直连的阿里云 / 腾讯云 DoH；这一步只针对节点域名解析。
 - 如果出现“Clash Verge Rev 正常、Clash Meta for Android 不通”的情况，默认先排查 Clash Meta 的节点域名解析启动链，而不是先改规则顺序。
 - Android 侧如果只是节点域名解析不稳定，优先只调整 `proxy-server-nameserver`；不要一上来就把全部国际业务 DNS 改回国内。
 - 当前本地私有维护默认允许 Clash Meta 专用文件把 `proxy-server-nameserver` 收敛到阿里云 / 腾讯云 DoH，以提高移动网络下的首连稳定性；这一步只针对节点域名解析。

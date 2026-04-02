@@ -255,6 +255,9 @@ python tools/build_rules.py
 - 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
 - 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
+- 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的唯一权威配置，默认应关闭 Clash Verge Rev 的 `DNS 覆写`；否则运行时 `dns` 会被 AppData 下的 `dns_config.yaml` 覆盖
+- 如果明确保留 Clash Verge Rev 的 `DNS 覆写`，则应把 `dns_config.yaml` 视为实际生效的 `dns` 单一真相，而不是继续假设源文件里的 `dns:` 会原样生效
+- 如果关闭 Clash Verge Rev 的 `DNS 覆写` 后出现“国内可访问、国外代理不通”，默认先检查桌面端私有文件的 `respect-rules` 与 `proxy-server-nameserver`，优先修复节点域名解析启动链，而不是先回滚规则顺序
 - 对 Clash Meta for Android 的兼容性调整，默认优先收敛到节点域名解析这一层；只有在移动网络下直连国外 DoH 不稳定时，才在 Android 专用文件里把 `proxy-server-nameserver` 定向到国内可直连加密 DNS
 - 这组私有订阅域名同步规则只记录在本地目录与私有文档约定中，不回写公开 `rules/`、`dist/` 或公开模板
 - 详细维护方式见 [docs/private-subscription-direct-sync.md](docs/private-subscription-direct-sync.md)
