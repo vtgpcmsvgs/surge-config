@@ -53,7 +53,6 @@ payload:
   - "DOMAIN-KEYWORD,rootdata"
   - "DOMAIN-KEYWORD,lighter"
   - "DOMAIN-SUFFIX,g42.ai"
-  - "DOMAIN-SUFFIX,polymarket.com"
   - "DOMAIN-SUFFIX,kalshi.com"
   - "DOMAIN-SUFFIX,dune.com"
   - "DOMAIN-SUFFIX,defillama.com"

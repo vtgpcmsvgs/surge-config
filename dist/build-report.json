@@ -260,8 +260,8 @@
       "category": "region",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 1,
-        "mihomo_classical": 1
+        "surge_rules": 2,
+        "mihomo_classical": 2
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/jp/domains_to_jp.list",
@@ -338,8 +338,8 @@
       "category": "region",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 59,
-        "mihomo_classical": 59
+        "surge_rules": 58,
+        "mihomo_classical": 58
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/tw/crypto_tw.list",

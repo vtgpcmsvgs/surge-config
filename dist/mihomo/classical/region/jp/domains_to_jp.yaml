@@ -2,3 +2,4 @@
 # 行为：classical
 payload:
   - "DOMAIN-KEYWORD,opinion"
+  - "DOMAIN-SUFFIX,polymarket.com"
