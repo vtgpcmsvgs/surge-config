@@ -25,6 +25,9 @@
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
 - GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口；其后的 `DOMAIN-KEYWORD,github` 广覆盖观察兜底在工作白名单模式下统一使用 `REJECT`，专门用于发现 SSH / Raw 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
+- 工作白名单默认不额外开放局域网代理入口；旁路由已接管流量，`allow-wifi-access` 继续保持 `false`
+- 运行时默认显式采用 `dns-mode = fake-ip`；维护约定是优先 `fake-ip`、次选 `mapping`，因为前者可通过 IP 逆向域名，流量接管更彻底，而后者只是兼容性退路
+- `encrypted-dns-server` 与 `use-local-host-item-for-proxy = true` 继续保留，配合 `dns-server = system + 公共 DNS` 与 GitHub Raw / 节点域名 `Host` 兜底
 - 私有订阅域名同步块继续保留独立显式放行入口，顺序位于 GitHub 观察兜底之后、1Password 之前；域名清单统一在 `%USERPROFILE%\Desktop\rulemesh-local\current\private_subscription_direct.list` 维护，再通过同步脚本先插入 Chrome 访问这些域名时改走 `🚀 节点选择` 的例外，再保留订阅更新直连
 - `proxy/onepassword_proxy.list` 继续保留 `🚀 节点选择`，用于白名单模式下显式放行 1Password 核心连接；其上游快照由仓库每天自动抓取官方支持页生成，但默认只覆盖官方自有核心域名与更新/基础设施端点
 - AdsPower 继续维持 `adspower_reject`、`adspower_direct`、`adspower_proxy` 三段细分

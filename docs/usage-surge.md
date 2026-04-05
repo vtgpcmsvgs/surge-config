@@ -12,6 +12,7 @@
 - 软路由集群版
   - 用于工作电脑集群接入软路由 Surge。
   - 可保留 `SRC-IP` 设备分流、私有订阅地址与完整 `[MITM]`。
+  - 默认不额外开放局域网代理入口；旁路由已接管流量，工作白名单不承担 LAN 代理服务。
   - 这类内容不适合入公开仓库，建议只在本地私有目录维护。
 - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前使用工作电脑白名单模式，并与两个 `personal` 配置永久有意不一致。
 - 维护这份白名单文件时请同时参考 [docs/surge-work-cluster-whitelist.md](surge-work-cluster-whitelist.md)。
@@ -21,6 +22,7 @@
   - 用于同事个人终端或可公开分享的配置。
   - 对应本仓库的 [`docs/examples/surge-public.conf`](examples/surge-public.conf)。
   - 默认移除 `SRC-IP` 设备分流、私有订阅地址与整个 `[MITM]`。
+  - 默认保持 `allow-wifi-access = false`，不把个人终端直接暴露给局域网其他设备。
   - 不继承工作路由白名单的 `REJECT` 兜底结构。
 
 ## 模板保留了什么
@@ -30,7 +32,7 @@
 - `geoip-maxmind-url` 显式固定到与 Mihomo 共用的本仓库 Release 镜像地址
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh 产物接入
 - `reject/wps_reject.list` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
-- `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 下载入口，并继续配合 `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
+- `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 下载入口，并继续配合 `dns-server = system + 公共 DNS`、`encrypted-dns-server` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.list`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.list`
@@ -40,6 +42,8 @@
 - BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy.list` 与 `proxy/gfw.list` 的顺序关系
 - Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy.list` 与 `proxy/gfw.list` 的顺序关系
 - `direct/os_time_direct.list` 与其他普通直连规则的顺序关系
+- `allow-wifi-access = false`、`test-timeout = 3` 与 `use-local-host-item-for-proxy = true` 这组运行时默认值
+- 显式 `dns-mode = fake-ip`；维护约定是优先 `fake-ip`、次选 `mapping`，因为前者可通过 IP 逆向域名，流量接管更彻底，而后者只在更看重兼容性时作为退路
 - `skip-proxy`、`always-real-ip`、基础 DNS 与测速参数
 
 ## 模板刻意移除了什么

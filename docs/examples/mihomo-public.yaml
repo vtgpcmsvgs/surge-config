@@ -11,6 +11,7 @@
 # 如果客户端支持，请同时开启 TUN 模式；这份模板默认按 Tun + 嗅探 + 分流 DNS 设计。
 # 如果把这份文件作为 Clash Verge Rev 的本地日常主配置导入，建议在客户端“订阅”页对该配置右键“编辑信息”，把“更新时间隔”设为 720 分钟。
 # 这项 720 分钟设置不会写回 YAML，而是 Clash Verge Rev 保存在本机 profile 元数据里的外层定时重载设置；每台设备都要单独设置一次。
+# Surge 公开模板里的 dns-mode / Host 复用 / 局域网代理入口开关只属于 Surge 运行时语义；Mihomo 继续按本文件与 docs/mihomo-tun-dns-methodology.md 独立维护。
 
 mixed-port: 7897
 allow-lan: false
