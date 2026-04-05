@@ -259,7 +259,7 @@ python tools/build_rules.py
 - 缺少本地配置时，不影响本地构建与手工同步主流程，只会跳过本地 Feishu 告警发送；但 GitHub Actions 的每日 upstream 工作流会要求 webhook secrets 可用
 - 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
 - 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
-- 四份本地私有配置里，所有基于 `policy-path` / provider 的代理组默认共用同一套排除条件：过滤 `剩余流量`、`直接连接`、`FlyintPro` 独立占位项、`套餐到期`、`距离下次重置`、`联系我们`、`过滤掉`、`Expire Data`、`Traffic Reset`，以及 `1.2 GB | 50 GB` 这类流量统计提示；如果还要追加某个供应商占位项，只对独立项全名做精确匹配，不对供应商名做宽泛子串匹配，避免把带统一前缀的真实节点一起过滤掉
+- 四份本地私有配置里，所有基于 `policy-path` / provider 的代理组默认共用同一套排除条件：过滤 `剩余流量`、以 `直接连接` / `FlyintPro` 结尾的占位项、`套餐到期`、`距离下次重置`、`联系我们`、`过滤掉`、`Expire Data`、`Traffic Reset`，以及 `1.2 GB | 50 GB` 这类流量统计提示；如果还要追加某个供应商占位项，只对独立项或带装饰前缀但以目标词结尾的占位项做尾部精确匹配，不对供应商名做宽泛子串匹配，避免把带统一前缀的真实节点一起过滤掉
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
 - 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的日常主配置，建议在客户端“订阅”页对这份本地配置右键“编辑信息”，把 `更新时间隔` 设为 `720` 分钟，作为默认维护基线
 - 这项 `720` 分钟设置不写回 YAML，而是保存在每台设备自己的 Clash Verge Rev profile 元数据里；换设备后需要重新设置一次
