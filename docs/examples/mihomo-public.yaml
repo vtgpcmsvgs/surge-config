@@ -214,7 +214,7 @@ proxy-groups:
       - provider_b
       - provider_c
     # 维护约定：统一按“任意位置命中就过滤”处理提示项、占位项和流量统计提示，所有相关代理组保持同一套条件。
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "♻️ 自动选择"
     type: url-test
@@ -228,7 +228,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇭🇰|香港|hong kong|\\bhk\\b|🇨🇳|台湾|taiwan|\\btw\\b|🇯🇵|日本|japan|\\bjp\\b|🇸🇬|新加坡|singapore|\\bsg\\b|🇺🇸|美国|united states|\\bus\\b|🇰🇷|韩|korea|\\bkr\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇭🇰 香港-自动选择"
     type: url-test
@@ -242,7 +242,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇭🇰|香港|hong kong|\\bhk\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇨🇳 台湾-自动选择"
     type: url-test
@@ -256,7 +256,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇨🇳|台湾|taiwan|\\btw\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇯🇵 日本-自动选择"
     type: url-test
@@ -270,7 +270,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇯🇵|日本|japan|\\bjp\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇰🇷 韩国-自动选择"
     type: url-test
@@ -284,7 +284,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇰🇷|韩|korea|\\bkr\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇸🇬 新加坡-自动选择"
     type: url-test
@@ -298,7 +298,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇸🇬|新加坡|singapore|\\bsg\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
   - name: "🇺🇸 美国-自动选择"
     type: url-test
@@ -312,7 +312,7 @@ proxy-groups:
       - provider_b
       - provider_c
     filter: "(?i)🇺🇸|美国|united states|\\bus\\b"
-    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire data|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
+    exclude-filter: "(?i)剩余流量|直接连接|FlyintPro|套餐到期|距离下次重置|联系我们|过滤掉|expire date|traffic reset|\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)\\s*\\|\\s*\\d+(?:\\.\\d+)?\\s*(?:[kmgt]b?|b)"
 
 rule-providers:
   reject_adblock:
