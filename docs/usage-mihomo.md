@@ -10,6 +10,7 @@
 
 - 完整公开参考模板：[`docs/examples/mihomo-public.yaml`](examples/mihomo-public.yaml)
 - 规则产物入口：`dist/mihomo/classical/`
+- 代理组过滤方法论：[`docs/proxy-group-filter-methodology.md`](proxy-group-filter-methodology.md)
 - Tun / DNS / 嗅探维护方法论：[`docs/mihomo-tun-dns-methodology.md`](mihomo-tun-dns-methodology.md)
 
 这个模板是基于本地长期使用的 Mihomo 配置整理出来的公开版，保留了多订阅聚合、区域自动切换、`rule-providers` 与完整规则顺序，但移除了真实机场地址和其他不适合公开仓库的私有信息。
@@ -70,6 +71,7 @@
 
 - 本地私有 Mihomo 配置里，所有基于 provider 的代理组默认共用同一套排除条件：`剩余流量`、`套餐到期`、`距离下次重置`、`过滤掉`、`Expire Date`、`Traffic Reset` 这类状态/提示项按前缀匹配，`直接连接` 与 `FlyintPro` 这类独立占位项按全名精确匹配，`联系我们` 与 `1.2 GB | 50 GB` 这类提示继续专项匹配，让手动切换、自动组和地区组尽量只展示真实节点。
 - 这套过滤条件需要在所有相关代理组里保持完全一致；`直接连接` 与 `FlyintPro` 也保持拆分维护，不再合并成单个分组条件。
+- 如果某个 provider 会给真实节点额外注入统一前缀，默认先检查是否存在“供应商名宽匹配误杀真实节点”的风险；详见 [docs/proxy-group-filter-methodology.md](proxy-group-filter-methodology.md)。
 
 ## Tun / DNS / 嗅探方法论
 
