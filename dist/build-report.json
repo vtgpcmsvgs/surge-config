@@ -169,8 +169,8 @@
       "category": "proxy",
       "classification": "domain-only",
       "counts": {
-        "surge_rules": 5042,
-        "mihomo_classical": 5042
+        "surge_rules": 5041,
+        "mihomo_classical": 5041
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/gfw.list",
@@ -299,8 +299,8 @@
       "category": "region",
       "classification": "ipcidr-only",
       "counts": {
-        "surge_rules": 294,
-        "mihomo_classical": 294
+        "surge_rules": 297,
+        "mihomo_classical": 297
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/jp/tokyo_aws_ipv4.list",
