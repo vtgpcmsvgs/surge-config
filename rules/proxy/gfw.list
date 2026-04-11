@@ -1,3 +1,4 @@
 # GFW 代理规则：以上游来源为主。
 INCLUDE,upstream/loyalsoldier/gfw.txt
 INCLUDE,upstream/loyalsoldier/tld-not-cn.txt
+DOMAIN-KEYWORD,decodo

@@ -1,8 +1,8 @@
 {
   "summary": {
-    "domain-only": 6,
+    "domain-only": 5,
     "ipcidr-only": 7,
-    "classical/mixed": 20,
+    "classical/mixed": 21,
     "empty": 0,
     "total_sources": 33,
     "total_warnings": 0
@@ -167,10 +167,10 @@
     {
       "source": "rules/proxy/gfw.list",
       "category": "proxy",
-      "classification": "domain-only",
+      "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 5037,
-        "mihomo_classical": 5037
+        "surge_rules": 5038,
+        "mihomo_classical": 5038
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/gfw.list",
