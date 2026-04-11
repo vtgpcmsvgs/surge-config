@@ -65,8 +65,8 @@
       "category": "direct",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 127221,
-        "mihomo_classical": 127221
+        "surge_rules": 127152,
+        "mihomo_classical": 127152
       },
       "dist": {
         "surge_rules": "dist/surge/rules/direct/cn_direct.list",
@@ -234,8 +234,8 @@
       "category": "region",
       "classification": "ipcidr-only",
       "counts": {
-        "surge_rules": 99,
-        "mihomo_classical": 99
+        "surge_rules": 100,
+        "mihomo_classical": 100
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/hk/hk_aws_ipv4.list",
