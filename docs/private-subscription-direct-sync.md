@@ -22,15 +22,16 @@
 ## 源文件写法
 
 - `private_subscription_direct.list` 每行只写规则本体，不要附带 `,DIRECT`
-- 允许空行与中文注释
-- 优先使用 `DOMAIN`、`DOMAIN-SUFFIX`、`DOMAIN-WILDCARD` 这类 Surge / Mihomo 都能直接复用的语法
+- 允许空行与中文注释；同步脚本会按原顺序把注释一并带入四份目标文件，方便按机场分组阅读
+- 优先使用 `DOMAIN`、`DOMAIN-SUFFIX`、`DOMAIN-WILDCARD`、`IP-CIDR` 这类 Surge / Mihomo 都能直接复用的语法
+- `IP-CIDR` 源规则会在直连块自动补成 `IP-CIDR,<ip>,DIRECT,no-resolve`；浏览器例外块若未写前缀，则自动按 `/32` 生成匹配
 - 如果某条规则只被单一客户端支持，不要写进这份共享源文件
 
 ## 同步方式
 
 1. 修改 `private_subscription_direct.list`
 2. 运行 `powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\Desktop\rulemesh-local\current\sync_private_subscription_direct.ps1"`
-3. 脚本会自动刷新四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
+3. 脚本会自动刷新四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块，并保留源文件中的分组注释与顺序
 4. 如需人工确认，可检查四份目标文件中的 `PRIVATE_SUBSCRIPTION_DIRECT_START` 与 `PRIVATE_SUBSCRIPTION_DIRECT_END` 标记段
 
 ## Surge 语法防回滚
@@ -71,6 +72,7 @@ AND,((PROCESS-NAME,chrome.exe),(DOMAIN-SUFFIX,example.com)),"🚀 节点选择"
   - 必须是 `AND,((PROCESS-NAME,...),(...)),🚀 节点选择`
   - 不能出现 `...,"🚀 节点选择"`
   - 不能出现乱码策略名
+- 同时确认注释分组与 `private_subscription_direct.list` 保持一致，特别是域名规则与 `IP-CIDR` 规则的机场说明不要丢失
 - 如果 Surge 报 `unknown policy`，优先对照报错行是否属于这段同步块；若是，先检查“策略名是否乱码”与“逻辑规则是否误加引号”，不要先怀疑 `RULE-SET` 顺序或节点组本身不存在
 
 ## 维护边界

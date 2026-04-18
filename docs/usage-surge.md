@@ -61,7 +61,8 @@
 
 ## 测速 URL 约定
 
-- Surge 的 `internet-test-url`、`proxy-test-url`、代理 `test-url=`、`url-test / fallback / load-balance` 的 `url=` 统一保持 `http://`，不要改成 `https://`；本仓库已经踩过一次真实载入失败。
+- Surge 的 `internet-test-url`、`proxy-test-url`、代理 `test-url=`、`smart / fallback / load-balance` 的 `url=` 统一保持 `http://`，不要改成 `https://`；本仓库已经踩过一次真实载入失败。
+- 当前公开模板与本地私有 Surge 配置的自动测速组默认优先使用 `smart`，作为 `url-test` 的直接平替。
 - 当前公开模板与本地私有 Surge 配置统一采用 `http://www.baidu.com`、`http://www.google.com/generate_204` 与 `http://www.gstatic.com/generate_204` 这组三段式测速基线。
 - 这组值不是全网唯一标准答案，但当前更偏“轻量、稳定、便于区分直连检查和代理测速”的默认组合，因此继续保留。
 - 只有测速 URL 需要强制保持 `http://`；`policy-path`、`geoip-maxmind-url`、`RULE-SET` 等普通资源 URL 仍然可以继续使用 `https://`。
@@ -69,8 +70,8 @@
 
 ## 代理组过滤约定
 
-- 本地私有 Surge 配置里，所有基于 `policy-path` 的代理组默认共用同一套排除条件：`剩余流量`、`套餐到期`、`距离下次重置`、`过滤掉`、`Expire Date`、`Traffic Reset` 这类状态/提示项按前缀匹配，`直接连接` 与 `FlyintPro` 这类独立占位项按全名精确匹配，`联系我们` 与 `1.2 GB | 50 GB` 这类提示继续专项匹配，让手动切换、自动组和地区组尽量只展示真实节点。
-- 这套过滤条件需要在所有相关代理组里保持完全一致；`直接连接` 与 `FlyintPro` 也保持拆分维护，不再合并成单个分组条件。
+- 本地私有 Surge 配置里，所有基于 `policy-path` 的代理组默认共用同一套排除条件：`剩余流量`、`直接连接`、`FlyintPro`、`套餐到期`、`距离下次重置`、`联系我们`、`过滤掉`、`Expire Date`、`Traffic Reset` 与 `1.2 GB | 50 GB` 这类流量提示统一按任意位置命中即过滤，让手动切换、自动组和地区组尽量只展示真实节点。
+- 这套过滤条件需要在所有相关代理组里保持完全一致；当前 Surge 侧的手动组、`smart` 自动组和地区 `smart` 组都必须同步共用同一套 `policy-regex-filter`。如果未来需要恢复保留带统一前缀的真实节点，必须同时收窄 Surge / Mihomo 两侧表达式。
 - 如果某个 `policy-path` / provider 会给真实节点额外注入统一前缀，默认先检查是否存在“供应商名宽匹配误杀真实节点”的风险；详见 [docs/proxy-group-filter-methodology.md](proxy-group-filter-methodology.md)。
 
 ## 私有订阅域名同步约定

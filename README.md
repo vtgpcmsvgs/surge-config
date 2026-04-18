@@ -135,7 +135,7 @@ python tools/build_rules.py
 - 阿里云香港 SSH 直连入口已统一命名为 `direct/alicloud_hk_ipv4_ssh22_direct`；`rules/upstream/alicloud/hk_ipv4.txt` 继续保留纯 IPv4 快照，而公开入口文件直接保留 `SSH TCP/22` 最终语义，不要求客户端额外拼接端口条件
 - Surge 与 Mihomo 当前统一把 GeoIP mmdb 显式固定到你自己的仓库 Release 镜像：`vtgpcmsvgs/rulemesh/releases/download/geoip-country-mmdb/country.mmdb`
 - 对应上游登记与维护约定见 `rules/upstream/geodata/metacubex_country_mmdb.yaml` 与 [docs/geoip-upstream.md](docs/geoip-upstream.md)
-- Surge 的 `internet-test-url`、`proxy-test-url`、代理 `test-url=` 与 `url-test / fallback / load-balance` 的 `url=` 统一保持 `http://`；不要因为 `policy-path`、GeoIP 或其他下载入口使用 `https://` 就顺手改成 `https://`。
+- Surge 的 `internet-test-url`、`proxy-test-url`、代理 `test-url=` 与 `smart / fallback / load-balance` 的 `url=` 统一保持 `http://`；不要因为 `policy-path`、GeoIP 或其他下载入口使用 `https://` 就顺手改成 `https://`。
 - 当前公开模板与本地私有 Surge 配置默认采用 `http://www.baidu.com`、`http://www.google.com/generate_204` 与 `http://www.gstatic.com/generate_204` 这组三段式测速 URL；它们不是唯一答案，但继续作为本仓库的轻量稳定基线。
 - `rules/region/hk/global_media.list` 额外承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认绑定 `🇭🇰 香港-自动选择`，减少回落到通用 `proxy/gfw` 的页面超时
 - 1Password 核心连接专项规则统一维护在 `rules/proxy/onepassword_proxy.list`
@@ -259,7 +259,8 @@ python tools/build_rules.py
 - 缺少本地配置时，不影响本地构建与手工同步主流程，只会跳过本地 Feishu 告警发送；但 GitHub Actions 的每日 upstream 工作流会要求 webhook secrets 可用
 - 真实 Webhook、密钥、私有订阅地址、MITM 参数与本地长期使用配置应继续保留在公开仓库外部，例如 `%USERPROFILE%\Desktop\rulemesh-local\current`
 - 私有订阅域名同步块当前也统一保留在 `%USERPROFILE%\Desktop\rulemesh-local\current` 中：使用 `private_subscription_direct.list` 作为单一源文件，再通过 `sync_private_subscription_direct.ps1` 同步到四份本地私有配置中的“Chrome 访问节点选择例外 + 订阅更新直连”规则块
-- 四份本地私有配置里，所有基于 `policy-path` / provider 的代理组默认共用同一套排除条件：`剩余流量`、`套餐到期`、`距离下次重置`、`过滤掉`、`Expire Date`、`Traffic Reset` 这类状态/提示项按前缀匹配，`直接连接` 与 `FlyintPro` 这类独立占位项按全名精确匹配，`联系我们` 与 `1.2 GB | 50 GB` 这类提示继续专项匹配，避免误伤带统一前缀的真实节点
+- 四份本地私有配置里，所有基于 `policy-path` / provider 的代理组默认共用同一套排除条件：`剩余流量`、`直接连接`、`FlyintPro`、`套餐到期`、`距离下次重置`、`联系我们`、`过滤掉`、`Expire Date`、`Traffic Reset` 与 `1.2 GB | 50 GB` 这类流量提示统一按任意位置命中即过滤，让手动切换、自动组和地区组尽量只展示真实节点
+- 如果未来需要恢复保留带统一前缀的真实节点，必须同步收窄 Surge / Mihomo 两侧表达式，不要只改一边
 - 详细背景、禁止事项与改动前检查清单见 [docs/proxy-group-filter-methodology.md](docs/proxy-group-filter-methodology.md)
 - 如果本地同时维护 Clash Verge Rev 与 Clash Meta for Android，建议分别维护 `rulemesh-substore-mihomo-clash-verge.yaml` 与 `rulemesh-substore-mihomo-clash-meta.yaml`
 - 如果把 `rulemesh-substore-mihomo-clash-verge.yaml` 当成 Clash Verge Rev 的日常主配置，建议在客户端“订阅”页对这份本地配置右键“编辑信息”，把 `更新时间隔` 设为 `720` 分钟，作为默认维护基线
