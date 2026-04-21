@@ -1,0 +1,14 @@
+# GitHub 核心代理规则。
+# 维护原则：
+# 1) 只承接 GitHub 网页、API、Gist、Raw、静态资源与附件等核心 HTTPS 访问。
+# 2) Git 传输继续由 direct/github_ssh_direct.list 单独承接；不要把这里改成 GitHub 全站直连。
+# 3) 客户端接入时必须放在 proxy/gfw 前；Surge 侧仍建议在它前面保留 raw.githubusercontent.com 自举入口。
+# 4) 这组规则显式覆盖 api.github.com、gist.github.com、gist.githubusercontent.com 与 raw.githubusercontent.com。
+
+DOMAIN,api.github.com
+DOMAIN,gist.github.com
+DOMAIN,gist.githubusercontent.com
+DOMAIN,raw.githubusercontent.com
+DOMAIN-SUFFIX,github.com
+DOMAIN-SUFFIX,githubassets.com
+DOMAIN-SUFFIX,githubusercontent.com

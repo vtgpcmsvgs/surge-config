@@ -22,8 +22,11 @@
 - 多订阅聚合后的统一总开关与区域自动组
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh `classical` 产物接入
 - `reject/wps_reject.yaml` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
+- GitHub 继续采用“SSH 定向直连 + Core HTTPS 显式代理”拆分：`direct/github_ssh_direct.yaml` 只承接 `github.com:22` 与 `ssh.github.com:443`，`proxy/github_core_proxy.yaml` 则显式承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件
 - 默认采用“国际域名优先国外加密 DNS、明确的国内直连域名集单独走国内加密 DNS”的分流思路
 - 默认启用 Tun 全量接管与域名嗅探，优先把 Mihomo 的实际体验拉到接近 Surge 的水位
+- 默认开启全局 `ipv6: true` 与 `dns.ipv6: true`，不再让 Mihomo 在双栈环境里主动把 AAAA 结果清空
+- 默认在 `proxy-providers.*.override` 里显式写 `ip-version: dual`，真正放开订阅节点双栈连接，但先不默认强推 `ipv6-prefer`
 - `region/hk/global_media.yaml` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.yaml`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.yaml`
@@ -98,22 +101,24 @@
 1. 拒绝规则
 2. 区域精确规则
 3. GitHub 仓库 SSH 定向直连
-4. AdsPower 细分直连规则
-5. AdsPower 细分节点选择规则
-6. Polygon 主网 RPC 节点选择规则
-7. BSC 主网 RPC 节点选择规则
-8. Google Public DNS 主 IPv4 端点节点选择规则
-9. 可选：1Password 核心连接节点选择规则
-10. 代理优先规则
-11. 直连规则
-12. IP 规则
-13. `MATCH`
+4. GitHub Core 节点选择规则
+5. AdsPower 细分直连规则
+6. AdsPower 细分节点选择规则
+7. Polygon 主网 RPC 节点选择规则
+8. BSC 主网 RPC 节点选择规则
+9. Google Public DNS 主 IPv4 端点节点选择规则
+10. 可选：1Password 核心连接节点选择规则
+11. 代理优先规则
+12. 直连规则
+13. IP 规则
+14. `MATCH`
 
 注意：
 
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/hk/global_media.yaml` 前。
 - `region/hk/global_media.yaml` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.yaml`。
-- `direct/github_ssh_direct.yaml` 必须放在 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
+- `direct/github_ssh_direct.yaml` 必须放在 `proxy/github_core_proxy.yaml` 与 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
+- `proxy/github_core_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，显式承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；这也会覆盖 `https://api.github.com/gists`、`https://api.github.com/users` 与 `https://gist.githubusercontent.com/...` 这类连接。
 - `direct/alicloud_hk_ipv4_ssh22_direct.yaml`、`DOMAIN-SUFFIX,aliyuncs.com,DIRECT` 与 `DOMAIN,check.myclientip.com,DIRECT` 应统一放在直连段显式维护，不再保留旧版阿里云广覆盖观察兜底。
 - `direct/adspower_direct.yaml` 与 `proxy/adspower_proxy.yaml` 都应放在 `proxy/gfw.yaml` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。

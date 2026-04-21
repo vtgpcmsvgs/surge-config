@@ -23,7 +23,7 @@
 - 只有 2.1 设备分流继续保留“源 IP + AWS 区域 / 日本 SOCKS5 IP 段”约束；2.2-2.10 不再额外限制源 IP
 - 区域精确规则继续保留，且 `Google TW` 必须先于广谱区域规则
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
-- GitHub 相关 HTTPS 访问额外保留 `DOMAIN,raw.githubusercontent.com` 下载入口；其后的 `DOMAIN-KEYWORD,github` 广覆盖观察兜底在工作白名单模式下统一使用 `REJECT`，专门用于发现 SSH / Raw 之外的漏网之鱼
+- GitHub 相关访问继续拆成三段：先保留 `DOMAIN,raw.githubusercontent.com` 自举入口，再显式放行 `proxy/github_core_proxy.list`，其后的 `DOMAIN-KEYWORD,github` 广覆盖观察兜底在工作白名单模式下统一使用 `REJECT`，专门用于发现 SSH / GitHub Core 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
 - 工作白名单默认不额外开放局域网代理入口；旁路由已接管流量，`allow-wifi-access` 继续保持 `false`
 - 运行时默认显式采用 `dns-mode = fake-ip`；维护约定是优先 `fake-ip`、次选 `mapping`，因为前者可通过 IP 逆向域名，流量接管更彻底，而后者只是兼容性退路
@@ -60,18 +60,19 @@
 2. 设备分流
 3. 区域精确规则
 4. GitHub 仓库 SSH 定向直连
-5. GitHub Raw 下载入口
-6. GitHub 广覆盖 REJECT 观察兜底
-7. 私有订阅域名同步块
-8. 1Password 核心连接节点选择入口
-9. AdsPower 细分规则
-10. AdsPower 广覆盖 REJECT 观察兜底
-11. Polygon 主网 RPC 节点选择入口
-12. BSC 主网 RPC 节点选择入口
-13. Google Public DNS 主 IPv4 端点节点选择入口
-14. Cloudflare DNS 节点选择入口
-15. 指定直连入口（含阿里云广覆盖 REJECT 观察兜底）
-16. 全局 `FINAL,REJECT` 兜底
+5. GitHub Raw 自举入口
+6. GitHub Core 代理入口
+7. GitHub 广覆盖 REJECT 观察兜底
+8. 私有订阅域名同步块
+9. 1Password 核心连接节点选择入口
+10. AdsPower 细分规则
+11. AdsPower 广覆盖 REJECT 观察兜底
+12. Polygon 主网 RPC 节点选择入口
+13. BSC 主网 RPC 节点选择入口
+14. Google Public DNS 主 IPv4 端点节点选择入口
+15. Cloudflare DNS 节点选择入口
+16. 指定直连入口（含阿里云广覆盖 REJECT 观察兜底）
+17. 全局 `FINAL,REJECT` 兜底
 
 ## 不要误恢复的广谱放行项
 

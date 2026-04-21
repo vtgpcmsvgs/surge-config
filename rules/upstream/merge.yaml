@@ -153,6 +153,18 @@ merge_plan:
       - 不自动并入 Watchtower、Fastmail、Brex、Privacy Cards 等第三方依赖域名
       - 客户端顺序应放在 proxy/gfw 前；工作白名单中也应作为显式放行入口
 
+  - id: github-core-proxy
+    target: rules/proxy/github_core_proxy.list
+    purpose: GitHub 网页、API、Gist、Raw 与静态资源节点选择入口
+    strategy:
+      - manual_only
+      - keep_scope_small_and_stable
+      - separate_git_transport_from_https_core_services
+    notes:
+      - Git 传输继续由 direct/github_ssh_direct 承接；本入口只处理核心 HTTPS 业务
+      - 默认显式覆盖 github.com、githubassets.com 与 githubusercontent.com，不扩展到 github.io
+      - 客户端顺序应放在 proxy/gfw 前；Surge 侧仍建议在它前面保留 raw.githubusercontent.com 自举入口
+
   - id: polygon-rpc-proxy
     target: rules/proxy/polygon_rpc_proxy.list
     purpose: Polygon 主网 RPC 域名专项节点选择

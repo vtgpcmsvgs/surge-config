@@ -24,8 +24,8 @@ global-ua: clash-verge/v2.2.0
 # > All Hybrid 网络并发手动切换
 tcp-concurrent: false
 
-# > IPv6 支持（默认关闭）
-ipv6: false
+# > IPv6 支持（开启双栈）
+ipv6: true
 
 unified-delay: true
 find-process-mode: strict
@@ -78,7 +78,7 @@ sniffer:
 # 3) 代理节点域名解析单独走 proxy-server-nameserver，避免规则 DNS 与节点 DNS 互相缠绕。
 dns:
   enable: true
-  ipv6: false
+  ipv6: true
   use-hosts: true
   use-system-hosts: true
   respect-rules: true
@@ -160,6 +160,7 @@ proxy-providers:
       lazy: false
       expected-status: 204
     override:
+      ip-version: dual
       additional-prefix: "A | "
 
   provider_b:
@@ -175,6 +176,7 @@ proxy-providers:
       lazy: false
       expected-status: 204
     override:
+      ip-version: dual
       additional-prefix: "B | "
 
   provider_c:
@@ -190,6 +192,7 @@ proxy-providers:
       lazy: false
       expected-status: 204
     override:
+      ip-version: dual
       additional-prefix: "C | "
 
 proxy-groups:
@@ -452,6 +455,15 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
+  proxy_github_core:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/proxy/github_core_proxy.yaml"
+    path: ./ruleset/proxy/github_core_proxy.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
   proxy_gfw:
     type: http
     behavior: classical
@@ -624,6 +636,9 @@ rules:
 
   # GitHub 仓库 SSH 定向直连必须放在 gfw 前，避免把整个 GitHub 放直连。
   - RULE-SET,direct_github_ssh,DIRECT
+
+  # GitHub 核心 HTTPS 代理入口（网页 / API / Gist / Raw / 静态资源）；必须放在 gfw 前。
+  - RULE-SET,proxy_github_core,🚀 节点选择
 
   # 旧版阿里云广覆盖观察兜底已弃用；阿里云香港 SSH、控制面与出口探测入口统一收敛到后面的直连段显式放行。
 

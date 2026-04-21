@@ -103,6 +103,14 @@ sources:
           note: 1Password 重度用户专项节点选择入口，源文件只保留单一 INCLUDE
         - repo: 1Password Support
           note: 通过官方《1Password ports and domains》每日抓取核心一方域名与更新/基础设施端点，保守排除第三方集成域名
+    github_core_proxy.list:
+      preferred:
+        - repo: self
+          note: GitHub 核心 HTTPS 代理入口保持小而稳定，显式承接网页、API、Gist、Raw 与静态资源
+        - repo: GitHub Docs
+          note: 参考 GitHub 受限网络放行文档与 SSH over 443 文档，维持“Git 传输直连、核心 HTTPS 代理”的拆分
+        - repo: GitHub Meta API
+          note: 参考 GitHub 当前公开域名族群，显式覆盖 github.com、githubassets.com 与 githubusercontent.com 核心入口
     polygon_rpc_proxy.list:
       preferred:
         - repo: self

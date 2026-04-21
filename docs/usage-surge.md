@@ -33,7 +33,7 @@
 - `geoip-maxmind-url` 显式固定到与 Mihomo 共用的本仓库 Release 镜像地址
 - `reject`、`direct`、`proxy`、`region` 四类 RuleMesh 产物接入
 - `reject/wps_reject.list` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
-- `github_ssh_direct` 后额外保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 下载入口，并继续配合 `dns-server = system + 公共 DNS`、`encrypted-dns-server` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
+- `github_ssh_direct` 后先保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 自举入口，再显式接入 `proxy/github_core_proxy.list`，承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；同时继续配合 `dns-server = system + 公共 DNS`、`encrypted-dns-server` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.list`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.list`
@@ -44,6 +44,7 @@
 - Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy.list` 与 `proxy/gfw.list` 的顺序关系
 - `direct/os_time_direct.list` 与其他普通直连规则的顺序关系
 - `allow-wifi-access = false`、`test-timeout = 3` 与 `use-local-host-item-for-proxy = true` 这组运行时默认值
+- 默认开启 `ipv6 = true`，并继续使用 `ipv6-vif = auto` 只在本地网络具备有效 IPv6 时启用 Surge IPv6 VIF，先把双栈能力打开，但不默认强推 `always`
 - 显式 `dns-mode = fake-ip`；维护约定是优先 `fake-ip`、次选 `mapping`，因为前者可通过 IP 逆向域名，流量接管更彻底，而后者只在更看重兼容性时作为退路
 - `skip-proxy`、`always-real-ip`、基础 DNS 与测速参数
 
@@ -88,24 +89,26 @@
 1. 拒绝规则
 2. 区域精确规则
 3. GitHub 仓库 SSH 定向直连
-4. GitHub Raw 规则产物下载入口
-5. AdsPower 细分直连规则
-6. AdsPower 细分节点选择规则
-7. Polygon 主网 RPC 节点选择规则
-8. BSC 主网 RPC 节点选择规则
-9. Google Public DNS 主 IPv4 端点节点选择规则
-10. 可选：1Password 核心连接节点选择规则
-11. 代理优先规则
-12. 直连规则
-13. IP 规则
-14. `FINAL`
+4. GitHub Raw 自举入口
+5. GitHub Core 节点选择规则
+6. AdsPower 细分直连规则
+7. AdsPower 细分节点选择规则
+8. Polygon 主网 RPC 节点选择规则
+9. BSC 主网 RPC 节点选择规则
+10. Google Public DNS 主 IPv4 端点节点选择规则
+11. 可选：1Password 核心连接节点选择规则
+12. 代理优先规则
+13. 直连规则
+14. IP 规则
+15. `FINAL`
 
 注意：
 
 - `region/tw/google_tw.list` 必须放在 `region/hk/global_media.list` 等广谱区域规则前。
 - `region/hk/global_media.list` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.list`。
-- `direct/github_ssh_direct.list` 必须放在 `proxy/gfw.list` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
-- GitHub Raw 规则产物下载建议在 `direct/github_ssh_direct.list` 后额外保留一条 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 入口，避免外部规则自举阶段依赖尚未加载完成的 `proxy/gfw.list`；同时继续保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。
+- `direct/github_ssh_direct.list` 必须放在 `proxy/github_core_proxy.list` 与 `proxy/gfw.list` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
+- GitHub Raw 自举入口建议在 `direct/github_ssh_direct.list` 后额外保留一条 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"`，避免外部规则首轮下载依赖尚未加载完成的后续远程规则集；同时继续保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。
+- `proxy/github_core_proxy.list` 应放在 `proxy/gfw.list` 前，显式承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；这也会覆盖 `https://api.github.com/gists`、`https://api.github.com/users` 与 `https://gist.githubusercontent.com/...` 这类连接。
 - `direct/alicloud_hk_ipv4_ssh22_direct.list`、`DOMAIN-SUFFIX,aliyuncs.com,DIRECT` 与 `DOMAIN,check.myclientip.com,DIRECT` 应统一放在直连段显式维护；其后可额外保留一条阿里云广覆盖 `REJECT` 观察兜底，用于发现上游阿里云规则的漏网之鱼。
 - `direct/adspower_direct.list` 与 `proxy/adspower_proxy.list` 都应放在 `proxy/gfw.list` 前，确保 AdsPower 的细分直连与节点选择优先命中。
 - `proxy/polygon_rpc_proxy.list` 应放在 `proxy/gfw.list` 前，确保 Polygon 主网 RPC 域名优先走 `🚀 节点选择`。
@@ -118,7 +121,7 @@
 - 如果你希望默认禁用系统更新、升级时再临时放行，建议同时接入 `direct/os_time_direct.list`、`reject/os_update_reject.list`、`direct/microsoft_direct.list` 与 `direct/macos_update_direct.list`；平时由 `reject` 先拦截升级流量，系统时间同步仍由 `os_time_direct` 保持直连。
 - `proxy/gfw.list` 建议放在其他普通 `direct/*.list` 前，减少广谱直连误伤。
 - 浏览器明文 HTTP 拦截推荐直接接 `plain_http_reject.list`，不要再手写重复规则。
-- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 下载入口、GitHub 广覆盖 `REJECT` 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；`github_ssh_direct` 后保留 `DOMAIN,raw.githubusercontent.com` 下载入口，并额外用 `DOMAIN-KEYWORD,github,REJECT` 观察 GitHub 漏网之鱼；阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行，其后额外保留一条阿里云广覆盖 `REJECT` 观察兜底；私有订阅域名统一从本地单一源文件同步到白名单显式放行段，并在订阅更新直连前额外插入 Chrome 访问这些域名时改走 `🚀 节点选择` 的例外；`proxy/onepassword_proxy.list` 也作为白名单显式放行入口放在 `proxy/gfw` 之前；AdsPower 细分规则后额外保留一条 `DOMAIN-KEYWORD,adspower,REJECT` 广覆盖观察兜底，用来发现细分规则漏网之鱼；Google Public DNS 主 IPv4 端点之后还额外保留一条 `DOMAIN-SUFFIX,cloudflare-dns.com` 节点选择入口，用于白名单模式下显式放行 Cloudflare DNS；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 是白名单例外：它保留设备分流、区域精确、GitHub SSH、GitHub Raw 自举入口、GitHub Core 代理入口、GitHub 广覆盖 `REJECT` 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 ByteDance；其中只有设备分流继续保留 `SRC-IP` 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组，后续规则不再额外限制源 IP，原独立 `IP 规则` 段已移除；`github_ssh_direct` 后先保留 `DOMAIN,raw.githubusercontent.com` 自举入口，再显式放行 `proxy/github_core_proxy.list`，并额外用 `DOMAIN-KEYWORD,github,REJECT` 观察 GitHub 漏网之鱼；阿里云香港 SSH、`aliyuncs.com` 与 `check.myclientip.com` 统一收敛到“指定直连”段显式放行，其后额外保留一条阿里云广覆盖 `REJECT` 观察兜底；私有订阅域名统一从本地单一源文件同步到白名单显式放行段，并在订阅更新直连前额外插入 Chrome 访问这些域名时改走 `🚀 节点选择` 的例外；`proxy/onepassword_proxy.list` 也作为白名单显式放行入口放在 `proxy/gfw` 之前；AdsPower 细分规则后额外保留一条 `DOMAIN-KEYWORD,adspower,REJECT` 广覆盖观察兜底，用来发现细分规则漏网之鱼；Google Public DNS 主 IPv4 端点之后还额外保留一条 `DOMAIN-SUFFIX,cloudflare-dns.com` 节点选择入口，用于白名单模式下显式放行 Cloudflare DNS；未命中上述入口的流量最终统一 `REJECT`。不要把公开模板里的广谱放行段机械同步回去。
 - 工作白名单模式下，广覆盖观察规则统一只允许使用 `REJECT`；personal 配置即使当前风险可接受，也不应把 `DIRECT` / `PROXY + extended-matching` 这类写法继续扩散回白名单模板。
 - 若只新增某个白名单专属的单个拒绝域名，或只用于阻断浏览器扩展更新链路的拒绝规则，默认直接维护在这份私有白名单的拒绝段，不为单条规则额外新增公开 `rules/` 文件。
 
