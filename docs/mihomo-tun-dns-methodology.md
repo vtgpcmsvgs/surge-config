@@ -79,7 +79,7 @@
 ## 国内 DNS 适用范围
 
 - `direct_cn`
-- 明确属于国内服务的专门直连规则集，例如 `direct_bilibili`、`direct_netease`、`direct_bytedance`
+- 明确属于国内服务的专门直连规则集，例如 `direct_ai_cn`、`direct_bilibili`、`direct_netease`、`direct_bytedance`
 - 局域网、本地域名与私有地址段
 
 ## 不应默认回到国内 DNS 的直连例外

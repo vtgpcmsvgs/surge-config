@@ -240,9 +240,11 @@ python tools/build_rules.py
 ## AI 路由约定
 
 - `rules/region/tw/ai_tw.list` 当前按“第三方上游聚合 + 本地激进兜底”维护，但定位已收敛为“海外 AI 平台入口”，统一承接 `OpenAI`、`Claude`、`Gemini`、`Copilot`、`Cursor`、`Grok`、`Windsurf`、`Augment` 等海外 AI 平台
-- `Trae` 只在 `ai_tw` 中保留明确海外入口；`DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `ai_tw`，而应继续落到 `direct/bytedance_direct`、`direct/cn_direct` 等直连规则
+- `rules/direct/ai_cn_direct.list` 新增为“国内 AI 显式直连入口”，优先承接 `Kimi / Moonshot`、`DeepSeek`、`豆包`、`即梦`、`Trae 中国大陆入口`、`元宝`、`混元`、`通义 / 千问`、`智谱 / ChatGLM`、`MiniMax / 海螺`、`文心` 等国内 AI 平台
+- `Trae` 只在 `ai_tw` 中保留明确海外入口；`DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `ai_tw`，而应优先落到 `direct/ai_cn_direct`，共享基础设施再继续落到 `direct/bytedance_direct`、`direct/cn_direct`
 - 上游主体优先引用 `blackmatrix7/ios_rule_script`、`SkywalkerJi/Clash-Rules` 与 `Accademia/Additional_Rule_For_Clash` 的快照；其中 `Trae` 只参考第三方上游，不再直接整包并入，避免把国内入口误送到台湾节点
-- 客户端顺序继续保持 `google_tw` 在前、`ai_tw` 在后，让通用 Google 业务优先命中 Google TW，再由 `ai_tw` 承接海外 AI 相关剩余流量
+- 客户端顺序继续保持 `google_tw` 在前、`ai_tw` 在后；国内 AI 侧则让 `direct/ai_cn_direct` 排在 `direct/bytedance_direct`、`direct/cn_direct` 前，确保显式国内入口优先命中
+- 私有 `rulemesh-substore-surge-work-whitelist.conf` 不会自动并入这组新的国内 AI 放行入口；工作白名单仍需继续按“只放行明确白名单入口，其余统一 REJECT”的原则单独评估
 
 ## 上游维护方式
 

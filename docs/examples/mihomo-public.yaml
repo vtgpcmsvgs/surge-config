@@ -93,6 +93,9 @@ dns:
     - 8.8.8.8
   # > 国内直连域名优先交给国内加密 DNS
   nameserver-policy:
+    "rule-set:direct_ai_cn":
+      - https://dns.alidns.com/dns-query
+      - https://doh.pub/dns-query
     "rule-set:direct_cn":
       - https://dns.alidns.com/dns-query
       - https://doh.pub/dns-query
@@ -527,6 +530,15 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
+  direct_ai_cn:
+    type: http
+    behavior: classical
+    format: yaml
+    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/direct/ai_cn_direct.yaml"
+    path: ./ruleset/direct/ai_cn_direct.yaml
+    interval: 86400
+    proxy: "🚀 节点选择"
+
   direct_bytedance:
     type: http
     behavior: classical
@@ -626,7 +638,7 @@ rules:
   - RULE-SET,reject_wps,REJECT
   - RULE-SET,reject_adspower,REJECT
 
-  # `tw_ai` 当前聚合海外 AI 平台；DeepSeek、Trae 中国大陆入口等国内 AI 不应并入这里。
+  # `tw_ai` 当前聚合海外 AI 平台；DeepSeek、Trae 中国大陆入口等国内 AI 不应并入这里，应优先交给 `direct_ai_cn`。
   - RULE-SET,tw_google,🇨🇳 台湾-自动选择
   - RULE-SET,tw_ai,🇨🇳 台湾-自动选择
   - RULE-SET,tw_crypto,🇨🇳 台湾-自动选择
@@ -679,6 +691,7 @@ rules:
   - DOMAIN,check.myclientip.com,DIRECT
   - RULE-SET,direct_microsoft,DIRECT
   - RULE-SET,direct_macos_update,DIRECT
+  - RULE-SET,direct_ai_cn,DIRECT
   - RULE-SET,direct_bytedance,DIRECT
   - RULE-SET,direct_netease,DIRECT
   - RULE-SET,direct_bilibili,DIRECT

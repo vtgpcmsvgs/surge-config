@@ -2,9 +2,9 @@
   "summary": {
     "domain-only": 6,
     "ipcidr-only": 7,
-    "classical/mixed": 21,
+    "classical/mixed": 22,
     "empty": 0,
-    "total_sources": 34,
+    "total_sources": 35,
     "total_warnings": 0
   },
   "sources": [
@@ -19,6 +19,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/direct/adspower_direct.list",
         "mihomo_classical": "dist/mihomo/classical/direct/adspower_direct.yaml"
+      }
+    },
+    {
+      "source": "rules/direct/ai_cn_direct.list",
+      "category": "direct",
+      "classification": "classical/mixed",
+      "counts": {
+        "surge_rules": 45,
+        "mihomo_classical": 45
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/direct/ai_cn_direct.list",
+        "mihomo_classical": "dist/mihomo/classical/direct/ai_cn_direct.yaml"
       }
     },
     {

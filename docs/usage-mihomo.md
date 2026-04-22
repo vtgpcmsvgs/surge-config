@@ -29,6 +29,7 @@
 - 默认在 `proxy-providers.*.override` 里显式写 `ip-version: dual`，真正放开订阅节点双栈连接，但先不默认强推 `ipv6-prefer`
 - `region/hk/global_media.yaml` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
 - `region/tw/ai_tw.yaml` 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Windsurf / Augment 等海外 AI 平台，并保留更激进的关键词兜底
+- `direct/ai_cn_direct.yaml` 显式承接 Kimi / DeepSeek / 豆包 / 即梦 / Trae 中国大陆 / 元宝 / 混元 / 通义 / 千问 / 智谱 / MiniMax / 文心等国内 AI 入口；它既应放在 `direct_bytedance`、`direct_cn` 前，也属于 `nameserver-policy` 的国内直连域名集
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.yaml`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.yaml`
 - 阿里云香港 SSH 直连入口已统一为 `direct/alicloud_hk_ipv4_ssh22_direct.yaml`，并继续在入口文件里直接保留 `SSH TCP/22` 条件，不要求本地配置二次拼装端口规则
@@ -81,7 +82,7 @@
 
 - Mihomo 的体验优化优先级，不是继续堆规则，而是先把 `tun`、`sniffer`、`dns` 这层运行时补齐。
 - DNS 分流不按 `DIRECT` / `PROXY` 两分，而按“国内直连域名集”和“国际域名”拆开；前者走国内加密 DNS，后者默认走国外加密 DNS。
-- 新增直连规则时，要先判断它属于“国内直连域名集”还是“国外直连例外”。只有前者才应进入 `nameserver-policy` 的国内解析名单。
+- 新增直连规则时，要先判断它属于“国内直连域名集”还是“国外直连例外”。只有前者才应进入 `nameserver-policy` 的国内解析名单；`direct_ai_cn` 就属于前者。
 - `proxy-server-nameserver` 要与业务 DNS 分开维护；前者只负责节点域名解析，避免规则 DNS 与节点 DNS 互相依赖。
 - 如果要给 Clash Meta for Android 做定向兼容，优先只动它自己的 `proxy-server-nameserver`，并把变更局限在私有 Android 文件，不要反向污染 Clash Verge Rev 文件。
 - 当前 `dist/mihomo/classical/` 默认只发布 Mihomo 已确认支持的规则类型；像 `URL-REGEX` 这类 Surge 仍可使用、但 Mihomo classical 当前不支持的规则，会保留在源规则层和 Surge 产物中，但不会写入 Mihomo 产物。
@@ -118,7 +119,8 @@
 
 - `region/tw/google_tw.yaml` 对应规则应放在 `region/tw/ai_tw.yaml` 与 `region/hk/global_media.yaml` 前。
 - `region/tw/ai_tw.yaml` 当前聚合海外 AI 平台，且对 Gemini / AI Studio / NotebookLM 保留 AI 视角交叉兜底；它也应继续放在广谱区域规则前。
-- `DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `region/tw/ai_tw.yaml`；它们应继续由 `direct_cn`、`direct_bytedance` 等直连规则承接。
+- `DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `region/tw/ai_tw.yaml`；它们应优先由 `direct_ai_cn` 承接，字节共享基础设施与中国大陆通用兜底再继续落到 `direct_bytedance`、`direct_cn`。
+- `direct_ai_cn` 属于“国内直连域名集”，应同步加入 `nameserver-policy` 的国内加密 DNS 名单，且顺序上放在 `direct_bytedance`、`direct_cn` 前。
 - `region/hk/global_media.yaml` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.yaml`。
 - `direct/github_ssh_direct.yaml` 必须放在 `proxy/github_core_proxy.yaml` 与 `proxy/gfw.yaml` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - `proxy/github_core_proxy.yaml` 应放在 `proxy/gfw.yaml` 前，显式承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；这也会覆盖 `https://api.github.com/gists`、`https://api.github.com/users` 与 `https://gist.githubusercontent.com/...` 这类连接。

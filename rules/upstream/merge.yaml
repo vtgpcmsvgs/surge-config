@@ -26,6 +26,17 @@ merge_plan:
       - 统一由 rules/app/adspower.txt 维护，不直接手改该源文件
       - adspower.com 与 adspower.net 在主清单中必须成对出现
 
+  - id: ai-cn-direct
+    target: rules/direct/ai_cn_direct.list
+    purpose: 国内 AI 平台显式直连入口
+    strategy:
+      - manual_only
+      - explicit_official_domains_first_then_local_keyword_fallback
+      - keep_scope_curated_and_aggressive
+    notes:
+      - 客户端顺序应放在 direct/bytedance_direct.list 与 direct/cn_direct.list 前
+      - 海外 AI 继续交给 rules/region/tw/ai_tw.list；字节共享基础设施与中国大陆通用兜底继续交给 direct/bytedance_direct.list 与 direct/cn_direct.list
+
   - id: cn-direct
     target: rules/direct/cn_direct.list
     purpose: 中国大陆基础直连兜底，尽量避免国内站点误走代理
@@ -221,7 +232,7 @@ merge_plan:
       - include_accademia_grok
     notes:
       - 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Windsurf / Augment 等海外 AI 平台
-      - Trae 只保留明确海外入口；DeepSeek、Trae 中国大陆入口与其他国内 AI 不并入该文件，而是继续交给直连规则
+      - Trae 只保留明确海外入口；DeepSeek、Trae 中国大陆入口与其他国内 AI 不并入该文件，而是优先交给 rules/direct/ai_cn_direct.list，再由直连兜底规则承接共享基础设施
       - 本地额外保留更激进的 DOMAIN-KEYWORD 兜底，用于覆盖新前端、新二级域名与第三方聚合入口
 
   - id: tw-crypto

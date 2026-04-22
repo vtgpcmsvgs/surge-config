@@ -36,6 +36,12 @@ sources:
       preferred:
         - repo: self
           note: AdsPower 专项直连规则由 rules/app/adspower.txt 单一主清单派生，承接代理检测与网络环境测试放行
+    ai_cn_direct.list:
+      preferred:
+        - repo: self
+          note: 显式承接国内 AI 平台与中国大陆入口，客户端应优先放在 bytedance_direct 与 cn_direct 前
+        - repo: official product domains
+          note: 以 Kimi / DeepSeek / 豆包 / Trae 中国大陆 / 元宝 / 混元 / 通义 / 智谱 / MiniMax / 文心等官方入口为准，并保留关键词兜底
     cn_direct.list:
       preferred:
         - repo: self
@@ -150,7 +156,7 @@ sources:
     tw/ai_tw.list:
       preferred:
         - repo: self
-          note: 承接海外 AI 平台的更激进关键词与热门站点补充兜底；国内 AI 保持走直连规则
+          note: 承接海外 AI 平台的更激进关键词与热门站点补充兜底；国内 AI 优先走 ai_cn_direct，再由 bytedance_direct 与 cn_direct 兜底
         - repo: blackmatrix7/ios_rule_script
           note: 负责 OpenAI / Claude / Gemini / Copilot 主体
         - repo: SkywalkerJi/Clash-Rules
