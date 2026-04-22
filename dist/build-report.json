@@ -26,8 +26,8 @@
       "category": "direct",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 836,
-        "mihomo_classical": 836
+        "surge_rules": 844,
+        "mihomo_classical": 844
       },
       "dist": {
         "surge_rules": "dist/surge/rules/direct/alicloud_hk_ipv4_ssh22_direct.list",
