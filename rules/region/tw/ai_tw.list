@@ -1,19 +1,59 @@
-# 海外 AI 平台台湾分流规则：主打“上游聚合 + 本地激进兜底”。
+# 海外 AI 平台台湾分流规则：按“同平台聚合展示 + 上游优先 + 本地激进兜底”维护。
 # 维护约束：
 # 1) OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Windsurf / Augment 等海外 AI 平台统一先走本文件。
-# 2) Trae 只保留明确海外入口；中国大陆 AI（例如 DeepSeek、Trae 中国大陆入口）不并入本文件，应优先回到 direct/ai_cn_direct.list，再由其他直连规则兜底。
-# 3) Google 通用服务仍以 tw/google_tw.list 为主；Gemini / AI Studio / NotebookLM 允许在本文件保留 AI 视角交叉兜底。
-# 4) 本规则集设计目标固定为台湾节点，客户端请绑定 TW-AUTO（或等价台湾策略组）。
-INCLUDE,upstream/blackmatrix7/openai.list
-INCLUDE,upstream/blackmatrix7/claude.list
-INCLUDE,upstream/blackmatrix7/gemini.list
-INCLUDE,upstream/blackmatrix7/copilot.list
-INCLUDE,upstream/skywalkerji/cursor.list
-INCLUDE,upstream/accademia/grok.list
-INCLUDE,upstream/skywalkerji/windsurf.list
-INCLUDE,upstream/skywalkerji/augmentcode.list
+# 2) 每个平台尽量把“上游 INCLUDE、显式域名、关键词兜底”放在同一小节，便于快速定位与补规则。
+# 3) Trae 只保留明确海外入口；中国大陆 AI（例如 DeepSeek、Trae 中国大陆入口）不并入本文件，应优先回到 direct/ai_cn_direct.list，再由其他直连规则兜底。
+# 4) Google 通用服务仍以 tw/google_tw.list 为主；Gemini / AI Studio / NotebookLM 允许在本文件保留 AI 视角交叉兜底。
+# 5) 本规则集设计目标固定为台湾节点，客户端请绑定 TW-AUTO（或等价台湾策略组）。
 
-# 本地补 Trae 海外入口：只保留明确海外域名，不并入中国大陆入口与共享国内基础设施。
+# ChatGPT / OpenAI：以上游主体为主，辅以品牌关键词兜底。
+INCLUDE,upstream/blackmatrix7/openai.list
+DOMAIN-KEYWORD,openai
+DOMAIN-KEYWORD,chatgpt
+
+# Claude / Anthropic：补齐 Claude 品牌新入口，并保留客服/监控链路关键词兜底。
+INCLUDE,upstream/blackmatrix7/claude.list
+DOMAIN-SUFFIX,claude.com
+DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-KEYWORD,anthropic
+DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,intercom
+DOMAIN-KEYWORD,datadoghq
+
+# Gemini / Google AI：在 Google 通用规则之外，保留 AI 产品入口与关键词交叉兜底。
+INCLUDE,upstream/blackmatrix7/gemini.list
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-KEYWORD,gemini
+DOMAIN-KEYWORD,makersuite
+DOMAIN-KEYWORD,aistudio
+DOMAIN-KEYWORD,notebooklm
+DOMAIN-KEYWORD,deepmind
+
+# GitHub Copilot：以上游主体为主，补品牌关键词兜底。
+INCLUDE,upstream/blackmatrix7/copilot.list
+DOMAIN-KEYWORD,copilot
+DOMAIN-KEYWORD,githubcopilot
+
+# Cursor：以上游主体为主，补品牌关键词兜底。
+INCLUDE,upstream/skywalkerji/cursor.list
+DOMAIN-KEYWORD,cursor
+
+# Grok / xAI：以上游主体为主，补品牌关键词兜底。
+INCLUDE,upstream/accademia/grok.list
+DOMAIN-KEYWORD,grok
+DOMAIN-KEYWORD,xai
+
+# Windsurf / Codeium：以上游主体为主，补品牌关键词兜底。
+INCLUDE,upstream/skywalkerji/windsurf.list
+DOMAIN-KEYWORD,windsurf
+DOMAIN-KEYWORD,codeium
+
+# Augment：以上游主体为主，补品牌关键词兜底。
+INCLUDE,upstream/skywalkerji/augmentcode.list
+DOMAIN-KEYWORD,augment
+
+# Trae 海外版：只保留明确海外域名，不并入中国大陆入口与共享国内基础设施。
 DOMAIN-SUFFIX,trae.ai
 DOMAIN-SUFFIX,byteoversea.com
 DOMAIN-SUFFIX,trae-api-sg.mchost.guru
@@ -22,69 +62,82 @@ DOMAIN-SUFFIX,abtestvm-sg.bytedance.com
 DOMAIN-SUFFIX,tron-sg.bytelemon.com
 DOMAIN-SUFFIX,sf16-short-sg.bytedapm.com
 
-# 本地兜底：热门 AI 平台域名
+# Arc：保留 AI 浏览器入口域名。
 DOMAIN-SUFFIX,arc.net
-DOMAIN-SUFFIX,claude.com
-DOMAIN-SUFFIX,claudeusercontent.com
+
+# Perplexity：保留主域名与品牌关键词双兜底。
 DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-SUFFIX,pplx.ai
-DOMAIN-SUFFIX,poe.com
-DOMAIN-SUFFIX,poecdn.net
-DOMAIN-SUFFIX,openrouter.ai
-DOMAIN-SUFFIX,huggingface.co
-DOMAIN-SUFFIX,hf.co
-DOMAIN-SUFFIX,notebooklm.google.com
-DOMAIN-SUFFIX,aistudio.google.com
-DOMAIN-SUFFIX,meta.ai
-DOMAIN-SUFFIX,character.ai
-DOMAIN-SUFFIX,midjourney.com
-DOMAIN-SUFFIX,stability.ai
-DOMAIN-SUFFIX,runwayml.com
-DOMAIN-SUFFIX,suno.ai
-DOMAIN-SUFFIX,elevenlabs.io
-DOMAIN-SUFFIX,groq.com
-DOMAIN-SUFFIX,mistral.ai
-DOMAIN-SUFFIX,cohere.com
-DOMAIN-SUFFIX,fireworks.ai
-DOMAIN-SUFFIX,together.ai
-DOMAIN-SUFFIX,replicate.com
-DOMAIN-SUFFIX,bolt.new
-DOMAIN-SUFFIX,lovable.dev
-
-# 本地兜底：更激进的关键词覆盖
-DOMAIN-KEYWORD,openai
-DOMAIN-KEYWORD,chatgpt
-DOMAIN-KEYWORD,anthropic
-DOMAIN-KEYWORD,claude
-DOMAIN-KEYWORD,intercom
-DOMAIN-KEYWORD,datadoghq
-DOMAIN-KEYWORD,gemini
-DOMAIN-KEYWORD,makersuite
-DOMAIN-KEYWORD,aistudio
-DOMAIN-KEYWORD,notebooklm
-DOMAIN-KEYWORD,deepmind
-DOMAIN-KEYWORD,copilot
-DOMAIN-KEYWORD,githubcopilot
-DOMAIN-KEYWORD,cursor
-DOMAIN-KEYWORD,grok
-DOMAIN-KEYWORD,xai
-DOMAIN-KEYWORD,augment
-DOMAIN-KEYWORD,windsurf
-DOMAIN-KEYWORD,codeium
 DOMAIN-KEYWORD,perplexity
 DOMAIN-KEYWORD,pplx
+
+# Poe：保留主站、静态资源与品牌关键词兜底。
+DOMAIN-SUFFIX,poe.com
+DOMAIN-SUFFIX,poecdn.net
 DOMAIN-KEYWORD,poe
+
+# OpenRouter：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,openrouter.ai
 DOMAIN-KEYWORD,openrouter
+
+# Hugging Face：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,huggingface.co
+DOMAIN-SUFFIX,hf.co
 DOMAIN-KEYWORD,huggingface
+
+# Meta AI：保留主域名入口。
+DOMAIN-SUFFIX,meta.ai
+
+# Character.AI：保留主域名入口。
+DOMAIN-SUFFIX,character.ai
+
+# Midjourney：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,midjourney.com
 DOMAIN-KEYWORD,midjourney
+
+# Stability AI：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,stability.ai
 DOMAIN-KEYWORD,stability
+
+# Runway：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,runwayml.com
 DOMAIN-KEYWORD,runway
+
+# Suno：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,suno.ai
 DOMAIN-KEYWORD,suno
+
+# ElevenLabs：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,elevenlabs.io
 DOMAIN-KEYWORD,elevenlabs
+
+# Groq：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,groq.com
 DOMAIN-KEYWORD,groq
+
+# Mistral：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,mistral.ai
 DOMAIN-KEYWORD,mistral
+
+# Cohere：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,cohere.com
 DOMAIN-KEYWORD,cohere
+
+# Fireworks：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,fireworks.ai
 DOMAIN-KEYWORD,fireworks
+
+# Together AI：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,together.ai
 DOMAIN-KEYWORD,together
+
+# Replicate：保留主域名与品牌关键词兜底。
+DOMAIN-SUFFIX,replicate.com
 DOMAIN-KEYWORD,replicate
+
+# Bolt：保留产品域名入口。
+DOMAIN-SUFFIX,bolt.new
+
+# Lovable：保留产品域名与品牌关键词兜底。
+DOMAIN-SUFFIX,lovable.dev
 DOMAIN-KEYWORD,lovable
