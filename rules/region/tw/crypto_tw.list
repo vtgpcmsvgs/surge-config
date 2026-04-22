@@ -1,24 +1,31 @@
-# 加密货币规则统一入口（台湾策略）：上游优先 + 本地兜底。
-# 说明：
+# 加密货币规则统一入口（台湾策略）：按“上游主体 + 分类补站 + 本地兜底”维护。
+# 维护约束：
 # 1) 主体来自 blackmatrix7 的 Cryptocurrency.list，持续同步。
-# 2) 本地补充保留第三方暂未覆盖站点（例如 g42.ai、预测市场、部分链上分析工具）。
+# 2) 本地补充主要承接上游暂未覆盖、但你实际使用中已观察到的交易基础设施、预测市场与链上分析站点。
+# 3) 本规则集设计目标固定为台湾节点，客户端请绑定 TW-AUTO（或等价台湾策略组）。
+
+# 加密货币通用主体：以上游快照为主，承接主流交易所、钱包、链上服务与常见加密站点。
 INCLUDE,upstream/blackmatrix7/cryptocurrency.list
 
-# 本地兜底：交易基础设施
+# 交易所 / 交易接入基础设施：保留交易品牌词与相关基础设施兜底。
 DOMAIN-KEYWORD,bitget
 DOMAIN-KEYWORD,saasexch
+DOMAIN-KEYWORD,lighter
+
+# 账户接入 / 合规基础设施：保留登录、风控、同意管理等第三方组件兜底。
+DOMAIN-KEYWORD,privy
 DOMAIN-KEYWORD,onetrust
 
-# 本地兜底：区块浏览器 / 数据分析 / DeFi / 预测市场
-DOMAIN-KEYWORD,privy
+# 链上数据 / 研究分析 / 区块浏览器：保留链上浏览器、数据平台与研究站点入口。
 DOMAIN-KEYWORD,aspecta
 DOMAIN-KEYWORD,mempool
 DOMAIN-KEYWORD,rootdata
-DOMAIN-KEYWORD,lighter
-DOMAIN-SUFFIX,g42.ai
-DOMAIN-SUFFIX,kalshi.com
 DOMAIN-SUFFIX,dune.com
 DOMAIN-SUFFIX,defillama.com
 DOMAIN-SUFFIX,arbiscan.io
 DOMAIN-SUFFIX,basescan.org
 DOMAIN-SUFFIX,solscan.io
+
+# 预测市场 / 其他补站：保留上游暂未完整覆盖但你明确需要的站点。
+DOMAIN-SUFFIX,kalshi.com
+DOMAIN-SUFFIX,g42.ai
