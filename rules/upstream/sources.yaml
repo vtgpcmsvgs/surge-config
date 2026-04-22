@@ -150,11 +150,11 @@ sources:
     tw/ai_tw.list:
       preferred:
         - repo: self
-          note: 承接更激进的关键词与热门 AI 平台补充兜底
+          note: 承接海外 AI 平台的更激进关键词与热门站点补充兜底；国内 AI 保持走直连规则
         - repo: blackmatrix7/ios_rule_script
           note: 负责 OpenAI / Claude / Gemini / Copilot 主体
         - repo: SkywalkerJi/Clash-Rules
-          note: 负责 Cursor / Trae / Windsurf / AugmentCode 等编码 AI 平台补充
+          note: 负责 Cursor / Windsurf / AugmentCode 等编码 AI 平台补充；Trae 只参考其上游，不再整包并入
         - repo: Accademia/Additional_Rule_For_Clash
           note: 负责 Grok 补充，作为 blackmatrix7 缺口的补位来源
     tw/crypto_tw.list:

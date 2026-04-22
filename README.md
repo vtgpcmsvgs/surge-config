@@ -239,9 +239,10 @@ python tools/build_rules.py
 
 ## AI 路由约定
 
-- `rules/region/tw/ai_tw.list` 当前按“第三方上游聚合 + 本地激进兜底”维护，统一承接 `OpenAI`、`Claude`、`Gemini`、`Copilot`、`Cursor`、`Grok`、`Trae`、`Windsurf`、`Augment` 等主流 AI 平台
-- 上游主体优先引用 `blackmatrix7/ios_rule_script`、`SkywalkerJi/Clash-Rules` 与 `Accademia/Additional_Rule_For_Clash` 的快照；本地只补热门平台遗漏与更激进的 `DOMAIN-KEYWORD` 兜底
-- 客户端顺序继续保持 `google_tw` 在前、`ai_tw` 在后，让通用 Google 业务优先命中 Google TW，再由 `ai_tw` 承接 AI 相关剩余流量
+- `rules/region/tw/ai_tw.list` 当前按“第三方上游聚合 + 本地激进兜底”维护，但定位已收敛为“海外 AI 平台入口”，统一承接 `OpenAI`、`Claude`、`Gemini`、`Copilot`、`Cursor`、`Grok`、`Windsurf`、`Augment` 等海外 AI 平台
+- `Trae` 只在 `ai_tw` 中保留明确海外入口；`DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `ai_tw`，而应继续落到 `direct/bytedance_direct`、`direct/cn_direct` 等直连规则
+- 上游主体优先引用 `blackmatrix7/ios_rule_script`、`SkywalkerJi/Clash-Rules` 与 `Accademia/Additional_Rule_For_Clash` 的快照；其中 `Trae` 只参考第三方上游，不再直接整包并入，避免把国内入口误送到台湾节点
+- 客户端顺序继续保持 `google_tw` 在前、`ai_tw` 在后，让通用 Google 业务优先命中 Google TW，再由 `ai_tw` 承接海外 AI 相关剩余流量
 
 ## 上游维护方式
 

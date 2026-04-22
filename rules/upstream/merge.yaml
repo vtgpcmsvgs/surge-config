@@ -213,14 +213,15 @@ merge_plan:
 
   - id: tw-ai
     target: rules/region/tw/ai_tw.list
-    purpose: AI 平台走台湾策略
+    purpose: 海外 AI 平台走台湾策略
     strategy:
       - include_upstream_first_then_local_keyword_fallback
       - include_blackmatrix7_openai_family
       - include_skywalkerji_coding_ai
       - include_accademia_grok
     notes:
-      - 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Trae / Windsurf / Augment 等 AI 平台
+      - 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Windsurf / Augment 等海外 AI 平台
+      - Trae 只保留明确海外入口；DeepSeek、Trae 中国大陆入口与其他国内 AI 不并入该文件，而是继续交给直连规则
       - 本地额外保留更激进的 DOMAIN-KEYWORD 兜底，用于覆盖新前端、新二级域名与第三方聚合入口
 
   - id: tw-crypto

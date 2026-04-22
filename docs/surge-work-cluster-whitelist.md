@@ -22,7 +22,7 @@
 - 设备分流继续按“源 IP + AWS 区域 / 日本 SOCKS5 IP 段”定向到对应设备组
 - 只有 2.1 设备分流继续保留“源 IP + AWS 区域 / 日本 SOCKS5 IP 段”约束；2.2-2.10 不再额外限制源 IP
 - 区域精确规则继续保留，且 `Google TW` 与 `AI TW` 都必须先于广谱区域规则
-- `AI TW` 入口继续作为白名单显式放行项，当前承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok 等主流 AI 平台
+- `AI TW` 入口继续作为白名单显式放行项，但当前只承接海外 AI 平台；国内 AI 不应借这条入口放行
 - GitHub 仓库 SSH 定向直连继续保留独立 carve-out
 - GitHub 相关访问继续拆成三段：先保留 `DOMAIN,raw.githubusercontent.com` 自举入口，再显式放行 `proxy/github_core_proxy.list`，其后的 `DOMAIN-KEYWORD,github` 广覆盖观察兜底在工作白名单模式下统一使用 `REJECT`，专门用于发现 SSH / GitHub Core 之外的漏网之鱼
 - `raw.githubusercontent.com` 继续额外绑定 `server:system` 解析，`dns-server` 也保留 `system + 公共 DNS` 组合，用于降低 GitHub Raw 外部资源偶发超时
