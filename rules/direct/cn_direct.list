@@ -1,5 +1,13 @@
-# 中国大陆直连规则：上游为主，本地补充。
+# 中国大陆直连规则：按“上游主体 + 本地最高优先级兜底”维护。
+# 维护约束：
+# 1) 主体来自 Loyalsoldier 的 direct.txt 与 cncidr.txt，持续同步。
+# 2) 本文件承担最宽泛的中国大陆基础直连兜底，顺序上应放在更精细的国内产品规则之后。
+# 3) 新增国内产品或厂商的显式入口时，优先放到更细分的 direct/*.list；本文件只保留最高优先级的大陆通用兜底。
+
+# 中国大陆通用主体：以上游域名与网段快照为主。
 INCLUDE,upstream/loyalsoldier/direct.txt
 INCLUDE,upstream/loyalsoldier/cncidr.txt
+
+# 中国大陆最高优先级兜底：保留 .cn 与 GEOIP,CN 两条最宽泛的基础兜底。
 DOMAIN-SUFFIX,cn
 GEOIP,CN
