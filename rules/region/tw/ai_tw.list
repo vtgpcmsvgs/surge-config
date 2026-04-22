@@ -24,6 +24,7 @@ DOMAIN-SUFFIX,sf16-short-sg.bytedapm.com
 
 # 本地兜底：热门 AI 平台域名
 DOMAIN-SUFFIX,arc.net
+DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudeusercontent.com
 DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-SUFFIX,pplx.ai
@@ -55,6 +56,8 @@ DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,intercom
+DOMAIN-KEYWORD,datadoghq
 DOMAIN-KEYWORD,gemini
 DOMAIN-KEYWORD,makersuite
 DOMAIN-KEYWORD,aistudio

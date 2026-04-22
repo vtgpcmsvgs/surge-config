@@ -94,6 +94,7 @@ DOMAIN-SUFFIX,abtestvm-sg.bytedance.com
 DOMAIN-SUFFIX,tron-sg.bytelemon.com
 DOMAIN-SUFFIX,sf16-short-sg.bytedapm.com
 DOMAIN-SUFFIX,arc.net
+DOMAIN-SUFFIX,claude.com
 DOMAIN-SUFFIX,claudeusercontent.com
 DOMAIN-SUFFIX,perplexity.ai
 DOMAIN-SUFFIX,pplx.ai
@@ -122,6 +123,8 @@ DOMAIN-SUFFIX,lovable.dev
 DOMAIN-KEYWORD,chatgpt
 DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,intercom
+DOMAIN-KEYWORD,datadoghq
 DOMAIN-KEYWORD,gemini
 DOMAIN-KEYWORD,makersuite
 DOMAIN-KEYWORD,aistudio
