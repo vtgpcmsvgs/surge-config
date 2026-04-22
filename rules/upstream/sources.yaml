@@ -150,9 +150,13 @@ sources:
     tw/ai_tw.list:
       preferred:
         - repo: self
-          note: 保留少量关键词兜底
+          note: 承接更激进的关键词与热门 AI 平台补充兜底
         - repo: blackmatrix7/ios_rule_script
-          note: 负责 OpenAI.list 补充
+          note: 负责 OpenAI / Claude / Gemini / Copilot 主体
+        - repo: SkywalkerJi/Clash-Rules
+          note: 负责 Cursor / Trae / Windsurf / AugmentCode 等编码 AI 平台补充
+        - repo: Accademia/Additional_Rule_For_Clash
+          note: 负责 Grok 补充，作为 blackmatrix7 缺口的补位来源
     tw/crypto_tw.list:
       preferred:
         - repo: self
@@ -162,7 +166,7 @@ sources:
     tw/google_tw.list:
       preferred:
         - repo: self
-          note: Google 相关服务，含 Play、Gemini、YouTube 与 FCM，统一走台湾入口
+          note: Google 通用服务主入口，含 Play、YouTube 与 FCM；Gemini 允许在 ai_tw 做 AI 视角交叉兜底
         - repo: blackmatrix7/ios_rule_script
           note: 负责 GoogleFCM.list 与 YouTube.list 补充，通过 INCLUDE 并入该文件
     jp/domains_to_jp.list:

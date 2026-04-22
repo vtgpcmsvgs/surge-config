@@ -338,8 +338,8 @@
       "category": "region",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 38,
-        "mihomo_classical": 38
+        "surge_rules": 157,
+        "mihomo_classical": 157
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/tw/ai_tw.list",

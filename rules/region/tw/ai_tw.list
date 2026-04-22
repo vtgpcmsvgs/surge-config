@@ -1,6 +1,81 @@
-# AI 平台台湾分流规则：上游为主，本地补充。
-# Google 系 AI（例如 Gemini）有意集中维护在 tw/google_tw.list。
+# AI 平台台湾分流规则：主打“上游聚合 + 本地激进兜底”。
+# 维护约束：
+# 1) OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Trae / Windsurf / Augment 等主流 AI 平台统一先走本文件。
+# 2) Google 通用服务仍以 tw/google_tw.list 为主；Gemini / AI Studio / NotebookLM 允许在本文件保留 AI 视角交叉兜底。
+# 3) 本规则集设计目标固定为台湾节点，客户端请绑定 TW-AUTO（或等价台湾策略组）。
 INCLUDE,upstream/blackmatrix7/openai.list
+INCLUDE,upstream/blackmatrix7/claude.list
+INCLUDE,upstream/blackmatrix7/gemini.list
+INCLUDE,upstream/blackmatrix7/copilot.list
+INCLUDE,upstream/skywalkerji/cursor.list
+INCLUDE,upstream/accademia/grok.list
+INCLUDE,upstream/skywalkerji/trae.list
+INCLUDE,upstream/skywalkerji/windsurf.list
+INCLUDE,upstream/skywalkerji/augmentcode.list
+
+# 本地兜底：热门 AI 平台域名
 DOMAIN-SUFFIX,arc.net
+DOMAIN-SUFFIX,claudeusercontent.com
+DOMAIN-SUFFIX,perplexity.ai
+DOMAIN-SUFFIX,pplx.ai
+DOMAIN-SUFFIX,poe.com
+DOMAIN-SUFFIX,poecdn.net
+DOMAIN-SUFFIX,openrouter.ai
+DOMAIN-SUFFIX,deepseek.com
+DOMAIN-SUFFIX,huggingface.co
+DOMAIN-SUFFIX,hf.co
+DOMAIN-SUFFIX,notebooklm.google.com
+DOMAIN-SUFFIX,aistudio.google.com
+DOMAIN-SUFFIX,meta.ai
+DOMAIN-SUFFIX,character.ai
+DOMAIN-SUFFIX,midjourney.com
+DOMAIN-SUFFIX,stability.ai
+DOMAIN-SUFFIX,runwayml.com
+DOMAIN-SUFFIX,suno.ai
+DOMAIN-SUFFIX,elevenlabs.io
+DOMAIN-SUFFIX,groq.com
+DOMAIN-SUFFIX,mistral.ai
+DOMAIN-SUFFIX,cohere.com
+DOMAIN-SUFFIX,fireworks.ai
+DOMAIN-SUFFIX,together.ai
+DOMAIN-SUFFIX,replicate.com
+DOMAIN-SUFFIX,bolt.new
+DOMAIN-SUFFIX,lovable.dev
+
+# 本地兜底：更激进的关键词覆盖
+DOMAIN-KEYWORD,openai
 DOMAIN-KEYWORD,chatgpt
+DOMAIN-KEYWORD,anthropic
 DOMAIN-KEYWORD,claude
+DOMAIN-KEYWORD,gemini
+DOMAIN-KEYWORD,makersuite
+DOMAIN-KEYWORD,aistudio
+DOMAIN-KEYWORD,notebooklm
+DOMAIN-KEYWORD,deepmind
+DOMAIN-KEYWORD,copilot
+DOMAIN-KEYWORD,githubcopilot
+DOMAIN-KEYWORD,cursor
+DOMAIN-KEYWORD,grok
+DOMAIN-KEYWORD,xai
+DOMAIN-KEYWORD,augment
+DOMAIN-KEYWORD,windsurf
+DOMAIN-KEYWORD,codeium
+DOMAIN-KEYWORD,trae
+DOMAIN-KEYWORD,perplexity
+DOMAIN-KEYWORD,pplx
+DOMAIN-KEYWORD,poe
+DOMAIN-KEYWORD,openrouter
+DOMAIN-KEYWORD,deepseek
+DOMAIN-KEYWORD,huggingface
+DOMAIN-KEYWORD,midjourney
+DOMAIN-KEYWORD,stability
+DOMAIN-KEYWORD,runway
+DOMAIN-KEYWORD,suno
+DOMAIN-KEYWORD,elevenlabs
+DOMAIN-KEYWORD,groq
+DOMAIN-KEYWORD,mistral
+DOMAIN-KEYWORD,cohere
+DOMAIN-KEYWORD,fireworks
+DOMAIN-KEYWORD,together
+DOMAIN-KEYWORD,replicate
+DOMAIN-KEYWORD,lovable

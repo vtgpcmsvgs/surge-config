@@ -230,11 +230,18 @@ python tools/build_rules.py
 
 ## Google 路由强约束
 
-- Google 相关（含 Google Play / Gemini / YouTube / FCM）只在 `rules/region/tw/google_tw.list` 维护
+- Google 通用服务（含 Google Play / YouTube / FCM）主维护在 `rules/region/tw/google_tw.list`
+- `Gemini` / `AI Studio` / `NotebookLM` 允许在 `rules/region/tw/ai_tw.list` 保留 AI 视角交叉兜底，但客户端顺序仍必须让 `google_tw` 排在 `ai_tw` 前
 - 客户端应接入 `dist/surge/rules/region/tw/google_tw.list` 或 `dist/mihomo/classical/region/tw/google_tw.yaml`
 - Google 规则必须绑定 `TW-AUTO`（或等价台湾策略组），不再提供 `proxy/google` 双入口
-- 规则顺序必须先放 Google TW 规则，再放 `region/hk/global_media` 等广谱区域规则，确保优先命中台湾策略
+- 规则顺序必须先放 Google TW 规则，再放 `region/tw/ai_tw` 与 `region/hk/global_media` 等广谱区域规则，确保优先命中台湾策略
 - 新增或调整 Google 规则时，先改该源文件，再执行构建同步 `dist/`
+
+## AI 路由约定
+
+- `rules/region/tw/ai_tw.list` 当前按“第三方上游聚合 + 本地激进兜底”维护，统一承接 `OpenAI`、`Claude`、`Gemini`、`Copilot`、`Cursor`、`Grok`、`Trae`、`Windsurf`、`Augment` 等主流 AI 平台
+- 上游主体优先引用 `blackmatrix7/ios_rule_script`、`SkywalkerJi/Clash-Rules` 与 `Accademia/Additional_Rule_For_Clash` 的快照；本地只补热门平台遗漏与更激进的 `DOMAIN-KEYWORD` 兜底
+- 客户端顺序继续保持 `google_tw` 在前、`ai_tw` 在后，让通用 Google 业务优先命中 Google TW，再由 `ai_tw` 承接 AI 相关剩余流量
 
 ## 上游维护方式
 

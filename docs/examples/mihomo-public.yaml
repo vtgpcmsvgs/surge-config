@@ -626,6 +626,7 @@ rules:
   - RULE-SET,reject_wps,REJECT
   - RULE-SET,reject_adspower,REJECT
 
+  # `tw_ai` 当前聚合 OpenAI / Claude / Gemini / Copilot / Cursor / Grok 等主流 AI 平台。
   - RULE-SET,tw_google,🇨🇳 台湾-自动选择
   - RULE-SET,tw_ai,🇨🇳 台湾-自动选择
   - RULE-SET,tw_crypto,🇨🇳 台湾-自动选择

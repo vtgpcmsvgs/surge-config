@@ -103,6 +103,8 @@ SYNC_HELPER_FUNCTIONS = frozenset({"sync_one"})
 class UpstreamFile:
     path: Path
     url: str
+    source_repo: str | None = None
+    format_hint: str = "raw"
 
 
 @dataclass(frozen=True)
@@ -220,8 +222,50 @@ UPSTREAM_FILES = (
         "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/OpenAI/OpenAI.list",
     ),
     UpstreamFile(
+        Path("blackmatrix7/claude.list"),
+        "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Claude/Claude.list",
+    ),
+    UpstreamFile(
+        Path("blackmatrix7/copilot.list"),
+        "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Copilot/Copilot.list",
+    ),
+    UpstreamFile(
+        Path("blackmatrix7/gemini.list"),
+        "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Gemini/Gemini.list",
+    ),
+    UpstreamFile(
         Path("blackmatrix7/youtube.list"),
         "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/YouTube/YouTube.list",
+    ),
+    UpstreamFile(
+        Path("skywalkerji/cursor.list"),
+        "https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Cursor.yaml",
+        source_repo="SkywalkerJi/Clash-Rules",
+        format_hint="clash_yaml_payload",
+    ),
+    UpstreamFile(
+        Path("skywalkerji/trae.list"),
+        "https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Trae.yaml",
+        source_repo="SkywalkerJi/Clash-Rules",
+        format_hint="clash_yaml_payload",
+    ),
+    UpstreamFile(
+        Path("skywalkerji/windsurf.list"),
+        "https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Windsurf.yaml",
+        source_repo="SkywalkerJi/Clash-Rules",
+        format_hint="clash_yaml_payload",
+    ),
+    UpstreamFile(
+        Path("skywalkerji/augmentcode.list"),
+        "https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/AugmentCode.yaml",
+        source_repo="SkywalkerJi/Clash-Rules",
+        format_hint="clash_yaml_payload",
+    ),
+    UpstreamFile(
+        Path("accademia/grok.list"),
+        "https://raw.githubusercontent.com/Accademia/Additional_Rule_For_Clash/main/Grok/Grok.yaml",
+        source_repo="Accademia/Additional_Rule_For_Clash",
+        format_hint="clash_yaml_payload",
     ),
 )
 
@@ -468,11 +512,56 @@ def local_config_value(payload: dict[str, Any], *path: str) -> str | None:
     return None
 
 
+def normalize_rule_csv(text: str) -> str:
+    stripped = text.strip()
+    if not stripped or "," not in stripped:
+        return stripped
+    return ",".join(part.strip() for part in stripped.split(","))
+
+
+def normalize_clash_yaml_payload(item: UpstreamFile, text: str) -> str:
+    rules: list[str] = []
+    for raw_line in text.splitlines():
+        stripped = raw_line.strip()
+        if not stripped or stripped == "payload:":
+            continue
+        if stripped.startswith("#"):
+            rules.append(stripped)
+            continue
+        if stripped.startswith("- "):
+            rule = normalize_rule_csv(stripped[2:])
+            if rule:
+                rules.append(rule)
+            continue
+        raise ValueError(f"{item.path.as_posix()} 存在无法识别的 YAML payload 行：{stripped}")
+
+    if not rules:
+        raise ValueError(f"{item.path.as_posix()} 规范化后为空")
+
+    header = [
+        f"# 上游来源：{item.url}",
+        f"# 上游仓库：{item.source_repo or '未声明'}",
+        "# 说明：原始文件为 Clash YAML payload，已自动规范化为普通规则列表。",
+        "# 请勿直接编辑，更新请重新执行上游同步。",
+        "",
+    ]
+    return "\n".join([*header, *rules, ""])
+
+
+def normalize_upstream_text(item: UpstreamFile, text: str) -> str:
+    if item.format_hint == "raw":
+        return text
+    if item.format_hint == "clash_yaml_payload":
+        return normalize_clash_yaml_payload(item, text)
+    raise ValueError(f"不支持的上游格式：{item.format_hint}")
+
+
 def sync_one(item: UpstreamFile, failures: list[UpstreamFailure]) -> tuple[bool, bool]:
     destination = UPSTREAM_ROOT / item.path
 
     try:
         latest = fetch_text(item.url)
+        latest = normalize_upstream_text(item, latest)
     except (urllib.error.URLError, TimeoutError, OSError) as exc:
         print(f"[WARN] {item.path.as_posix()} fetch failed: {exc}")
         record_failure(
@@ -482,6 +571,18 @@ def sync_one(item: UpstreamFile, failures: list[UpstreamFailure]) -> tuple[bool,
             url=item.url,
             category=classify_fetch_failure(exc),
             detail=format_exception_message(exc),
+        )
+        return False, True
+    except ValueError as exc:
+        detail = str(exc)
+        print(f"[WARN] {item.path.as_posix()} fetch failed: {detail}")
+        record_failure(
+            failures,
+            source="通用上游规则",
+            resource=item.path.as_posix(),
+            url=item.url,
+            category="上游格式异常",
+            detail=detail,
         )
         return False, True
 

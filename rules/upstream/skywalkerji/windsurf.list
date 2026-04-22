@@ -1,0 +1,8 @@
+# 上游来源：https://raw.githubusercontent.com/SkywalkerJi/Clash-Rules/master/AI/Windsurf.yaml
+# 上游仓库：SkywalkerJi/Clash-Rules
+# 说明：原始文件为 Clash YAML payload，已自动规范化为普通规则列表。
+# 请勿直接编辑，更新请重新执行上游同步。
+
+# >> Windsurf
+DOMAIN-SUFFIX,windsurf.com
+DOMAIN-SUFFIX,codeium.com

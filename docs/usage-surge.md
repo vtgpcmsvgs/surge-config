@@ -35,6 +35,7 @@
 - `reject/wps_reject.list` 当前按“WPS 全量封网”维护；如需保留 WPS 云文档、模板、账号、推送或升级能力，请不要接入这条规则
 - `github_ssh_direct` 后先保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 自举入口，再显式接入 `proxy/github_core_proxy.list`，承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；同时继续配合 `dns-server = system + 公共 DNS`、`encrypted-dns-server` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
 - `region/hk/global_media.list` 额外承接 X / Twitter 网页、短链与静态资源，并默认绑定 `🇭🇰 香港-自动选择`
+- `region/tw/ai_tw.list` 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Trae / Windsurf / Augment 等主流 AI 平台，并保留更激进的关键词兜底
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.list`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.list`
 - 阿里云香港 SSH 直连入口已统一为 `direct/alicloud_hk_ipv4_ssh22_direct.list`，并继续在入口文件里直接保留 `SSH TCP/22` 条件，不要求本地配置二次拼装端口规则
@@ -104,7 +105,8 @@
 
 注意：
 
-- `region/tw/google_tw.list` 必须放在 `region/hk/global_media.list` 等广谱区域规则前。
+- `region/tw/google_tw.list` 必须放在 `region/tw/ai_tw.list` 与 `region/hk/global_media.list` 等广谱区域规则前。
+- `region/tw/ai_tw.list` 当前聚合主流 AI 平台，且对 Gemini / AI Studio / NotebookLM 保留 AI 视角交叉兜底；它也应继续放在广谱区域规则前。
 - `region/hk/global_media.list` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.list`。
 - `direct/github_ssh_direct.list` 必须放在 `proxy/github_core_proxy.list` 与 `proxy/gfw.list` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - GitHub Raw 自举入口建议在 `direct/github_ssh_direct.list` 后额外保留一条 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"`，避免外部规则首轮下载依赖尚未加载完成的后续远程规则集；同时继续保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。

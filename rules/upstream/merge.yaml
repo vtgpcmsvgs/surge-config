@@ -112,7 +112,8 @@ merge_plan:
       - include_upstream_first_then_local_keyword_fallback
       - include_blackmatrix7_google_and_youtube
     notes:
-      - Google 相关规则只维护在 rules/region/tw/google_tw.list，避免 proxy 与 region 双入口分叉
+      - Google 通用规则主维护在 rules/region/tw/google_tw.list，避免 proxy 与 region 双入口分叉
+      - Gemini / AI Studio / NotebookLM 允许在 rules/region/tw/ai_tw.list 保留 AI 视角交叉兜底，但 google_tw 仍应排在 ai_tw 前
 
   - id: hk-telegram
     target: rules/region/hk/telegram.list
@@ -215,7 +216,12 @@ merge_plan:
     purpose: AI 平台走台湾策略
     strategy:
       - include_upstream_first_then_local_keyword_fallback
-      - include_blackmatrix7_openai
+      - include_blackmatrix7_openai_family
+      - include_skywalkerji_coding_ai
+      - include_accademia_grok
+    notes:
+      - 统一承接 OpenAI / Claude / Gemini / Copilot / Cursor / Grok / Trae / Windsurf / Augment 等 AI 平台
+      - 本地额外保留更激进的 DOMAIN-KEYWORD 兜底，用于覆盖新前端、新二级域名与第三方聚合入口
 
   - id: tw-crypto
     target: rules/region/tw/crypto_tw.list
