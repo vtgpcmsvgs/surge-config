@@ -52,6 +52,21 @@
 - 如果上述任一步无法执行，不得静默跳过；必须在最终回复中明确说明未完成项、原因以及阻塞点
 - 最终回复默认应包含：同步状态、全仓检查结果、文档更新情况、验证结果、提交状态
 
+## 源规则编排约定
+
+- 修改 `rules/{reject,direct,proxy,region}/` 下的中大型 `.list` 源规则文件时，默认按“同平台 / 同服务聚合展示 + 上游优先 + 本地兜底”维护，不要把显式域名和关键词兜底简单堆成一坨
+- 文件头必须先写清楚：这份规则负责什么、不负责什么、与相邻规则文件的边界是什么、客户端顺序上应放在哪里
+- 同一小节内部默认顺序是：
+  - 小节注释
+  - `INCLUDE,upstream/...`
+  - 显式域名 / 网段 / IP 入口
+  - `DOMAIN-KEYWORD` 或其他高价值兜底
+- `ai_tw`、`ai_cn_direct`、`bytedance_direct`、`google_tw`、`crypto_tw` 这类多平台或多服务混合文件，优先按平台或服务分组
+- `cn_direct`、`telegram` 这类入口型或通用基础兜底文件，可以保持“上游主体 + 本地最高优先级兜底”的简单结构，但仍要把边界写清楚
+- 本地兜底只补“真实需要、上游暂未稳定覆盖、或需要更激进覆盖”的高价值入口，不要把本地规则膨胀成上游镜像
+- 如果本次修改只涉及注释、分组与顺序，且构建后确认 `dist/` 内容没有变化，允许最终只提交源文件；但仍然必须完整执行 `tools/build_rules.ps1` 与 `tools/check.ps1`
+- 只要本次修改改变了源规则的编排方式、分组风格、文件边界或维护习惯，必须同步更新 `AGENTS.md`、`README.md` 与 `docs/rule-authoring-style.md`
+
 ## 私有配置与脱敏
 
 - `.rulemesh.local.json`、`%USERPROFILE%\Desktop\rulemesh-local\current`、私有 `policy-path`、真实机场订阅地址、Webhook、AccessKey、STS、`[MITM]` 证书参数、局域网设备分流规则都视为私有内容

@@ -117,6 +117,7 @@ python tools/build_rules.py
 - [docs/github-ssh-direct-rules.md](docs/github-ssh-direct-rules.md)
 - [docs/github-core-proxy-rules.md](docs/github-core-proxy-rules.md)
 - [docs/onepassword-proxy-rules.md](docs/onepassword-proxy-rules.md)
+- [docs/rule-authoring-style.md](docs/rule-authoring-style.md)
 
 补充约定：
 
@@ -228,6 +229,16 @@ python tools/build_rules.py
 - 本地同时维护 Clash Verge Rev 与 Clash Meta for Android 时，允许拆成两份 Mihomo 私有配置；规则骨架尽量共享，节点域名解析策略允许分别维护
 - Surge 私有工作路由白名单与本地其他私有配置永久允许结构不一致，维护时不要互相回抄
 
+## 源规则编排约定
+
+- 中大型源规则文件默认按“同平台 / 同服务聚合展示 + 上游优先 + 本地兜底”维护，不再把显式域名和关键词兜底简单堆成两大坨
+- 文件头必须先写清楚：这份规则负责什么、不负责什么、与相邻规则文件的边界是什么、客户端顺序上应放在哪里
+- 同一小节内部默认顺序是：小节注释、`INCLUDE,upstream/...`、显式域名 / 网段、`DOMAIN-KEYWORD` 兜底
+- 像 `ai_tw`、`ai_cn_direct`、`bytedance_direct`、`google_tw`、`crypto_tw` 这类多平台或多服务混合文件，优先按平台或服务分组
+- 像 `cn_direct`、`telegram` 这类入口型或通用基础兜底文件，可以保持“上游主体 + 本地最高优先级兜底”的简单结构，但仍要把边界写清楚
+- 如果本次修改只影响注释、分组与顺序，且构建后确认 `dist/` 内容不变，允许最终只提交源文件；但仍然必须完整执行构建和检查
+- 详细规则见 [docs/rule-authoring-style.md](docs/rule-authoring-style.md)
+
 ## Google 路由强约束
 
 - Google 通用服务（含 Google Play / YouTube / FCM）主维护在 `rules/region/tw/google_tw.list`
@@ -299,6 +310,7 @@ python tools/build_rules.py
 - 新增或调整默认对外使用的规则入口、顺序、策略含义时，同步更新 `README.md`、`docs/usage-surge.md`、`docs/usage-mihomo.md` 与两份公开模板
 - 新增或调整 Mihomo 默认的 Tun、嗅探、DNS 分流、安全边界或性能取舍时，同步更新 `docs/mihomo-tun-dns-methodology.md`
 - 新增、删除或调整“某类规则在 Mihomo 侧是否保留 / 跳过”的兼容映射时，同步更新 `README.md`、`docs/usage-mihomo.md` 与 `docs/mihomo-tun-dns-methodology.md`
+- 如果本次修改改变了源规则的编排方式、分组风格、文件边界或维护习惯，同步更新 `AGENTS.md`、`README.md` 与 `docs/rule-authoring-style.md`
 - 如果一个源文件开始变得很大，优先补 `sources.yaml` 与 `merge.yaml`，再考虑引入更多上游素材
 - 提交前优先运行 `powershell -ExecutionPolicy Bypass -File tools/check.ps1`
 - 提交前看一眼 `dist/build-report.json` 的 warnings，特别是 Mihomo 不支持的规则类型
