@@ -1,9 +1,17 @@
-# 字节系 / 抖音直连规则：上游优先，本地兜底。
+# 字节系 / 抖音直连规则：按“上游主体 + 共享基础设施关键词兜底”维护。
+# 维护约束：
+# 1) 本文件主要承接字节系共享基础设施、抖音生态与通用品牌词直连兜底。
+# 2) 豆包 / 即梦 / Trae 中国大陆入口等显式国内 AI 产品入口优先维护在 direct/ai_cn_direct.list。
+# 3) 客户端顺序应保持 direct/ai_cn_direct.list 在前，本文件在后，避免显式 AI 产品入口先被更宽泛的字节基础设施规则吞掉。
+
+# 字节跳动 / ByteDance：以上游主体为主，辅以共享基础设施关键词兜底。
 INCLUDE,upstream/blackmatrix7/bytedance.list
-INCLUDE,upstream/blackmatrix7/douyin.list
 DOMAIN-KEYWORD,bytedance
-DOMAIN-KEYWORD,douyin
-DOMAIN-KEYWORD,amemv
 DOMAIN-KEYWORD,zijie
 DOMAIN-KEYWORD,bytegecko
 DOMAIN-KEYWORD,ecombdapi
+
+# 抖音 / Douyin：以上游主体为主，补生态关键词兜底。
+INCLUDE,upstream/blackmatrix7/douyin.list
+DOMAIN-KEYWORD,douyin
+DOMAIN-KEYWORD,amemv
