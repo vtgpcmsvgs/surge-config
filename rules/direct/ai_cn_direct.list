@@ -1,68 +1,67 @@
-# 国内 AI 平台直连规则：显式入口优先，本地关键词兜底。
+# 国内 AI 平台直连规则：按“同平台聚合展示 + 显式入口优先 + 品牌关键词兜底”维护。
 # 维护约束：
 # 1) 本文件承接中国大陆 AI 平台与中国大陆入口，客户端顺序应放在 direct/bytedance_direct.list 与 direct/cn_direct.list 前。
-# 2) 海外 AI 平台继续走 region/tw/ai_tw.list；不要把 OpenAI / Claude / Gemini / Cursor / Grok 等海外入口并回本文件。
-# 3) 字节系共享基础设施与中国大陆通用兜底仍交给 direct/bytedance_direct.list 与 direct/cn_direct.list。
+# 2) 每个平台尽量把“显式域名、共享品牌词、补充兜底”放在同一小节，便于快速定位与继续补规则。
+# 3) 海外 AI 平台继续走 region/tw/ai_tw.list；不要把 OpenAI / Claude / Gemini / Cursor / Grok 等海外入口并回本文件。
+# 4) 字节系共享基础设施与中国大陆通用兜底仍交给 direct/bytedance_direct.list 与 direct/cn_direct.list。
 
-# Kimi / 月之暗面
+# Kimi / 月之暗面：保留官网、开放平台与品牌关键词兜底。
 DOMAIN-SUFFIX,kimi.com
 DOMAIN-SUFFIX,moonshot.cn
 DOMAIN-SUFFIX,moonshot.ai
+DOMAIN-KEYWORD,kimi
+DOMAIN-KEYWORD,moonshot
 
-# 深度求索 / DeepSeek
+# DeepSeek / 深度求索：保留主站、服务域名与品牌关键词兜底。
 DOMAIN-SUFFIX,deepseek.com
 DOMAIN-SUFFIX,deepseeksvc.com
+DOMAIN-KEYWORD,deepseek
 
-# 字节 AI / 豆包 / 即梦 / Trae 中国大陆入口
+# 豆包 / 即梦 / Trae 中国大陆入口：只承接明确中国大陆产品入口，字节共享基础设施仍交给 bytedance_direct。
 DOMAIN-SUFFIX,doubao.com
 DOMAIN-SUFFIX,doubaocdn.com
 DOMAIN-SUFFIX,doubaozhidao.com
 DOMAIN-SUFFIX,jimeng.com
 DOMAIN-SUFFIX,trae.cn
 DOMAIN-SUFFIX,trae.com.cn
+DOMAIN-KEYWORD,doubao
+DOMAIN-KEYWORD,jimeng
+DOMAIN-KEYWORD,trae
 
-# 腾讯 AI / 元宝 / 混元 / 元器
+# 腾讯元宝 / 混元 / 元器：保留核心产品入口与品牌关键词兜底。
 DOMAIN-SUFFIX,yuanbao.tencent.com
 DOMAIN-SUFFIX,hunyuan.tencent.com
 DOMAIN-SUFFIX,yuanqi.tencent.com
+DOMAIN-KEYWORD,yuanbao
+DOMAIN-KEYWORD,hunyuan
+DOMAIN-KEYWORD,yuanqi
 
-# 通义 / 千问
+# 通义 / 千问：保留官网、阿里云产品入口与品牌关键词兜底。
 DOMAIN-SUFFIX,qianwen.com
 DOMAIN-SUFFIX,tongyi.aliyun.com
 DOMAIN-SUFFIX,tongyi.com
+DOMAIN-KEYWORD,qianwen
+DOMAIN-KEYWORD,tongyi
 
-# 智谱 / ChatGLM
+# 智谱 / ChatGLM：保留官网、模型平台与品牌关键词兜底。
 DOMAIN-SUFFIX,chatglm.cn
 DOMAIN-SUFFIX,zhipuai.cn
 DOMAIN-SUFFIX,bigmodel.cn
 DOMAIN-SUFFIX,z.ai
-
-# MiniMax / 海螺
-DOMAIN-SUFFIX,hailuoai.com
-DOMAIN-SUFFIX,minimax.chat
-DOMAIN-SUFFIX,minimaxi.com
-
-# 百度文心 / 文小言
-DOMAIN-SUFFIX,yiyan.baidu.com
-DOMAIN-SUFFIX,wenxin.baidu.com
-DOMAIN-SUFFIX,wenxinapp.com
-
-# 本地兜底：国内 AI 品牌关键词
-DOMAIN-KEYWORD,kimi
-DOMAIN-KEYWORD,moonshot
-DOMAIN-KEYWORD,deepseek
-DOMAIN-KEYWORD,doubao
-DOMAIN-KEYWORD,jimeng
-DOMAIN-KEYWORD,trae
-DOMAIN-KEYWORD,yuanbao
-DOMAIN-KEYWORD,hunyuan
-DOMAIN-KEYWORD,yuanqi
-DOMAIN-KEYWORD,qianwen
-DOMAIN-KEYWORD,tongyi
 DOMAIN-KEYWORD,chatglm
 DOMAIN-KEYWORD,zhipu
 DOMAIN-KEYWORD,bigmodel
+
+# MiniMax / 海螺：保留主站、产品域名与品牌关键词兜底。
+DOMAIN-SUFFIX,hailuoai.com
+DOMAIN-SUFFIX,minimax.chat
+DOMAIN-SUFFIX,minimaxi.com
 DOMAIN-KEYWORD,hailuo
 DOMAIN-KEYWORD,minimax
+
+# 文心 / 文小言：保留百度 AI 主入口与品牌关键词兜底。
+DOMAIN-SUFFIX,yiyan.baidu.com
+DOMAIN-SUFFIX,wenxin.baidu.com
+DOMAIN-SUFFIX,wenxinapp.com
 DOMAIN-KEYWORD,wenxin
 DOMAIN-KEYWORD,yiyan
