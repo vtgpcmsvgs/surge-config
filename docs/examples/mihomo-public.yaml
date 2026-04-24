@@ -395,15 +395,6 @@ rule-providers:
     interval: 86400
     proxy: "🚀 节点选择"
 
-  jp_domains:
-    type: http
-    behavior: classical
-    format: yaml
-    url: "https://raw.githubusercontent.com/vtgpcmsvgs/rulemesh/main/dist/mihomo/classical/region/jp/domains_to_jp.yaml"
-    path: ./ruleset/region/jp/domains_to_jp.yaml
-    interval: 86400
-    proxy: "🚀 节点选择"
-
   hk_telegram:
     type: http
     behavior: classical
@@ -642,9 +633,8 @@ rules:
   - RULE-SET,tw_google,🇨🇳 台湾-自动选择
   - RULE-SET,tw_ai,🇨🇳 台湾-自动选择
   - RULE-SET,tw_crypto,🇨🇳 台湾-自动选择
-  - RULE-SET,jp_domains,🇯🇵 日本-自动选择
   - RULE-SET,hk_telegram,🇭🇰 香港-自动选择
-  # X / Twitter 网页、短链与静态资源，以及 Polymarket 相关域名也并入这组，避免回落到通用 gfw 节点选择或误挂到日本策略。
+  # X / Twitter 网页、短链与静态资源，以及 Polymarket 相关域名并入这组；空的日本域名入口不再默认接入公开模板。
   - RULE-SET,hk_global_media,🇭🇰 香港-自动选择
 
   # GitHub 仓库 SSH 定向直连必须放在 gfw 前，避免把整个 GitHub 放直连。

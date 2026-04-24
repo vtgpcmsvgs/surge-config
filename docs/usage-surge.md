@@ -112,6 +112,7 @@
 - `DeepSeek`、`Trae` 中国大陆入口与其他国内 AI 不应并入 `region/tw/ai_tw.list`；它们应优先由 `direct/ai_cn_direct.list` 承接，字节共享基础设施与中国大陆通用兜底再继续落到 `direct/bytedance_direct.list`、`direct/cn_direct.list`。
 - `direct/ai_cn_direct.list` 属于显式国内 AI 直连入口，顺序上应放在 `direct/bytedance_direct.list` 与 `direct/cn_direct.list` 前，避免显式国内 AI 域名先被更宽泛的直连规则吞掉。
 - `region/hk/global_media.list` 当前还承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，以及 `polymarket.com` 与 `DOMAIN-KEYWORD,polymarket` 这组 Polymarket 香港兜底；默认应继续绑定 `🇭🇰 香港-自动选择`，不要再让它们回落到 `proxy/gfw.list` 或误挂到日本区域。
+- 公开 `surge-public.conf` 当前不再默认接入空的 `region/jp/domains_to_jp.list`；`🇯🇵 日本-自动选择` 继续保留给东京 / 大阪 AWS IPv4 等仍有实际命中的日本入口使用。
 - `direct/github_ssh_direct.list` 必须放在 `proxy/github_core_proxy.list` 与 `proxy/gfw.list` 前，只给 `github.com:22` 与 `ssh.github.com:443` 直连，避免把 GitHub 网页误放直连。
 - GitHub Raw 自举入口建议在 `direct/github_ssh_direct.list` 后额外保留一条 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"`，避免外部规则首轮下载依赖尚未加载完成的后续远程规则集；同时继续保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system + 公共 DNS` 这组解析兜底，降低外部资源偶发超时。
 - `proxy/github_core_proxy.list` 应放在 `proxy/gfw.list` 前，显式承接 GitHub 网页、`api.github.com`、Gist、Raw、静态资源与附件；这也会覆盖 `https://api.github.com/gists`、`https://api.github.com/users` 与 `https://gist.githubusercontent.com/...` 这类连接。
