@@ -295,19 +295,6 @@
       }
     },
     {
-      "source": "rules/region/multi/chain_socks5_ipcidr.list",
-      "category": "region",
-      "classification": "ipcidr-only",
-      "counts": {
-        "surge_rules": 1700,
-        "mihomo_classical": 1700
-      },
-      "dist": {
-        "surge_rules": "dist/surge/rules/region/multi/chain_socks5_ipcidr.list",
-        "mihomo_classical": "dist/mihomo/classical/region/multi/chain_socks5_ipcidr.yaml"
-      }
-    },
-    {
       "source": "rules/region/jp/osaka_aws_ipv4.list",
       "category": "region",
       "classification": "ipcidr-only",
@@ -344,6 +331,19 @@
       "dist": {
         "surge_rules": "dist/surge/rules/region/kr/seoul_aws_ipv4.list",
         "mihomo_classical": "dist/mihomo/classical/region/kr/seoul_aws_ipv4.yaml"
+      }
+    },
+    {
+      "source": "rules/region/multi/chain_socks5_ipcidr.list",
+      "category": "region",
+      "classification": "ipcidr-only",
+      "counts": {
+        "surge_rules": 1700,
+        "mihomo_classical": 1700
+      },
+      "dist": {
+        "surge_rules": "dist/surge/rules/region/multi/chain_socks5_ipcidr.list",
+        "mihomo_classical": "dist/mihomo/classical/region/multi/chain_socks5_ipcidr.yaml"
       }
     },
     {
