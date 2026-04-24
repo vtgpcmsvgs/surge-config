@@ -32,6 +32,7 @@
 - `direct/ai_cn_direct.yaml` 显式承接 Kimi / DeepSeek / 豆包 / 即梦 / Trae 中国大陆 / 元宝 / 混元 / 通义 / 千问 / 智谱 / MiniMax / 文心等国内 AI 入口；它既应放在 `direct_bytedance`、`direct_cn` 前，也属于 `nameserver-policy` 的国内直连域名集
 - 阿里云香港 SSH 继续走 `direct/alicloud_hk_ipv4_ssh22_direct.yaml`；阿里云控制面 `aliyuncs.com` 与出口探测 `check.myclientip.com` 通过单条 `DIRECT` 规则显式放行
 - AWS 香港区域入口已统一为 `region/hk/hk_aws_ipv4.yaml`
+- 多地区链式 SOCKS5 端点入口已统一为 `region/multi/chain_socks5_ipcidr.yaml`，默认应绑定统一的自动选择 / 负载均衡组，而不是固定地区组
 - 阿里云香港 SSH 直连入口已统一为 `direct/alicloud_hk_ipv4_ssh22_direct.yaml`，并继续在入口文件里直接保留 `SSH TCP/22` 条件，不要求本地配置二次拼装端口规则
 - AdsPower 专项 `reject/direct/proxy` 规则集与 `proxy/gfw.yaml` 广谱代理规则的顺序关系
 - Polygon 主网 RPC 专项 `proxy/polygon_rpc_proxy.yaml` 与 `proxy/gfw.yaml` 的顺序关系

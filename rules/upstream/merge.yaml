@@ -289,9 +289,9 @@ merge_plan:
     notes:
       - 当前保持极小入口，按你自己的长期使用结果维护
 
-  - id: jp-socks5-ipcidr
-    target: rules/region/jp/jp_socks5_ipcidr.list
-    purpose: 日本 SOCKS5 端点 CIDR 入口
+  - id: multi-chain-socks5-ipcidr
+    target: rules/region/multi/chain_socks5_ipcidr.list
+    purpose: 多地区链式 SOCKS5 端点 CIDR 入口
     strategy:
       - manual_only
       - keep_scope_small_and_stable

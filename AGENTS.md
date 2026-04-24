@@ -42,7 +42,7 @@
 - 若本次修改影响使用方式、规则组织、构建方式、产物结构或维护约定，必须同步更新相关文档
 - 私有 `rulemesh-substore-surge-work-whitelist.conf` 属于长期特化的工作路由白名单配置；它与 `rulemesh-substore-surge-personal.conf`、`rulemesh-substore-mihomo-clash-verge.yaml`、`rulemesh-substore-mihomo-clash-meta.yaml` 从现在起允许永久不一致，不得因为“统一模板”或“对齐 personal 配置”而回滚
 - 维护 `rulemesh-substore-surge-work-whitelist.conf` 时，默认应维持“仅放行明确白名单入口，其余流量对工作电脑统一 REJECT”的原则；若要恢复广谱放行（如 `proxy/gfw`、广谱 `direct`、`FINAL` 兜底放行），必须得到用户明确确认
-- 当前该工作路由白名单默认允许入口包括：设备分流、区域精确规则、GitHub SSH、GitHub Raw 下载入口、GitHub 广覆盖观察兜底、私有订阅域名同步块、1Password、AdsPower、Polygon RPC、BSC RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 `direct/bytedance_direct`；其中只有 2.1 设备分流保留 `SRC-IP + AWS 区域 / 日本 SOCKS5 IP 段` 约束，2.2-2.10 不再额外限制 `SRC-IP`，原独立 IP 规则段已删除；未命中上述入口的流量最终 `FINAL,REJECT`
+- 当前该工作路由白名单默认允许入口包括：设备分流、区域精确规则、GitHub SSH、GitHub Raw 下载入口、GitHub 广覆盖观察兜底、私有订阅域名同步块、1Password、AdsPower、Polygon RPC、BSC RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS、`LAN,DIRECT`、`direct/os_time_direct`、`direct/microsoft_direct`、`direct/macos_update_direct`、阿里云指定直连与 `direct/bytedance_direct`；其中只有 2.1 设备分流保留 `SRC-IP + AWS 区域 / 多地区链式 SOCKS5 IP 段` 约束，2.2-2.10 不再额外限制 `SRC-IP`，原独立 IP 规则段已删除；未命中上述入口的流量最终 `FINAL,REJECT`
 - GitHub 在该工作路由文件中除 `github_ssh_direct` 外，还允许紧随其后保留 `DOMAIN,raw.githubusercontent.com` 下载入口与一条广覆盖 `DOMAIN-KEYWORD,github` 观察兜底；它们用于显式放行 GitHub Raw 规则产物下载，并发现 SSH / Raw 之外的漏网之鱼，不得被“去重”或“收敛”掉
 - GitHub Raw 下载链路默认还应保留 `raw.githubusercontent.com = server:system` 与 `dns-server = system, ...` 这组解析兜底，用于降低 Surge 外部资源偶发超时；除非用户明确要求，不要顺手删掉
 - AdsPower 在该工作路由文件中除精细 `adspower_direct` / `adspower_proxy` 外，还允许紧随其后保留一条广覆盖 `DOMAIN-KEYWORD,adspower` 观察兜底；它是故意用于发现细分规则漏网之鱼的，不得被“去重”或“收敛”掉
@@ -56,6 +56,7 @@
 
 - 修改 `rules/{reject,direct,proxy,region}/` 下的中大型 `.list` 源规则文件时，默认按“同平台 / 同服务聚合展示 + 上游优先 + 本地兜底”维护，不要把显式域名和关键词兜底简单堆成一坨
 - 文件头必须先写清楚：这份规则负责什么、不负责什么、与相邻规则文件的边界是什么、客户端顺序上应放在哪里
+- 像多地区链式 SOCKS5 端点这类非单一区域入口，不要因为历史来源继续挂在 `rules/region/jp/` 之类的单国家目录；应按当前语义放到更合适的路径，并在文件头写明它默认接到链式代理 / 负载均衡组，而不是固定地区组
 - 同一小节内部默认顺序是：
   - 小节注释
   - `INCLUDE,upstream/...`

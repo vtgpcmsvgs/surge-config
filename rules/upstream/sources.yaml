@@ -179,10 +179,10 @@ sources:
       preferred:
         - repo: self
           note: 当前是你自己维护的日本策略入口
-    jp/jp_socks5_ipcidr.list:
+    multi/chain_socks5_ipcidr.list:
       preferred:
         - repo: self
-          note: 当前是你自己维护的日本 SOCKS5 端点 CIDR
+          note: 当前是你自己维护的多地区链式 SOCKS5 端点 CIDR
 
     hk/hk_aws_ipv4.list:
       preferred:

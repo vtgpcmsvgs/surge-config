@@ -1,3 +1,7 @@
+# 生成来源：rules/region/multi/chain_socks5_ipcidr.list
+# 类型：rules
+# 请勿直接编辑 dist。
+
 IP-CIDR,181.214.32.20/32
 IP-CIDR,82.29.235.200/32
 IP-CIDR,92.112.228.187/32

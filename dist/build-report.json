@@ -295,7 +295,7 @@
       }
     },
     {
-      "source": "rules/region/jp/jp_socks5_ipcidr.list",
+      "source": "rules/region/multi/chain_socks5_ipcidr.list",
       "category": "region",
       "classification": "ipcidr-only",
       "counts": {
@@ -303,8 +303,8 @@
         "mihomo_classical": 1700
       },
       "dist": {
-        "surge_rules": "dist/surge/rules/region/jp/jp_socks5_ipcidr.list",
-        "mihomo_classical": "dist/mihomo/classical/region/jp/jp_socks5_ipcidr.yaml"
+        "surge_rules": "dist/surge/rules/region/multi/chain_socks5_ipcidr.list",
+        "mihomo_classical": "dist/mihomo/classical/region/multi/chain_socks5_ipcidr.yaml"
       }
     },
     {

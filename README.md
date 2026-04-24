@@ -136,6 +136,7 @@ python tools/build_rules.py
 - Google Public DNS 主 IPv4 端点专项规则统一维护在 `rules/proxy/google_public_dns_ipv4_proxy.list`
 - 客户端应显式接入 `proxy/google_public_dns_ipv4_proxy`，并放在 `proxy/gfw` 前；Surge 侧继续按 `RULE-SET,...,"🚀 节点选择",no-resolve` 接入，让 `🚀 节点选择` 先命中 `8.8.8.8/32`
 - AWS 香港区域规则入口已统一命名为 `region/hk/hk_aws_ipv4`，与东京、大阪、首尔、台北保持同类命名
+- 自维护多地区链式 SOCKS5 端点入口已统一命名为 `region/multi/chain_socks5_ipcidr`，不再继续挂在 `region/jp/` 或默认绑定日本策略组
 - 阿里云香港 SSH 直连入口已统一命名为 `direct/alicloud_hk_ipv4_ssh22_direct`；`rules/upstream/alicloud/hk_ipv4.txt` 继续保留纯 IPv4 快照，而公开入口文件直接保留 `SSH TCP/22` 最终语义，不要求客户端额外拼接端口条件
 - Surge 与 Mihomo 当前统一把 GeoIP mmdb 显式固定到你自己的仓库 Release 镜像：`vtgpcmsvgs/rulemesh/releases/download/geoip-country-mmdb/country.mmdb`
 - 对应上游登记与维护约定见 `rules/upstream/geodata/metacubex_country_mmdb.yaml` 与 [docs/geoip-upstream.md](docs/geoip-upstream.md)
@@ -156,7 +157,7 @@ python tools/build_rules.py
   - 允许包含按局域网源 IP 的设备分流、私有 `policy-path`、`[MITM]` 与证书参数。
 - 其中私有 `rulemesh-substore-surge-work-whitelist.conf` 当前采用工作电脑白名单模式：只保留明确列出的放行入口，未列入白名单的流量统一 `REJECT`。
 - 这份工作白名单默认不额外开放局域网代理入口；旁路由已接管流量，工作文件不承担 LAN 代理服务。
-- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 日本 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、GitHub Raw 自举入口、GitHub Core 代理入口、GitHub 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
+- 其中只有设备分流继续按局域网源 IP 约束，并按指定 AWS 区域 / 多地区链式 SOCKS5 IP 段定向到对应工作机亚洲出口组；区域精确、GitHub SSH、GitHub Raw 自举入口、GitHub Core 代理入口、GitHub 观察兜底、私有订阅域名同步块、1Password 核心连接、AdsPower、Polygon 主网 RPC、BSC 主网 RPC、Google Public DNS 主 IPv4 端点、Cloudflare DNS 与指定直连不再额外限制源 IP。
 - 在该白名单里，`direct/os_time_direct`、`direct/microsoft_direct` 与 `direct/macos_update_direct` 都属于允许保留的系统类直连入口。
 - 白名单专属的单个直连域名例外（例如 `smtp.163.com`）默认直接维护在“指定直连”入口，不为单条规则额外拆分公开 `rules/` 文件。
 - 白名单专属的单个拒绝域名，或只用于阻断浏览器扩展更新链路的拒绝规则，也默认直接维护在白名单的“拒绝规则”入口，不为单条规则额外拆分公开 `rules/` 文件。

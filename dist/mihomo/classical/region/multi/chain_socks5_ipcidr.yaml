@@ -1,4 +1,4 @@
-# 生成来源：rules/region/jp/jp_socks5_ipcidr.list
+# 生成来源：rules/region/multi/chain_socks5_ipcidr.list
 # 行为：classical
 payload:
   - "IP-CIDR,181.214.32.20/32"
