@@ -144,7 +144,7 @@ sources:
     hk/global_media.list:
       preferred:
         - repo: self
-          note: 统一走香港区域策略，香港节点通常更稳更快，流媒体内容与支付方式也更友好
+          note: 统一走香港区域策略，香港节点通常更稳更快，流媒体内容与支付方式也更友好；额外承接 X / Twitter 网页域名与 Polymarket 本地激进兜底
         - repo: blackmatrix7/ios_rule_script
           note: 负责 GlobalMedia.list 主体
     hk/telegram.list:
@@ -178,7 +178,7 @@ sources:
     jp/domains_to_jp.list:
       preferred:
         - repo: self
-          note: 当前是你自己维护的日本策略入口
+          note: 保留稳定公开入口，当前默认不再承接 Polymarket，只有确认存在稳定日本落点时再补充
     multi/chain_socks5_ipcidr.list:
       preferred:
         - repo: self

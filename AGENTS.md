@@ -63,6 +63,7 @@
   - 显式域名 / 网段 / IP 入口
   - `DOMAIN-KEYWORD` 或其他高价值兜底
 - `ai_tw`、`ai_cn_direct`、`bytedance_direct`、`google_tw`、`crypto_tw` 这类多平台或多服务混合文件，优先按平台或服务分组
+- `region/hk/global_media` 继续承接 `blackmatrix7/global_media` 主体，并允许额外收敛 X / Twitter 网页域名与 Polymarket；若上游仍只有 `gfw` 通用条目，本地可保留 `DOMAIN-SUFFIX,polymarket.com` + `DOMAIN-KEYWORD,polymarket` 这类高价值香港兜底，不要再回挂到 `region/jp`
 - `cn_direct`、`telegram` 这类入口型或通用基础兜底文件，可以保持“上游主体 + 本地最高优先级兜底”的简单结构，但仍要把边界写清楚
 - 本地兜底只补“真实需要、上游暂未稳定覆盖、或需要更激进覆盖”的高价值入口，不要把本地规则膨胀成上游镜像
 - 如果本次修改只涉及注释、分组与顺序，且构建后确认 `dist/` 内容没有变化，允许最终只提交源文件；但仍然必须完整执行 `tools/build_rules.ps1` 与 `tools/check.ps1`

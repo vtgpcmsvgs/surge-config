@@ -2,8 +2,8 @@
   "summary": {
     "domain-only": 6,
     "ipcidr-only": 7,
-    "classical/mixed": 22,
-    "empty": 0,
+    "classical/mixed": 21,
+    "empty": 1,
     "total_sources": 35,
     "total_warnings": 0
   },
@@ -247,8 +247,8 @@
       "category": "region",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 2270,
-        "mihomo_classical": 2270
+        "surge_rules": 2272,
+        "mihomo_classical": 2272
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/hk/global_media.list",
@@ -284,10 +284,10 @@
     {
       "source": "rules/region/jp/domains_to_jp.list",
       "category": "region",
-      "classification": "classical/mixed",
+      "classification": "empty",
       "counts": {
-        "surge_rules": 2,
-        "mihomo_classical": 2
+        "surge_rules": 0,
+        "mihomo_classical": 0
       },
       "dist": {
         "surge_rules": "dist/surge/rules/region/jp/domains_to_jp.list",

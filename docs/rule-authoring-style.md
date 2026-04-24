@@ -66,6 +66,7 @@ DOMAIN-KEYWORD,...
 - `google_tw.list` 适合按 `Google FCM`、`YouTube`、`Google 通用服务`、`Gemini / Google AI` 这类服务分组
 - `crypto_tw.list` 适合按 `交易所 / 接入基础设施`、`链上数据 / 区块浏览器`、`预测市场` 这类类别分组
 - `bytedance_direct.list` 适合按 `字节跳动 / ByteDance` 与 `抖音 / Douyin` 分组
+- `global_media.list` 适合按 `上游 GlobalMedia 主体`、`X / Twitter 网页补站`、`Polymarket 香港解锁补站` 这类服务小节分组
 
 不要默认把所有显式域名堆成一段、所有关键词再堆成另一段；这样后续找某个平台时要来回跳，不利于维护。
 

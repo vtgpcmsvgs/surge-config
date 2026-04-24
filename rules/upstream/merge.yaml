@@ -221,6 +221,7 @@ merge_plan:
     notes:
       - 香港节点通常更稳定、速度更快，适合 global media 场景
       - 香港地区内容更贴近华语用户，且支付方式更友好
+      - Polymarket 当前在已接入上游里只有 gfw 通用后缀，本地在这里保留 DOMAIN-SUFFIX 与 DOMAIN-KEYWORD,polymarket 的香港兜底
 
   - id: tw-ai
     target: rules/region/tw/ai_tw.list
@@ -287,7 +288,8 @@ merge_plan:
       - manual_only
       - keep_scope_small_and_stable
     notes:
-      - 当前保持极小入口，按你自己的长期使用结果维护
+      - 当前保留稳定公开入口占位，默认不再承接 Polymarket
+      - 只有确认存在稳定日本落点时再补充，避免把香港更稳定的解锁站点误挂到日本区域
 
   - id: multi-chain-socks5-ipcidr
     target: rules/region/multi/chain_socks5_ipcidr.list

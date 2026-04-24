@@ -142,7 +142,7 @@ python tools/build_rules.py
 - 对应上游登记与维护约定见 `rules/upstream/geodata/metacubex_country_mmdb.yaml` 与 [docs/geoip-upstream.md](docs/geoip-upstream.md)
 - Surge 的 `internet-test-url`、`proxy-test-url`、代理 `test-url=` 与 `smart / fallback / load-balance` 的 `url=` 统一保持 `http://`；不要因为 `policy-path`、GeoIP 或其他下载入口使用 `https://` 就顺手改成 `https://`。
 - 当前公开模板与本地私有 Surge 配置默认采用 `http://www.baidu.com`、`http://www.google.com/generate_204` 与 `http://www.gstatic.com/generate_204` 这组三段式测速 URL；它们不是唯一答案，但继续作为本仓库的轻量稳定基线。
-- `rules/region/hk/global_media.list` 额外承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，默认绑定 `🇭🇰 香港-自动选择`，减少回落到通用 `proxy/gfw` 的页面超时
+- `rules/region/hk/global_media.list` 额外承接 `x.com`、`t.co`、`twimg.com` 与 `twitter.com` 等 X / Twitter 网页域名，以及 `polymarket.com` 与 `DOMAIN-KEYWORD,polymarket` 这组 Polymarket 香港兜底，默认绑定 `🇭🇰 香港-自动选择`，减少回落到通用 `proxy/gfw` 或误挂到日本策略的超时与地区限制
 - 1Password 核心连接专项规则统一维护在 `rules/proxy/onepassword_proxy.list`
 - 上游快照由 `tools/sync_upstream_rules.py` 每日抓取 1Password 官方《ports and domains》支持页，保守收敛到核心一方域名与更新/基础设施端点
 - 如需启用，请显式接入 `proxy/onepassword_proxy` 并放在 `proxy/gfw` 前；公开模板默认不内置这条重度用户特化入口
@@ -194,7 +194,7 @@ python tools/build_rules.py
 - 默认在 `github_ssh_direct` 后先保留 `DOMAIN,raw.githubusercontent.com,"🚀 节点选择"` 自举入口，再接入 `proxy/github_core_proxy`；同时继续保留 `dns-server = system + 公共 DNS` 与 `raw.githubusercontent.com = server:system` 这组 GitHub Raw 解析兜底
 - 这类 Surge 运行时参数不要求 Mihomo 公开模板逐项镜像；Mihomo 继续按各自的 Tun / DNS 语义单独维护
 - 默认接入 `direct/alicloud_hk_ipv4_ssh22_direct`，并在直连段显式保留 `DOMAIN-SUFFIX,aliyuncs.com` 与 `DOMAIN,check.myclientip.com`
-- 默认让 X / Twitter 网页、短链与静态资源优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
+- 默认让 X / Twitter 网页、短链与静态资源，以及 Polymarket 相关域名优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
   - 刻意不承载私有工作路由白名单结构，避免把本地工作特化误当成公开模板默认值
 - `docs/examples/mihomo-public.yaml`
   - 保留完整 `tun + sniffer + dns + proxy-providers + proxy-groups + rule-providers + rules` 结构
@@ -205,7 +205,7 @@ python tools/build_rules.py
 - 默认接入 BSC 主网 RPC 专项 `proxy/bsc_rpc_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认接入 Google Public DNS 主 IPv4 端点专项 `proxy/google_public_dns_ipv4_proxy` 规则，并保持在 `proxy/gfw` 前优先命中
 - 默认接入 `direct_alicloud_hk_ipv4_ssh22`，并在直连段显式保留 `DOMAIN-SUFFIX,aliyuncs.com` 与 `DOMAIN,check.myclientip.com`
-- 默认让 X / Twitter 网页、短链与静态资源优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
+- 默认让 X / Twitter 网页、短链与静态资源，以及 Polymarket 相关域名优先命中 `region/hk/global_media`，避免落回通用 `proxy/gfw`
   - 默认开启全局 `ipv6: true` 与 `dns.ipv6: true`，并在 `proxy-providers.*.override` 里显式使用 `ip-version: dual`，真正放开订阅节点双栈连接，但不默认强推 `ipv6-prefer`
   - 默认采用 Tun 全量接管、域名嗅探与分流 DNS；国际域名默认优先国外加密 DNS，明确的国内直连域名集单独走国内加密 DNS
   - 同样不承载私有 Surge 工作路由白名单特化
@@ -223,7 +223,7 @@ python tools/build_rules.py
 - BSC 主网 RPC 专项规则应先命中 `proxy/bsc_rpc_proxy`，再落到 `proxy/gfw`
 - Google Public DNS 主 IPv4 端点专项规则应先命中 `proxy/google_public_dns_ipv4_proxy`，再落到 `proxy/gfw`
 - GitHub 相关访问应先命中 `direct/github_ssh_direct` 与 `proxy/github_core_proxy`，再落到 `proxy/gfw`
-- X / Twitter 网页、短链与静态资源应先命中 `region/hk/global_media`，再落到 `proxy/gfw`
+- X / Twitter 网页、短链与静态资源，以及 Polymarket 相关域名应先命中 `region/hk/global_media`，再落到 `proxy/gfw`
 - 1Password 核心连接专项规则如启用，应先命中 `proxy/onepassword_proxy`，再落到 `proxy/gfw`
 - 操作系统时间同步专项规则应先命中 `direct/os_time_direct`，再落到其他普通 `direct/*`
 - 同一套路由骨架不等于同一个客户端运行时；`Surge`、`Clash Verge Rev`、`Clash Meta for Android` 在 DNS 启动链上允许存在实现差异
