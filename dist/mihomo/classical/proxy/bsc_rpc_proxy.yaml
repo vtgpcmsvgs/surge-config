@@ -103,5 +103,7 @@ payload:
   - "DOMAIN-WILDCARD,*.rpc.poolz.finance"
   - "DOMAIN,rpc.sentio.xyz"
   - "DOMAIN-WILDCARD,*.rpc.sentio.xyz"
+  - "DOMAIN,rpc.swiftnodes.io"
+  - "DOMAIN-WILDCARD,*.rpc.swiftnodes.io"
   - "DOMAIN,services.tokenview.io"
   - "DOMAIN-WILDCARD,*.services.tokenview.io"

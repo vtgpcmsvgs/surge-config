@@ -169,8 +169,8 @@
       "category": "proxy",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 104,
-        "mihomo_classical": 104
+        "surge_rules": 106,
+        "mihomo_classical": 106
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/bsc_rpc_proxy.list",
@@ -182,8 +182,8 @@
       "category": "proxy",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 5035,
-        "mihomo_classical": 5035
+        "surge_rules": 5036,
+        "mihomo_classical": 5036
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/gfw.list",
@@ -234,8 +234,8 @@
       "category": "proxy",
       "classification": "classical/mixed",
       "counts": {
-        "surge_rules": 62,
-        "mihomo_classical": 62
+        "surge_rules": 64,
+        "mihomo_classical": 64
       },
       "dist": {
         "surge_rules": "dist/surge/rules/proxy/polygon_rpc_proxy.list",
